@@ -1,14 +1,16 @@
-%% get this turial from mica-mni.github.io/micaopen/surfstat_tutorial/
+%% SurfStat Tutorial Hands on session
+% make sure that you are in windows keyboard mode (
+% in top: Home >> Preferences >> Keyboad >> Shortcuts >> Windows Default Set
+% then go to editor on top 
 
-%% set path to dowloaded location
-P='/Users/boris/GitHub/micaopen/surfstat_tutorial/'; 
+%% 0. define directory and add toolbox
+P='/data/noel/noel10/workshop/users/boris/Day2_1400_Bernhardt_MRIStats/'; 
 addpath([P 'surfstat'])
 
 
 %% 1. Load the surface data 
-cd([P 'fsaverage5'])
-SP = SurfStatAvSurf({'lh.pial','rh.pial'})
-SW = SurfStatAvSurf({'lh.white','rh.white'})
+SP = SurfStatAvSurf({[P 'fsaverage5/lh.pial'],[P 'fsaverage5/rh.pial']})
+SW = SurfStatAvSurf({[P 'fsaverage5/lh.white'],[P 'fsaverage5/rh.white']})
 
 % generate a mid thickness surface 
 SM.coord = (SP.coord + SW.coord)./2; 
@@ -16,15 +18,12 @@ SM.tri   = SP.tri;
 
 
 %% 2. load brain mask and some useful surface features 
-cd([P 'fsaverage5'])
-load('mask.mat'), 
-load('curv.mat')
-load('yeo.mat')
-load('aparc.mat')
-load('lobes.mat')
+load([P 'fsaverage5/mask.mat']), 
+load([P 'fsaverage5/curv.mat'])
 
 
-%% 3. Display what we have been loading
+
+%% 3a. Display what we have been loading, first the brain masks 
 
 % first the brain mask  
 f=figure, 
@@ -36,6 +35,8 @@ SurfStatViewData(double(mask),SP, 'mask on pial surface')
 f=figure,
 SurfStatViewData(double(mask),SM, 'mask on mid-thickness surface')
 
+
+%% 3b. Display some useful features, such as mean curvature 
 % then the curvature data 
 f=figure,
 SurfStatViewData(curv, SM, 'curvature')
@@ -45,21 +46,17 @@ f=figure,
 SurfStatViewData(sign(curv), SM, 'curvature, signed')
 colormap([0.6 .6 .6; .8 .8 .8])
 
-% 3 different parcellations maybe 
-f=figure, 
-    subplot(1,3,1), SurfStatView1(yeo,SM)
-    subplot(1,3,2), SurfStatView1(aparc,SM)
-    subplot(1,3,3), SurfStatView1(lobes,SM)
+
 
     
-%%  ready for some analysis! 
+%%  4. ready for some analysis: load the spreadsheet  
 % load csv file that contains our participant ids, groups and IVs 
-cd(P)
-fid      = fopen('myStudy.csv'); % final group
+fid      = fopen([P 'myStudy.csv']); % final group
 C        = textscan(fid,'%s%s%n%s%n','Delimiter',',',...
                     'headerLines',1,'CollectOutput',1);
 fclose(fid);
-    
+
+% we have to do a little bit of recoding 
 ID       = C{1}(:,1); 
 GR       = C{1}(:,2);
 AGE      = C{2};
@@ -67,29 +64,36 @@ HAND     = C{3};
 IQ       = C{4};
 
 
-% then we load the thickness data  
-left    = strcat(ID, '_lh2fsaverage5_20.mgh');
-right   = strcat(ID, '_rh2fsaverage5_20.mgh');
+%% 4b. Load the thickness data
+% generate the file names 
+left    = strcat(P, 'thickness/', ID, '_lh2fsaverage5_20.mgh');
+right   = strcat(P, 'thickness/', ID, '_rh2fsaverage5_20.mgh');
 
-cd([P 'thickness'])
+% load data into a matrix
 T       = SurfStatReadData([left, right]); 
 
 
-% we could verify whether all looks great 
+%% 4c. Display data that we just loaded 
+
+% this is the data matrix 
 f=figure, 
     imagesc(T,[1.5 4])
     colormap(parula)
+
     
+% this is the first case     
 f=figure, 
     SurfStatViewData(T(1,:),SM, 'first case') 
     SurfStatColLim([1.5 4])
     colormap(parula)
-    
+  
+% this is the mean thickness across cases     
 f=figure, 
     SurfStatViewData(mean(T,1),SM, 'mean thickness across all subjects') 
     SurfStatColLim([1.5 4])
     colormap(parula)
-    
+
+% this is the standard deviation across cases     
 f=figure, 
     SurfStatViewData(std(T,0,1),SM, 'std thickness across all subjects') 
      SurfStatColLim([0 .5])
@@ -97,7 +101,7 @@ f=figure,
     
 
     
-%% now we can finally do a first models: lets look at effects of age
+%% 5a. now we can finally do a first models: effects of age
 
 % first code some variables of interest  
 A  = term(AGE); 
@@ -117,46 +121,55 @@ f=figure
     SurfStatViewData(slm.t, SM, 't-value') 
  
     
-% multiple comparison correction: none
+%% 5b. Multiple comparisons correction    
+
+% alternative 1: none - we show uncorrected p-values, good for exploration
 p = 1-tcdf(slm.t,slm.df); 
 f=figure 
     SurfStatViewData(p, SM, 'p-value') 
     SurfStatColLim([0 0.05]) 
     colormap([parula; .8 .8 .8])
-    
-% multiple comparison correction: Bonferroni
+
+%%    
+% alternative 2: Bonferroni correction, generally very severe 
 p = 1-tcdf(slm.t,slm.df); 
 p = p*size(p,2); 
 f=figure 
     SurfStatViewData(p, SM, 'Bonferroni p-value') 
     SurfStatColLim([0 0.05]) 
     colormap([parula; .8 .8 .8])
-    
-% multiple comparions using fdr     
+ 
+%%    
+% alternative 3: multiple comparions using fdr     
 qval = SurfStatQ(slm,mask);     
 f=figure 
     SurfStatView(qval, SM, 'fdr') 
-   
+ 
+%%    
 % multiple comparions using random field theory          
 pval = SurfStatP(slm,mask);     
 f=figure 
     SurfStatView(pval, SM, 'rft') 
 
-% the findings are hyper significant - so we can threshold very agressively     
-f=figure 
-    SurfStatView(pval.P, SM, 'rft') 
-
-
+  
     
-%% so we know that age is important - lets control for it when assessing group differences 
+%% 6a: group comparison, with correction for age
+
+% specify the terms 
 A  = term(AGE); 
 G  = term(GR); 
 
-% group difference 
+% model definition 
 M = 1 + A + G; 
+
+% model fitting 
 slm = SurfStatLinMod(T, M, SW); 
+
+% contrast 
 slm = SurfStatT(slm, G.Group1-G.Group2)
 
+%%
+% display p-value 
 f=figure 
     SurfStatViewData(slm.t, SM, 't-value') 
 
@@ -177,15 +190,23 @@ f=figure
 
 
 
-%% lets assess interactions
+    
+%% not covered but for completeness: interactions
+
+% terms 
 A  = term(AGE); 
 G  = term(GR); 
 
-% group difference 
+% model definition with interaction
 M = 1 + A + G + A*G;  
+
+% parameter estimation
 slm = SurfStatLinMod(T, M, SW); 
+
+% contrast (a bit more complex for interactions)
 slm = SurfStatT(slm, (-AGE.*G.Group2)-(-AGE.*G.Group1))
 
+%% display results 
 f=figure 
     SurfStatViewData(slm.t, SM, 't-value') 
 
