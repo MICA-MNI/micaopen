@@ -1,3 +1,19 @@
+# author: boris@bic.mni.mcgill.ca
+#
+# v. 1.0 
+# may 25, 2017
+# 
+# use: $0 <dcmdir> 
+# creates a folder called <dcmdir_sorted> in which the different dicoms are sorted into 
+# subfolders relative to their their subject and sequence information 
+# i.e. dcmdir_sorted/patientid/scannumber_sequencename/ 
+
+if [ $# -lt 1 ]
+then
+	echo "use: ./$0 <dcmdir> to create sorted copy <dcmdir_sorted> in the same folder" 
+	exit 
+fi
+
 IN=${1}
 OUT=${1%/}_sorted
 
