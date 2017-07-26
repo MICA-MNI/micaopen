@@ -86,6 +86,7 @@ set(gcf,'Color',background,'InvertHardcopy','off');
 
 dcm_obj=datacursormode(gcf);
 set(dcm_obj,'UpdateFcn',@SurfStatDataCursor,'DisplayStyle','window');
+colormap parula
 
 return
 end
