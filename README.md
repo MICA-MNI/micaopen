@@ -1,6 +1,7 @@
 # micaopen
 
 Open Software from the MICALAB and some useful tools: 
+
 surfstat_chicago - Contains Keith Worsley's SurfStat (Chicago version) for surface- and 
 volume-based statistical analysis and visualization. Requires matlab. 
 
