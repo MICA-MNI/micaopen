@@ -1,4 +1,4 @@
-function BoSurfStat_calibrate2Views(data, Slo, pos, handles, clim, cmap)
+function BoSurfStat_calibrate4Views(data, Slo, pos, handles, clim, cmap)
 % function BoSurfStat_calibrate2Views(data, Slo, pos4by4, handes4by1, clim)
 % shows lateral and medial for the left hemisphere at 1 specified position 
 % vectors [x y h w] 
