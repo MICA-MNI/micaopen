@@ -4,7 +4,7 @@
 % then go to editor on top 
 
 %% 0. define directory and add toolbox
-P='/data/noel/noel10/workshop/users/boris/Day2_1400_Bernhardt_MRIStats/'; 
+P='//Users/'; 
 addpath([P 'surfstat'])
 
 

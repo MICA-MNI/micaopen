@@ -12,3 +12,4 @@ surfstat_tutorial - tutorial slides and demo dataset to learn how to use surfsta
 
 dcm_sorter - python code to sort a dicom directory into subfolders 
 
+publication codes - open tools for relevant publications
