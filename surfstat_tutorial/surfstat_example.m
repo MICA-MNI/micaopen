@@ -4,7 +4,7 @@
 % then go to editor on top 
 
 %% 0. define directory and add toolbox
-P='//Users/'; 
+P='/Users/boris/Documents/1_github/micaopen/surfstat_tutorial/'; 
 addpath([P 'surfstat'])
 
 
