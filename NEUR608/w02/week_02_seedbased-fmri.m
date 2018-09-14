@@ -15,14 +15,14 @@ load(myYeo);
 % build correlations 
 r               = corr(ts);
 z               = 0.5 * log( (1+r) ./ (1-r) ); 
-z(isinf(z))     = 1; 
-z(isnan(z))     = 1;
+z(isinf(z))     = 0; 
+z(isnan(z))     = 0;
 mPFC            = 730; 
 PCC             = 3215; 
 VIS             = 2748; 
 
 f=figure;  
-    SurfStatViewData(z(VIS,:),SM,'','black');
+    SurfStatViewData(z(VIS,:).*(yeo>0),SM,'','black');
     SurfStatColLim([-0.7 0.7]);
     colormap(parula);
     
