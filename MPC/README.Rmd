@@ -59,15 +59,15 @@ Within the github repository are three scripts, which should be run in sequence.
 
 **02_myelinMaptoSurf.sh**: Compiles intensity values along intracortical surfaces from a myelin-sensitive volume, and registers an annotation from fsaverage to the individual subject.
 
-**03_surfToMPC.m**: Imports data to matlab and builds microstructure profile covariance matrices. Set up to be used with the 1012 parcellation scheme.
+**03_surfToMPC.m**: Imports data to matlab and builds microstructure profile covariance matrices. Set up to be used with the 1012 parcellation scheme. An additional step of normalisation to a standard template is necessary for vertex-wise analyses. 
 
 ## Citing this resource
-If you use this code, please cite our article:
+If you use this code, please cite our article:   
 And direct the reader to the github repository: https://github.com/MICA-MNI/micaopen/MPC
 
 ## Extra features
-Atlas for levels of laminar differentiation (a la Mesulam 2001) with 1012 parcellation scheme.
-SJH 1012 parcellation scheme - freesurfer annotation on fsaverage7
-Scripts to conduct diffusion map embedding in MATLAB may be found in https://github.com/MICA-MNI/micaopen/diffusion_map_embedding
+Atlas for levels of laminar differentiation (a la Mesulam 2001) with 1012 parcellation scheme.   
+SJH 1012 parcellation scheme - freesurfer annotation on fsaverage7   
+Scripts to conduct diffusion map embedding in MATLAB may be found in https://github.com/MICA-MNI/micaopen/diffusion_map_embedding   
 
 ```
