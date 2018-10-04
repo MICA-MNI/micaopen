@@ -47,7 +47,7 @@ if downsample==1
 else
     I = data;
     szI = size(data);
-    szZ = [size(data,1) size(data,1)];
+    szZ = [size(data,2) size(data,2)];
 end
              
 if nnz(isnan(I)) > 0
