@@ -22,9 +22,9 @@ PCC             = 3215;
 VIS             = 2748; 
 
 f=figure;  
-    SurfStatViewData(z(PCC,:).*(yeo>0),SM,'','black');
-    SurfStatColLim([.2 0.5]);
-    colormap(parula);
+    SurfStatViewData(z(1880,:).*(yeo>0),SM,'','black');
+    SurfStatColLim([.2 0.7]);
+    colormap([.8 .8 .8 ; hot]);
     
 
     
