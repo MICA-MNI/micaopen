@@ -9,7 +9,7 @@ load('fsaverage.midthickness_mni_32k_fs_LR.mat');
 
 parcels                 = parcellation210.indexmax; 
 parcels(isnan(parcels)) = 0; 
-f=figure; BoSurfStatViewData(parcels, G,''); colormap(linspecer)
+f=figure; BoSurfStatViewData(parcels, G,''); colormap(lines)
 
 
 %% load time series and build connectomes 
@@ -23,16 +23,18 @@ for i = 1:length(d)
     r3 = corr(ts.rfMRI_REST2_LR); z3 = 0.5 * log( (1+r3) ./ (1-r3) ); 
     r4 = corr(ts.rfMRI_REST2_RL); z4 = 0.5 * log( (1+r4) ./ (1-r4) ); 
     z(:,:,i) = (z1+z2+z3+z4)./4; 
+    
 end 
 
 z(isinf(z)) = 0; 
 z(isnan(z)) = 0; 
 
+%%
 meanz       = mean(z,3); 
 f=figure;  
     imagesc(meanz,[0 1]); 
 
-    
+%%    
 % visualize degree (to verify going back to surface)
 dc                  = mean(meanz,2); 
 dcmap               = mica_parcelData2surfData([0; dc], G, parcels); 
@@ -46,7 +48,7 @@ close all
 [silh2,h]           = silhouette(meanz,cidx2,'cosine');
 [scidx2, sindex]    = sort(cidx2); 
 
-
+%%
 % display clustering 
 f=figure;  
 subplot(1,4,1), imagesc(cidx2); 
