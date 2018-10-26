@@ -19,7 +19,6 @@ else
     downsample = 1;
 end
 
-
 % parcellate vertices into nodes with provided parcellation scheme
 if downsample==1
     uparcel         = unique(parc); 
@@ -53,10 +52,9 @@ end
 if nnz(isnan(I)) > 0
     
     problemNodes = find(isnan(I(1,:)));
-    disp('warning: problem with parcellation, mpc will be NaNs')
+    warning('issue with the input or parcellation. MPC will be NaNs')
     I = NaN(szI);
     MPC = NaN(szZ);
-    
     
 else
     
