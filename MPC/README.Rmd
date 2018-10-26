@@ -1,11 +1,15 @@
 ---
 title: "MPC"
 author: "Casey Paquola"
-e-mail: "casey.paquola@mail.mcgill.ca"
+e-mail: "casey.paquola [at] mail.mcgill.ca"
 date: "21 September 2018"
 output: html_document
 urlcolor: blue
 ---
+<style>
+body {
+text-align: justify}
+</style>
 
 # Microstructure profile covariance (MPC) analysis
 Welcome to the MPC package; a companion to our article "Emergence of macrolevel functional topography from microstructure profile covariance". Here, we present the three step procedure to construct individualised microstructure profile covariance networks.
@@ -57,17 +61,17 @@ Within the github repository are three scripts, which should be run in sequence.
 
 **01_constructSurfaces.sh**: Constructs equivolumetric intracortical surfaces using "surface tools" (https://github.com/kwagstyl/surface_tools)
 
-**02_myelinMaptoSurf.sh**: Compiles intensity values along intracortical surfaces from a myelin-sensitive volume, and registers an annotation from fsaverage to the individual subject.
+**02_myelinMaptoSurf.sh**: Compiles intensity values along intracortical surfaces from a myelin-sensitive volume.Requires conte69 resampled surfaces - can be found in the templates folder on the github repository.
 
-**03_surfToMPC.m**: Imports data to matlab and builds microstructure profile covariance matrices. Set up to be used with the 1012 parcellation scheme. An additional step of normalisation to a standard template is necessary for vertex-wise analyses. 
+**surfToMPC.m**: Matlab function that builds microstructure profiles and covariance matrices.
 
 ## Citing this resource
-If you use this code, please cite our article:   
+If you use this code, please cite our article (currently under review - will be )
 And direct the reader to the github repository: https://github.com/MICA-MNI/micaopen/MPC
 
 ## Extra features
-Atlas for levels of laminar differentiation (a la Mesulam 2001) with 1012 parcellation scheme.   
-SJH 1012 parcellation scheme - freesurfer annotation on fsaverage7   
-Scripts to conduct diffusion map embedding in MATLAB may be found in https://github.com/MICA-MNI/micaopen/diffusion_map_embedding   
+Atlas for levels of laminar differentiation (a la Mesulam 2001)   
+SJH 1012 parcellation scheme - vertex-wise on conte69 32k and freesurfer annotation on fsaverage7   
+Scripts to conduct diffusion map embedding in MATLAB may be found in https://github.com/MICA-MNI/micaopen/diffusion_map_embedding      
 
 ```
