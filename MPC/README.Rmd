@@ -6,10 +6,6 @@ date: "21 September 2018"
 output: html_document
 urlcolor: blue
 ---
-<style>
-body {
-text-align: justify}
-</style>
 
 # Microstructure profile covariance (MPC) analysis
 Welcome to the MPC package; a companion to our article "Emergence of macrolevel functional topography from microstructure profile covariance". Here, we present the three step procedure to construct individualised microstructure profile covariance networks.
