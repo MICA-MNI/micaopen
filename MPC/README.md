@@ -62,7 +62,7 @@ Within the github repository are three scripts, which should be run in sequence.
 **surfToMPC.m**: Matlab function that builds microstructure profiles and covariance matrices.
 
 ## Citing this resource
-If you use this code, please cite our article (currently under review - will be )
+If you use this code, please cite our article (currently under review)
 And direct the reader to the github repository: https://github.com/MICA-MNI/micaopen/MPC
 
 ## Extra features
