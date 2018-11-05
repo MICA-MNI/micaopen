@@ -21,10 +21,15 @@ parcelts = mica_surfData2parcelData(ts, label_fsa5);
 
 
 
+
+
 %% --   
 % build correlation matrix 
 r               = corr(parcelts);
 z               = 0.5 * log( (1+r) ./ (1-r) ); 
+
+
+
 z(isinf(z))     = 0; 
 z(isnan(z))     = 0;
     

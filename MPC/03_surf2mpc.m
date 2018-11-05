@@ -1,4 +1,4 @@
-% 03_surf2mpc
+function [sub_success] = surf2mpc(dataDir, sub, num_surf, parc_name)
 %
 % This script can be used as a wrapper to run the function build_mpc, and 
 % thus construct microstructure profile covariance (MPC) matrices for a 
@@ -6,32 +6,25 @@
 % your individual system/study. It will automatically save the intensity
 % profiles and MPC matrices as a text files in the subject's BIDS folder, 
 % alongside the preconstructed equivolumetric surfaces. 
+%
+% INPUT
+% dataDir 		overarching BIDS directory
+% sub 			subject id
+% num_surf		surface solution number (default is 14)
+% parc_name		name of parcellation in annotation file (default is sjh)
 
-% SETTING UP VARIABLES 
-% Direct to overarching BIDS directory
-dataDir = '/Data/BIDS/';
+if nargin < 4
+	parc_name='sjh';
+end
+if nargin < 3
+	num_surf=14;
+end
+	
 
-% import subject list - change 'fulllist.txt' to appropriate filename
-subject_list = table2cell(readtable('fulllist.txt','ReadVariableNames',false));
-
-% number of intracortical surfaces
-num_surf = 14;
-
-% name of parcellation scheme
-parc_name = 'sjh';
-
-%% CONSTRUCTING MPC MATRICES
-nsub = length(subject_list);
-
-% loop through subjects creating the MPCs
-h = waitbar(0,'Building MPCs');
-for s = 1:nsub
-    waitbar(s/nsub)
-    sub = subject_list{s,1};
-    
     % setting output directory
-    %OPATH = strcat(dataDir, '/', sub, '/surfaces/equivSurfs/', num2str(num_surf), 'surfs_out/');
-    OPATH = strcat(dataDir, '/', sub, '/tmpProcessingStructural/');
+    OPATH = strcat(dataDir, '/', sub, '/surfaces/equivSurfs/', num2str(num_surf), 'surfs_out/');
+    
+    if exist(OPATH, 'dir')
     
     try
         
@@ -55,17 +48,12 @@ for s = 1:nsub
             BBr(ii,:)    = data.vol;
         end
         
-        % concatenate hemispheres and flip so pial surface is the row 1
+        % concatenate hemispheres and flip so pial surface is at the top
         BB = flipud([BBr BBl]);
         
         % load subject surface
         G = SurfStatReadSurf({strcat(dataDir, '/', sub, '/surfaces/', sub, '/surf/lh.pial'), strcat(dataDir, '/', sub, '/surfaces/', sub, '/surf/rh.pial')});
         
-        % smoothing
-        for ii = 1:num_surf
-            BBs(ii,:) = SurfStatSmooth( BB(ii,:), G, 4);
-        end
-
         % create mpc matrix (and nodal intensity profiles if parcellating)
         [~, lh_parc, ~] = read_annotation(strcat(dataDir, '/', sub, '/surfaces/', sub, '/label/lh.', parc_name, '.annot'));
         [~, rh_parc, ~] = read_annotation(strcat(dataDir, '/', sub, '/surfaces/', sub, '/label/rh.', parc_name, '.annot'));
@@ -73,22 +61,29 @@ for s = 1:nsub
 
         % check success of MPC and save output
         if nnz(isnan(MPC))
-            sub_sucess(s) = 0;
+            sub_sucess = 0;
             fprintf('MPC building failed for subject: %s\n',sub);
         else
-            sub_sucess(s) = 1;
+            sub_sucess = 1;
             dlmwrite(strcat(OPATH, '/intensity_profiles.txt'),I);
             dlmwrite(strcat(OPATH, '/mpc.txt'),MPC);
         end
+        
+		% cleanup
+		clear('BBl','BBr','BB'); 
+		catch
+			warning('Missing files for subject: %s\n',sub);
+			sub_sucess = -1;
+			continue
+        
+		end
+        
+    else
+        
+        sub_sucess = -1;
 
-    catch
-        
-        sub_sucess(s) = -1;
-        fprintf('Missing files for subject: %s\n',sub);
-        continue
-        
     end
             
 end
 
-close(h)
+end %function
