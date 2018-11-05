@@ -1,6 +1,5 @@
 %% init  
 addpath('/Users/boris/Documents/1_github/micasoft/matlab/colormaps/viridis/')
-load('/Users/boris/Documents/1_github/micasoft/matlab/colormaps/margulies_gradient.mat')
 clear 
 GH = '/Users/boris/Documents/1_github/micaopen'
 addpath(genpath(GH))
@@ -34,18 +33,16 @@ z(isnan(z)) = 0;
 meanz       = mean(z,3); 
 f=figure;  
     imagesc(meanz,[0 1]); 
-    colormap(inferno)
+    colormap(magma)
     
 norma        = connectivity2normangle(meanz,90); 
 f=figure;  
-    imagesc(norma,[0.5 1]); 
+    imagesc(norma,[0 1]); 
     colormap(inferno)
 
 [embeddings, results] = mica_diffusionEmbedding(norma); 
-[s index] = sort(embeddings(:,1)); 
-f=figure;  
-    imagesc(norma(index,index),[0 1]); 
-    colormap(margulies)
+
+
 %%    
 % visualize degree (to verify going back to surface)
 dc                  = mean(meanz,2); 

@@ -16,6 +16,7 @@ load(myLabel);
 
 
 f=figure, BoSurfStatViewData(label_fsa5, SM,'')
+
 parcelts = mica_surfData2parcelData(ts, label_fsa5); 
 
 
