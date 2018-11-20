@@ -15,6 +15,8 @@ load(myYeo);
 
 f=figure, BoSurfStatViewData(yeo, SM,'')
 
+parcelts = mica_surfData2parcelData(ts, label_fsa5); 
+
 
 
 %% --   
@@ -26,11 +28,6 @@ z(isnan(z))     = 0;
     
 f=figure, 
     imagesc(z,[0 1])
-
-[sy, sindex] = sort(yeo); 
-f=figure, 
-    imagesc(z(sindex,sindex),[0 1])
-    
     
 mPFC            = 730; 
 PCC             = 3215; 
