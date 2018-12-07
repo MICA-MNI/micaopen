@@ -31,7 +31,7 @@ f=figure,
 f=figure, 
     imagesc(z(sindex,sindex),[0 1])
     
-    
+% --     
 mPFC            = 730; 
 PCC             = 3215; 
 VIS             = 2748; 
