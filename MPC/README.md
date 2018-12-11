@@ -62,8 +62,12 @@ Within the github repository are three scripts, which should be run in sequence.
 **surfToMPC.m**: Matlab function that builds microstructure profiles and covariance matrices.
 
 ## Citing this resource
-If you use this code, please cite our article (currently under review)
-And direct the reader to the github repository: https://github.com/MICA-MNI/micaopen/MPC
+If you use this code, please cite our article which is currently available as a preprint.
+Dissociations between microstructural and functional hierarchies within regions of transmodal cortex
+Casey Paquola, Reinder Vos de Wael, Konrad Wagstyl, Richard Bethlehem, Jakob Seidlitz, Seok-Jun Hong, Ed Bullmore, Alan Evans, Bratislav Misic, Daniel Margulies, Jonathon Smallwood, Boris Bernhardt
+bioRxiv 488700; doi: https://doi.org/10.1101/488700
+
+Additionally, please direct the reader to the github repository: https://github.com/MICA-MNI/micaopen/MPC
 
 ## Extra features
 Atlas for levels of laminar differentiation (a la Mesulam 2001)   
