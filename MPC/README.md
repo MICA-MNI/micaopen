@@ -22,7 +22,7 @@ Welcome to the MPC package; a companion to our article "Emergence of macrolevel 
 Freesurfer (tested with 5.1 - https://surfer.nmr.mgh.harvard.edu/)   
 FSL (tested with 5.0 - https://fsl.fmrib.ox.ac.uk/fsl/fslwiki)   
 Python (tested with 3.0)   
-MATLAB (tested on 17b and 16a - https://www.mathworks.com/products/matlab.html)   
+MATLAB (tested on 17b - https://www.mathworks.com/products/matlab.html)   
 SurfStat (http://www.math.mcgill.ca/keith/surfstat/)   
 surface_tools (https://github.com/kwagstyl/surface_tools)   
 
