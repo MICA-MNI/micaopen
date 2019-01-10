@@ -8,7 +8,7 @@ urlcolor: blue
 ---
 
 # Microstructure profile covariance (MPC) analysis
-Welcome to the MPC package; a companion to our article "Emergence of macrolevel functional topography from microstructure profile covariance". Here, we present the three step procedure to construct individualised microstructure profile covariance networks.
+Welcome to the MPC package; a companion to our article "Dissociations between microstructural and functional hierarchies within regions of transmodal cortex". Here, we present the three step procedure to construct individualised microstructure profile covariance networks.
 
 ### Table of contents
 * [Software dependencies](#software-dependencies)   
