@@ -2,11 +2,13 @@ function [realigned, xfms] = mica_iterativeAlignment(embeddings,nIterations,firs
 % MICA_ITERATIVEALIGNMENT   Align components using Procrustes method.
 %   realigned = MICA_ITERATIVEALIGNMENT(embeddings,nIterations) aligns the
 %   components of embeddings using Procrustes method. Embeddings is a cell
-%   array, each cell array contains an m-by-n array where m is the number
-%   of vertices and n the number of components of one subject. Components
-%   are aligned iteratively using nIterations iterations. The first
-%   alignment aligns all subjects to the components in the first cell of
-%   embeddings. Subsequent alignments align all components to the mean
+%   array, each cell contains an m-by-n array where m is the number of
+%   vertices and n the number of components of one subject. embeddings can
+%   also be a numeric array of size m-by-n-by-l where m is the number of
+%   vertices, n the number of components and l the number of subjects.
+%   Components are aligned iteratively using nIterations iterations. The
+%   first alignment aligns all subjects to the components in the first cell
+%   of embeddings. Subsequent alignments align all components to the mean
 %   realigned components of the previous iteration.
 %
 %   realigned = MICA_ITERATIVEALIGNMENT(embeddings,nIterations,firstTarget)
@@ -21,7 +23,7 @@ function [realigned, xfms] = mica_iterativeAlignment(embeddings,nIterations,firs
 %   (https://github.com/satra/mapalign). 
 %
 %   Written by Reinder Vos de Wael (Jul 2017)
-
+    
 % Check if equal number of components in all subjects.
 try 
     cat(3,embeddings{:});    
@@ -50,7 +52,7 @@ for ii = 1:nIterations
     
     % Run realignment. 
     for jj = 1:numel(embeddings)
-        if ii == 1 && jj == 1; continue; end 
+        if ii == 1 && jj == 1 && ~exist('firstTarget','var'); continue; end 
         [U,~,V] = svd(target.' * embeddings{jj},0);
         
         % This corresponds with the Satrajit Python code (Numpy seems to do
