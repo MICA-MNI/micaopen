@@ -41,4 +41,10 @@ f=figure;
     SurfStatColLim([-0.7 0.7]);
     colormap(parula);
     
- 
+    
+    
+ seed = ts(:,7904); 
+ rmap               = corr(seed, ts);
+ f=figure;  
+    SurfStatViewData(rmap,SM,'','black')
+    SurfStatColLim([0 0.7]);
