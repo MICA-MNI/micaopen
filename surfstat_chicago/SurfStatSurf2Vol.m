@@ -32,6 +32,7 @@ if isnumeric(surf.coord)
         vox=round((double(surf.coord')-one*vol.origin)./(one*vol.vox(1:3))+1);
         in=vox(:,1)>=1&vox(:,2)>=1&vox(:,3)>=1;
         in=in&vox(:,1)<=nx&vox(:,2)<=ny&vox(:,3)<=nz;
+        in=vox(:,1)<=nx&vox(:,2)<=ny&vox(:,3)<=nz;
         vol.data=accumarray(vox(in,:),s(in),[nx,ny,nz]);
         ns=accumarray(vox(in,:),1,[nx,ny,nz]);
         vol.data=vol.data./(ns+(ns<=0)).*(ns>0);

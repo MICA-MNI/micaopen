@@ -57,7 +57,7 @@ end
         % create mpc matrix (and nodal intensity profiles if parcellating)
         [~, lh_parc, ~] = read_annotation(strcat(dataDir, '/', sub, '/surfaces/', sub, '/label/lh.', parc_name, '.annot'));
         [~, rh_parc, ~] = read_annotation(strcat(dataDir, '/', sub, '/surfaces/', sub, '/label/rh.', parc_name, '.annot'));
-        [MPC, I, problemNodes{s}] = build_mpc(BBs, vertcat(lh_parc,rh_parc));
+        [MPC, I, problemNodes{s}] = build_mpc(BB, vertcat(lh_parc,rh_parc));
 
         % check success of MPC and save output
         if nnz(isnan(MPC))
