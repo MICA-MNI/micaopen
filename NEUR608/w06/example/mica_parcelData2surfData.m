@@ -5,10 +5,19 @@ function map2surf = mica_parcelData2surfData(mapOnParcel, S, parcel)
 %
 % author: boris@bic.mni.mcgill.ca
 
-map2surf = zeros(1,size(S.coord,2)); 
+n = size(mapOnParcel,1);
+k = size(S.coord,2);
+
+map2surf = zeros(1,k); 
+
 uparcel = unique(parcel);
+
 for i=1:length(uparcel)
-    index = parcel==uparcel(i);
-    map2surf(index) = mapOnParcel(i); 
+    uparcel(i)
+    index = find(parcel==uparcel(i));
+    if ~isempty(index)
+        map2surf(index) = mapOnParcel(i); 
+    end
+    
 end
 

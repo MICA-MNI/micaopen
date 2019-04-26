@@ -1,5 +1,6 @@
 %% init  
-
+addpath('/Users/boris/Documents/1_github/micasoft/matlab/colormaps/viridis/')
+load('/Users/boris/Documents/1_github/micasoft/matlab/colormaps/margulies_gradient.mat')
 clear 
 GH = '/Users/boris/Documents/1_github/micaopen'
 addpath(genpath(GH))
@@ -33,7 +34,18 @@ z(isnan(z)) = 0;
 meanz       = mean(z,3); 
 f=figure;  
     imagesc(meanz,[0 1]); 
+    colormap(inferno)
+    
+norma        = connectivity2normangle(meanz,90); 
+f=figure;  
+    imagesc(norma,[0.5 1]); 
+    colormap(inferno)
 
+[embeddings, results] = mica_diffusionEmbedding(norma); 
+[s index] = sort(embeddings(:,1)); 
+f=figure;  
+    imagesc(norma(index,index),[0 1]); 
+    colormap(margulies)
 %%    
 % visualize degree (to verify going back to surface)
 dc                  = mean(meanz,2); 
@@ -56,6 +68,7 @@ subplot(1,4,2), imagesc(meanz)
 subplot(1,4,3), imagesc(scidx2);
 subplot(1,4,4), imagesc(meanz(sindex,sindex));
 
+%%
 cidx2map               = mica_parcelData2surfData([0; cidx2], G, parcels); 
 f = figure;    
     BoSurfStatViewData(cidx2map, G,['2 clusters:' num2str(mean(silh2))]);    
@@ -63,7 +76,7 @@ f = figure;
 
 %% k-means cluster, n=7  
 close all
-n = 6
+n = 7
 [cidxn,cmeans2]     = kmeans(meanz,n,'dist','cosine','Replicates',10);
 [silhn,h]           = silhouette(meanz,cidxn,'cosine');
 [scidxn, sindex]    = sort(cidxn); 
@@ -79,7 +92,7 @@ subplot(1,4,4), imagesc(meanz(sindex,sindex));
 cidxnmap    = mica_parcelData2surfData([0; cidxn], G, parcels); 
 f = figure;    
     BoSurfStatViewData(cidxnmap, G,['7 clusters:' num2str(mean(silhn))]);   
-    colormap(linspecer)
+    colormap(lines)
 
     
 %% hierarchical 

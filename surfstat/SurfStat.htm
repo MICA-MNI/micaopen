@@ -1,0 +1,1997 @@
+
+<!-- saved from url=(0073)https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SurfStat</title>
+</head>
+<body><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/subject100.jpg"><img src="./SurfStat_files/tn_tn_subject100.jpg" alt="[Click to enlarge image]" border="0" align="left"></a><p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmp.jpg"><img src="./SurfStat_files/tn_tn_vbmp.jpg" alt="[Click to enlarge image]" border="0" align="right"></a></p><p>
+</p><center>
+<h1>SurfStat</h1>
+<h2>A Matlab toolbox for the statistical analysis of univariate and multivariate surface and volumetric data using linear mixed effects models and random field theory</h2>
+<b><a href="http://www.math.mcgill.ca/keith">Keith J. Worsley</a></b><br><br>
+
+<p style="color:red;">Due to health reasons, please direct all enquiries to <a href="mailto:Carbonell@math.mcgill.ca">Felix Carbonell</a>.</p>
+
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/surfstat.zip">Download it here!</a><br><br>
+<em>Updated 21 February, 2009</em>
+</center><br>
+
+SurfStat is a Matlab toolbox for the statistical analysis of univariate and multivariate surface and volumetric data using linear mixed effects models and random field theory. It is inspired by Jason Lerch's
+<a href="http://wiki.bic.mni.mcgill.ca/index.php/ThicknessStatistics">Thickness Statistics</a> written in <a href="http://en.wikipedia.org/wiki/R_%28%20programming_language%29">R</a>, and Jonathan Taylor's BrainStat, part of <a href="http://neuroimaging.scipy.org/">NIPY</a>, written in <a href="http://www.python.org/Python">Python</a>.
+It is intended for cortical thickness data on triangular meshes, either for the whole cortex or one for each hemisphere. It will handle any triangulated surface data, written in <a href="http://surfer.nmr.mgh.harvard.edu/FreeSurfer">FreeSurfer</a><a> or </a><a href="http://wiki.bic.mni.mcgill.ca/index.php/ObjectFiles">MNI object</a> format.
+The only requirement is that the triangulation scheme must be the same for all surfaces, i.e. the data must be registered to a common surface.<p>
+
+<b>Reference:</b>
+</p><li>Worsley, K.J.,  Taylor, J.E., Carbonell, F., Chung, M.K., Duerden, E.,  Bernhardt, B.,  Lyttelton, O., Boucher, M., Evans, A.C. (2009). <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/surfstat/poster.htm">SurfStat: A Matlab toolbox for the statistical analysis of univariate and multivariate surface and volumetric data using linear mixed effects models and random field theory.</a> <i>NeuroImage</i>, OHBM poster, accepted.<p>
+
+</p><hr>
+<h3>New features in the latest version</h3>
+
+</li><li>SurfStat now does statistical analysis for volumetric data, e.g. <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#vbm">VBM</a>, <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#dbm">DBM</a> and <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#pet">PET</a> data.
+</li><li>New viewers added for volumetric data.
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#map">Memory mapping</a> has been added to cope with very large data sets. There is now essentially
+no limit on the size of the data, but you will need some free disk space, equal to twice the size of the data, for scratch space.
+
+<hr>
+<h3>Features of the previous version</h3>
+
+Its main engine fits fixed effects and mixed effects, univariate and multivariate, linear models
+and makes inference using T, F, <a href="http://en.wikipedia.org/wiki/Hotelling%27s_T-square_distribution">Hotelling's T<sup>2</sup></a> and <a href="http://mrw.interscience.wiley.com/emrw/9780470011812/eob/article/b2a10081/current/abstract">Roy's maximum root</a> statistics. Features:<p>
+</p></li><li> Random field theory (RFT) for peaks and clusters, as well as False Discovery Rate (FDR).
+</li><li> Model formula rather than a design matrix for specifying the linear model.
+</li><li> Mixed effects models fitted by <a href="http://en.wikipedia.org/wiki/Reml">ReML</a>.
+</li><li> Off-the-shelf Matlab graphics that are ready to publish.
+</li><li> FAST! everything loaded into memory.
+</li><li> Truly interactive analysis, no need for batch.
+</li><li> A mere 200K of code ...
+<p>
+
+Thanks to <a href="http://www.bic.mni.mcgill.ca/users/oliver/">Oliver Lyttelton</a> for suggesting the multivariate statistics, <a href="http://www.biostat.wisc.edu/People/faculty/chung.htm">Moo Chung</a> and <a href="http://www.psych.nyu.edu/phelpslab/new/people/catherine_hartley.htm">Cate Hartley</a> for help with FreeSurfer, <a href="http://www.bic.mni.mcgill.ca/~boris/">Boris Bernhardt</a> for helping with the mixed effects, and <a href="http://www2.bic.mni.mcgill.ca/research/people/alumni/profile_emmdue000">Emma Duerden</a> for constant feedback that has really improved the package.</p><p>
+
+</p><hr>
+<h3>User applications</h3>
+
+</li><li><a href="http://www.biostat.wisc.edu/People/faculty/chung.htm">Moo Chung</a> has used SurfStat for <a href="http://www.stat.wisc.edu/~mchung/research/amygdala/">Amygdala Surface Modeling</a> (see the last section).
+
+</li><li><a href="http://www.bic.mni.mcgill.ca/~boris/">Boris Bernhardt</a>  has used SurfStat for cortical thickness in temporal lobe epilepsy (see the end of his web page).
+
+
+<hr>
+<h3>Contents</h3>
+
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#install">Installation</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#help">Documentation and help</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#view">Viewing the data</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#readsurf">Reading the surface data</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#readthick">Reading the cortical thickness data</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#PCA">Principal Components Analysis</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#model">Model Formula</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#ICBMagain">Fitting the model</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#m-f">Main effect for gender</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#age">Main effect for age</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#interaction">Interaction</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#F">F statistics</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#connectivity">Connectivity</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#roi">ROI analysis</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#v2s">Volume to surface and vice-versa</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#mixed">Mixed effects, a.k.a. longitudinal data, a.k.a. repeated measures</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#map">Memory mapping</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#smooth">Smoothing</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#multi">Multivariate data statistical analysis</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#vbm">VBM data</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#dbm">DBM data</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#pet">PET data</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#pet2">PET data: more elaborate linear models</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#future">Future features</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#references">References for random field theory</a>
+
+<hr>
+<a name="install"></a>
+<h3>Installation</h3>
+
+</li><li> Unzip the contents of  <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/surfstat.zip">surfstat.zip</a> into a directory
+called e.g. <code>C:\Program Files\MATLAB\R2006a\toolbox\local/surfstat/</code>.
+</li><li> Go to the Matlab window and click <b>File --&gt; Set Path... ---&gt; Add Folder ... ---&gt;</b> <code>C:\Program Files\MATLAB\R2006a\toolbox\local/surfstat/</code> <b>--&gt; OK --&gt; Save</b>.
+
+<hr>
+<a name="help"></a>
+<h3>Documentation and help</h3>
+
+Here is <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/doc/SurfStat/index.html">documentation</a><a> for all the functions in SurfStat,
+thanks to </a><a href="http://www.artefact.tk/">Guillaume Flandin</a>'s <a href="http://www.artefact.tk/software/matlab/m2html/">m2html</a>.
+If you want your own copy of this documentation, download it <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/doc.zip">here</a>, unzip the file, and point your web browser to the <code>doc/SurfStat</code> directory.<p>
+
+You can get complete on-line documentation
+about any Matlab function, including the ones in SurfStat,
+by typing <code>help</code> followed by the
+name of the function, e.g.
+</p><xmp>
+help colormap
+help SurfStatReadSurf
+help term
+</xmp>
+or you can <a href="http://www.math.mcgill.ca/keith">email</a> me - I love to get feed-back!
+
+<hr>
+<a name="view"></a>
+<h3>Viewing the data</h3>
+
+There is a FreeSurfer example at the end of this section, but throughout the rest of the web page, we shall analyse 147 subjects from the ICBM data base. The data is stored in <a href="http://wiki.bic.mni.mcgill.ca/index.php/ObjectFiles">MNI object</a> files. The scientific questions are not very exciting, but I have chosen them just to illustrate the ideas:
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#m-f"> Is cortical thickness related to gender?</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#age"> Is cortical thickness related to age?</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#interaction"> Does the age effect depend on gender?</a>
+</li><li><a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#connectivity"> Does cortical thickness show any "functional" connectivity, and does the connectivity  depend on age or gender?</a> <p>
+First let's read in one subject whose id is 100:
+</p><xmp>
+s100 = SurfStatReadSurf( {...
+    'c:/keith/fMRI/ICBM/surfaces/mni_icbm_00100_mid_surface_left_81920.obj',...
+    'c:/keith/fMRI/ICBM/surfaces/mni_icbm_00100_mid_surface_right_81920.obj'} );
+t100 = SurfStatReadData( {...
+    'c:/keith/fMRI/ICBM/thickness/mni_icbm_00100_native_rms_rsl_tlink_20mm_left.txt',...
+    'c:/keith/fMRI/ICBM/thickness/mni_icbm_00100_native_rms_rsl_tlink_20mm_right.txt'} );
+</xmp>
+The first thing you will want to do is to look at the data:
+<xmp>
+SurfStatView( t100, s100, 'Cort Thick (mm), Subj 00100' );
+</xmp>
+<a name="s100"></a>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/subject100.jpg"><img src="./SurfStat_files/tn_subject100.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+and perhaps save this as a .jpg file for publication or PowerPoint:
+</p><xmp>
+saveas( gcf, 'c:/keith/surfstat/figs/subject100.jpg' )
+</xmp>
+You can make the lettering smaller by increasing
+the paper size before saving (maybe there is an easier way!).
+I have set it to 6 × 4.5, but to make the lettering smaller, try
+the Matlab default of 8 × 6:
+<xmp>
+set(gcf,'PaperPosition',[0.25 2.5 8 6])
+saveas( gcf, 'c:/keith/surfstat/figs/subject100.jpg' )
+</xmp>
+You can play with figures quite a bit using the tool bar in the Matlab
+figure window. For example, you can click the "Rotate 3D" button, then
+rotate the images separately, or you can click the "Zoom In" button. The
+"Data Cursor" button allows you to click on a point and pull off the
+x,y,z coordinates, the index number (id) of the point, and its value.<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/subject100rotate.jpg"><img src="./SurfStat_files/tn_subject100rotate.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+The point is marked by the little black and white square in the top centre figure.
+Its id is 66180, so you can type
+</p><xmp>
+>> t100(66180)
+    2.5400
+</xmp>
+to get the value, or to get the x,y,z coordinates:
+<xmp>
+>> s100.coord(:,66180)
+   31.6937
+  -49.7099
+   74.2872
+</xmp>
+Some people prefer a black background:
+<xmp>
+SurfStatView( t100, s100, 'Cort Thick (mm), Subj 00100', 'black' );
+</xmp>
+If you are unhappy with the colour map, then try one of the Matlab alternatives:
+<xmp>
+SurfStatColormap( 'jet' );
+</xmp>
+A common adjustment is the limits on the colour bar, for which there is
+a special function:
+<xmp>
+SurfStatColLim( [3 4] );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/subject100black.jpg"><img src="./SurfStat_files/tn_subject100black.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+For further customizing, see the code of the <code>SurfStatViewData.m</code> function.</p><p>
+
+You may just want to work with one hemisphere:
+</p><xmp>
+s100left = SurfStatReadSurf( ...
+    'c:/keith/fMRI/ICBM/surfaces/mni_icbm_00100_mid_surface_left_81920.obj');
+t100left = SurfStatReadData( ...
+    'c:/keith/fMRI/ICBM/thickness/mni_icbm_00100_native_rms_rsl_tlink_20mm_left.txt' );
+SurfStatView( t100left, s100left, 'Cort Thick (mm), Subj 00100' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/subject100left.jpg"><img src="./SurfStat_files/tn_subject100left.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+
+Finally a FreeSurfer example, courtesy <a href="http://www.biostat.wisc.edu/People/faculty/chung.htm">Moo Chung</a>:
+</p><xmp>
+s = SurfStatReadSurf( {...
+    'c:/keith/surfstat/FreeSurferdata/lh.pial', ...
+    'c:/keith/surfstat/FreeSurferdata/rh.pial'} );
+t = SurfStatReadData( {...
+    'c:/keith/surfstat/FreeSurferdata/lh.thickness', ...
+    'c:/keith/surfstat/FreeSurferdata/rh.thickness'} );
+SurfStatView( t, s, 'Cort Thick (mm), FreeSurfer data' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/FS.jpg"><img src="./SurfStat_files/tn_FS.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+You can check that the FreeSurfer surface has no topological deformities by calculating its Euler characteristic (EC):
+</p><xmp>
+SurfStatResels(s)
+     4
+</xmp>
+The answer is 4, which is what you would get for a pair of spherical surfaces. However there are other non-spherical surfaces with the same EC, so you can only say that if the EC were <i>not</i> 4, then it would <i>not</i> be a pair of spherical surfaces.
+
+<hr>
+<a name="readsurf"></a>
+<h3>Reading the surface data</h3>
+
+First you have to make a list of all the names of the files. I have
+excluded 5 of the 152 subjects because their data was bad or incomplete,
+and written <code>SurfStatListDir.m</code> to list the contents of a directory:
+<xmp>
+excludefiles = [ '00220'; '00338'; '00111'; '00128'; '00137' ];
+filesleft  = SurfStatListDir( 'c:/keith/fMRI/ICBM/surfaces/mni_icbm_00*_mid_surface_left_81920.obj', excludefiles );
+filesright = SurfStatListDir( 'c:/keith/fMRI/ICBM/surfaces/mni_icbm_00*_mid_surface_right_81920.obj', excludefiles );
+filesboth = [ filesleft, filesright ];
+</xmp>
+The only reason you need all the surfaces is to find the average surface:
+<xmp>
+avsurf = SurfStatAvSurf( filesboth );
+SurfStatWriteSurf( 'c:/keith/fmri/icbm/av.obj', avsurf );
+</xmp>
+This takes 2 minutes on my 2-year-old laptop, so instead we shall read it
+in directly:
+<xmp>
+avsurf = SurfStatReadSurf( 'c:/keith/fmri/icbm/av.obj' );
+</xmp>
+Now we need a mask to exclude the inter-hemispheric cut:
+<xmp>
+mask = SurfStatMaskCut( avsurf );
+SurfStatView( mask, avsurf, 'Masked average surface' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/avsurf.jpg"><img src="./SurfStat_files/tn_avsurf.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+You might want to also exclude the brain stem. To do this, I clicked on where I thought the centre of the brain stem was: (0; -16; -8)mm, and I clicked a bit further out to guess the radius: 20mm. Then you can add a ball-shaped ROI to the mask as follows (see <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#roi">ROI</a>):
+</p><xmp>
+mask = mask & SurfStatROI( [0; -16; -8], 20, avsurf ) == 0;
+SurfStatView( maskb, avsurf, 'Masked average surface -brainstem' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/avsurfb.jpg"><img src="./SurfStat_files/tn_avsurfb.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Since I don't really know where the brain stem is, I shall just stick to the first mask in what follows.
+
+
+</p><hr>
+<a name="readthick"></a>
+<h3>Reading the cortical thickness data</h3>
+
+Let's suppose the file names and covariates are in a file similar to what
+we use for <a href="http://wiki.bic.mni.mcgill.ca/index.php/VoxelBasedMorphometryOptimized"><code>glim_image</code></a>, i.e. a text file with fields for the thickness
+file names, and the covariates:
+<xmp>
+sub_1_left.txt  subj_1_right.txt   female  19.6906
+sub_2_left.txt  subj_2_right.txt   female  24.8378
+sub_3_left.txt  subj_3_right.txt   male    29.8617
+sub_4_left.txt  subj_4_right.txt   male    22.7214
+sub_5_left.txt  subj_5_right.txt   male    34.8118
+...
+</xmp>
+This can be read by the standard Matlab <code>textread</code>:
+<xmp>
+[thickfileleft, thickfileright, gender, age] ...
+    = textread( 'c:/keith/fMRI/ICBM/glim.txt', '%s %s %s %f' );
+clf; hist( age ); xlabel('age');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/histage.jpg"><img src="./SurfStat_files/tn_histage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+To read in the actual thickness data from the above files:
+</p><xmp>
+Y=SurfStatReadData( [thickfileleft, thickfileright] );
+</xmp>
+To save memory, this is stored as single precision (4 bytes),
+but all subsequent calculations (except <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#smooth">smoothing</a>) are done
+in double precision (8 bytes).<p>
+Let's take a look at the mean thickness for vertices:
+<a name="FigmeanY"></a>
+</p><xmp>
+meanthick = mean( double( Y ) );
+SurfStatView( meanthick, avsurf, 'Mean thickness (mm), n=147' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/meanthick.jpg"><img src="./SurfStat_files/tn_meanthick.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+We can save this for later:
+</p><xmp>
+save c:/keith/surfstat/data/meanthick meanthick
+</xmp>
+Let's take a look at the mean thickness for subjects:
+<xmp>
+meanthicksubj = mean( double( Y(:, mask) ), 2 );
+SurfStatPlot( age, meanthicksubj );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/meanthicksubjage.jpg"><img src="./SurfStat_files/tn_meanthicksubjage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+As expected, thickness decreases with age. The line looks a bit faint, and the markers are too small. You can change the
+line width and marker size as follows:
+</p><xmp>
+SurfStatPlot( age, meanthicksubj, [], [], 'LineWidth',2, 'MarkerSize',12 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/meanthicksubjage2.jpg"><img src="./SurfStat_files/tn_meanthicksubjage2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+or you can edit the figure by clicking on the "Edit Plot" button (the one with the little arrow) in the Figure toolbar, then double-clicking on the feature you want to edit.</p><p> For gender:
+</p><xmp>
+SurfStatPlot( gender, meanthicksubj );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/meanthicksubjgender.jpg"><img src="./SurfStat_files/tn_meanthicksubjgender.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Males appear to have overall thicker cortex than females.</p><p>
+
+FreeSurfer group registered data is often stored in two <code>.mgh</code> files. In the following example, data on 18 subjects is in two files. To read these in:
+</p><xmp>
+Y = SurfStatReadData( { 'c:/keith/surfstat/FS/mgh/lh.thickness.mgh',...
+    'c:/keith/surfstat/FS/mgh/rh.thickness.mgh' } );
+</xmp>
+<code>Y</code> is an 18 × 327684 matrix of cortical thickness data on the 18 subjects. To read in one of the surfaces:
+<xmp>
+s = SurfStatReadSurf( { 'c:/keith/surfstat/FS/mgh/lh.pial',...
+    'c:/keith/surfstat/FS/mgh/rh.pial' } );
+</xmp>
+and view the average thickness:
+<xmp>
+SurfStatView( mean( Y ), s, 'Mean of 18 registered FS thicknesses');
+</xmp>
+
+
+<hr>
+<a name="PCA"></a>
+<h3>Principal Components Analysis</h3>
+
+Principal Components Analysis is a useful exploratory tool for
+checking the data or discovering connectivity.
+<xmp>
+[ pcntvar, U, V ] = SurfStatPCA( Y, mask );
+pcntvar
+   33.5008    4.0641    3.3371    2.3098
+</xmp>
+The first component is by far the largest, explaining 33.5% of the
+variability of the data.
+<xmp>
+SurfStatView( V(1,:), avsurf, 'First Principal Component, 33.5% variance' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/PCAV1.jpg"><img src="./SurfStat_files/tn_PCAV1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+It looks as if this is a "whole brain" component,
+i.e. the thickness on the entire surface is positively correlated.
+An explanation is that some subjects have overall thick cortex, some
+have overall thin cortex, perhaps due to differences in contrast at
+the grey-white boundary. See <code>SurfStatNorm.m</code> to normalize the
+cortical surface data, either by subtracting or dividing the
+global mean. However before doing this, let's plot the
+subject component against age:
+</p><xmp>
+SurfStatPlot( age, U(:,1) ); title('First Principal Component, 33.5% variance');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/PCAU1.jpg"><img src="./SurfStat_files/tn_PCAU1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The global effect decreases with age; in other words, it could be just an age-related atrophy effect. This makes sense: since the spatial component is
+roughly constant across the brain, then the subject component must be the global average, which we have already <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#readthick">noted</a> decreases with age.</p><p>
+Now let's look at the second component,
+which explains a mere 4.1% of the variability:
+</p><xmp>
+SurfStatView( V(2,:), avsurf, 'Second Principal Component, 4.1% variance' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/PCAV2.jpg"><img src="./SurfStat_files/tn_PCAV2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Plotting the subject component against gender:
+</p><xmp>
+SurfStatPlot( gender, U(:,2) ); title('Second Principal Component, 4.1% variance');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/PCAU2.jpg"><img src="./SurfStat_files/tn_PCAU2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+We note that the second component might be a gender effect. Females score positively on this component, so they have higher
+cortical thickness in the red areas, lower cortical thickness in the blue areas, compared to males.</p><p> Higher order components seem to be more difficult to interpret.
+
+</p><hr>
+<a name="model"></a>
+<h3>Model Formula</h3>
+
+This is the fun bit: specifying the model by a model formula, rather than
+a design matrix. Model formulas were pioneered by
+<a href="http://en.wikipedia.org/wiki/GenStat">GenStat</a> and
+<a href="http://en.wikipedia.org/wiki/GLIM_%28software%29"> GLIM</a>
+in the early 1970's, and are now used in most statistics packages such as
+<a href="http://en.wikipedia.org/wiki/R_%28%20programming_language%29">R</a> and
+<a href="http://en.wikipedia.org/wiki/SAS_System">SAS</a>. To show you the idea, let's cut it down to the first 5 subjects:
+<xmp>
+>> age5 = age(1:5)
+   19.6906
+   24.8378
+   29.8617
+   22.7214
+   34.8118
+>> gender5 = gender(1:5)
+    'female'
+    'female'
+    'male'
+    'male'
+    'male'
+</xmp>
+The idea is to convert variables into a newly defined Matlab class called a <code>term</code>. For the
+technically minded, a <code>term</code> has two components: a matrix, and a cell of strings
+for the names of the columns. The function <code>term.m</code> converts a vector or a
+cell array of strings to a <code>term</code>, which is displayed as follows:
+<xmp>
+>> Age = term( age5 )
+
+  age5
+---------
+  19.6906
+  24.8378
+  29.8617
+  22.7214
+  34.8118
+
+>> Gender = term( gender5 )
+
+  female  male
+--------------
+  1       0
+  1       0
+  0       1
+  0       1
+  0       1
+</xmp>
+<code>double</code> and <code>char</code> convert
+a <code>term</code> back to its matrix and name components.
+The operators <code>+</code>, <code>*</code>, <code>^</code> and <code>-</code> have been redefined (overloaded) for <code>term</code>s
+so that they match the operation of terms in a model formula.
+You now write down a model formula (without the coefficients)
+e.g. a main effect of Age and Gender:
+<xmp>
+>> 1 + Age + Gender
+
+  1  age5     female  male
+--------------------------
+  1  19.6906  1       0
+  1  24.8378  1       0
+  1  29.8617  0       1
+  1  22.7214  0       1
+  1  34.8118  0       1
+</xmp>
+Perhaps you suspect that the age effect depends on gender, i.e. you want
+to add an interaction between Age and Gender;
+<xmp>
+>> 1 + Age + Gender + Age*Gender
+
+  1  age5     female  male  age5*female  age5*male
+---------------------------------------------------------
+  1  19.6906  1       0     19.6906            0
+  1  24.8378  1       0     24.8378            0
+  1  29.8617  0       1           0      29.8617
+  1  22.7214  0       1           0      22.7214
+  1  34.8118  0       1           0      34.8118
+</xmp>
+This could also be written as
+<xmp>
+>> (1 + Age)*(1 + Gender)
+
+  1  age5     female  age5*female  male  age5*male
+---------------------------------------------------------
+  1  19.6906  1       19.6906      0           0
+  1  24.8378  1       24.8378      0           0
+  1  29.8617  0             0      1     29.8617
+  1  22.7214  0             0      1     22.7214
+  1  34.8118  0             0      1     34.8118
+</xmp>
+Perhaps a quadratic effect of Age?
+<xmp>
+>> 1 + Age + Age^2
+
+  1  age5     age5*age5
+------------------------------
+  1  19.6906  387.71973
+  1  24.8378  616.91631
+  1  29.8617  891.72113
+  1  22.7214  516.26202
+  1  34.8118  1211.8614
+</xmp>
+or a cubic Age effect?
+<xmp>
+>> (1 + Age)^3
+
+  1  age5     age5*age5  age5*age5*age5
+----------------------------------------------
+  1  19.6906  387.71973  7634.43408
+  1  24.8378  616.91631  15322.8439
+  1  29.8617  891.72113  26628.3088
+  1  22.7214  516.26202  11730.1958
+  1  34.8118  1211.8614  42187.0774
+</xmp>
+Maybe you don't want a term, such as the constant term
+<xmp>
+>> (1 + Age)^3 - 1
+
+  age5     age5*age5  age5*age5*age5
+------------------------------------
+  19.6906  387.71973  7634.43408
+  24.8378  616.91631  15322.8439
+  29.8617  891.72113  26628.3088
+  22.7214  516.26202  11730.1958
+  34.8118  1211.8614  42187.0774
+</xmp>
+
+<hr>
+<a name="ICBMagain"></a>
+<h3>Fitting the linear model</h3>
+
+
+Back to the full data, let's specify a main effect of age and gender:
+<xmp>
+Age = term( age );
+Gender = term( gender );
+M = 1 + Age + Gender
+
+  1  age      female  male
+---------------------------------
+  1  19.6906  1       0
+  1  24.8378  1       0
+  1  29.8617  0       1
+  1  22.7214  0       1
+  1  34.8118  0       1
+...
+</xmp>
+You can see this as an SPM-style image:
+<xmp>
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/X.jpg"><img src="./SurfStat_files/tn_X.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+(The empty space on the right is reserved for the design matrix for the
+variance of a <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#mixed">mixed effects model</a>.)
+Now let's fit the linear model, saving the results in <code>slm</code>:
+</p><xmp>
+slm = SurfStatLinMod( Y, M, avsurf );
+</xmp>
+In case you are interested, you can see what's in <code>slm</code> by typing
+<xmp>
+>> slm
+       X: [147x4 double]
+      df: 144
+    coef: [4x81924 double]
+     SSE: [1x81924 double]
+     tri: [163840x3 int32]
+    resl: [245760x1 double]
+</xmp>
+<code>slm.X</code> is the design matrix,
+<code>slm.df</code> is the error degrees of freedom, <code>slm.coef</code> is the coefficients, <code>slm.SSE</code> is
+error sum of squares, <code>slm.tri</code> is the list of triangle indices and <code>slm.resl</code> is a function of the resels along each edge.
+Normally you never need to look at any of these things!
+
+<hr>
+<a name="m-f"></a>
+<h3>Main effect for gender</h3>
+
+Let's look at the T statistic for male-female. To set up the contrast,
+we specify it in terms of the <i>observations</i> rather than in
+terms of the coefficients (see <code>help SurfStatT</code> for more information on this):
+<xmp>
+contrast = Gender.male - Gender.female
+    -1
+    -1
+     1
+     1
+     1
+...
+</xmp>
+<code>contrast</code> is a numeric 147 × 1 vector. Note how <code>Gender.male</code> gives you the numeric indicator variable for
+<code>male</code>, i.e. 1 if the observation is <code>male</code>, and 0 otherwise. Then to get the T statistic:
+<xmp>
+slm = SurfStatT( slm, contrast )
+
+       X: [147x4 double]
+      df: 144
+    coef: [4x81924 double]
+     SSE: [1x81924 double]
+     tri: [163840x3 int32]
+    resl: [245760x1 double]
+       c: [7.9797e-017 1.3010e-018 -1.0000 1.0000]
+       k: 1
+      ef: [1x81924 double]
+      sd: [1x81924 double]
+       t: [1x81924 double]
+</xmp>
+The contrast in the columns of the design matrix <i>X</i> is in <code>slm.c</code>. It equals [0 0 -1 1] (to machine accuracy), i.e. column 4 - column 3. <code>slm.k</code> is the number of variates (univariate in this case). Effects are in <code>slm.ef</code>, and their standard deviations (standard
+errors) are in <code>slm.sd</code>.
+The T statistic is in <code>slm.t</code>, and by multiplying it by <code>mask</code>, we set
+all the values outside the mask to zero, which makes it better
+to look at:
+<xmp>
+SurfStatView( slm.t.*mask, avsurf, 'T (144 df) for males-females removing age' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Tm-f.jpg"><img src="./SurfStat_files/tn_Tm-f.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+To find the threshold for P=0.05, corrected, the resels are:
+<a name="thresh"></a>
+</p><xmp>
+resels = SurfStatResels( slm, mask )
+    2.0000   19.6153  578.5045
+stat_threshold( resels, sum(mask), 1, slm.df )
+    4.4259
+</xmp>
+However the best way is to view the P-values for each vertex.
+<xmp>
+[ pval, peak, clus ] = SurfStatP( slm, mask );
+</xmp>
+<code>pval.P</code> contains P-values for peaks, and
+<code>pval.C</code> contains P-values for clusters.
+This special structure is recognised by <code>SurfStatView</code> which draws the figure in a special way:
+<xmp>
+SurfStatView( pval, avsurf, 'Males-females removing age' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Pm-f.jpg"><img src="./SurfStat_files/tn_Pm-f.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Maybe there is something hidden; try inflating the average brain:
+</p><xmp>
+avsurfinfl = SurfStatInflate( avsurf );
+SurfStatView( pval, avsurfinfl, 'Males-females removing age' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Pm-finfl.jpg"><img src="./SurfStat_files/tn_Pm-finfl.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+If you want to inflate it more, try
+</p><xmp>
+avsurfinfl = SurfStatInflate( avsurf, 0.75 );
+</xmp>
+<code>peak</code> and <code>clus</code>
+contain a list of peaks and clusters, together with their P-values, as in <a href="http://www.math.mcgill.ca/keith/fmristat/">
+FmriStat</a>. They can be displayed nicely by converting them to a <code>term</code>:
+<xmp>
+>> term( clus )
+  clusid  nverts  resels     P
+----------------------------------------
+   1       710       8.7714  2.5675e-007
+   2      1460       6.4006  2.5699e-007
+   3       546       5.6912  2.5865e-007
+ ...
+  12       187      0.95521     0.033553
+  13        37      0.93294     0.036895
+  14       102      0.81846     0.060139
+  15       161      0.53477      0.19819
+...
+</xmp>
+There are 13 clusters whose extent is significant at P=0.05.
+The peaks are:
+<xmp>
+>> term( peak )
+  t       vertid  clusid  P
+------------------------------------
+  5.7658  70593    1       0.0002103
+  5.7541  70586    1      0.00022173
+  5.7433  70557    1      0.00023325
+...
+  4.4435  29130    2        0.046866
+  4.4326  75010    4        0.048814
+   4.419  39444    5        0.051243
+  4.4067  39760    3        0.053529
+...
+</xmp>
+Where is the largest peak with id=70593? Here are the x,y,z coordinates in mm
+on the average surface:
+<xmp>
+>> avsurf.coord(:,70593)
+    5.9320
+  -23.6405
+   29.8528
+</xmp>
+If you want all the coordinates in mm added to the table, try this:
+<xmp>
+>> term( peak ) + term( SurfStatInd2Coord( peak.vertid, avsurf )', {'x','y','z'})
+  t       vertid  clusid  P           x         y          z
+--------------------------------------------------------------------
+  5.7658  70593    1       0.0002103   5.93198   -23.6405    29.8528
+  5.7541  70586    1      0.00022173   5.52406   -19.2547    30.3012
+  5.7433  70557    1      0.00023325   4.73798   -12.3197    30.9665
+...
+  4.4435  29130    2        0.046866  -1.34981   -8.22836    27.8238
+  4.4326  75010    4        0.048814   30.8152   -77.5804    25.1885
+   4.419  39444    5        0.051243  -16.2635   -82.7056   -12.8587
+  4.4067  39760    3         0.05353  -20.5747   -36.3622    1.15415
+...
+</xmp>
+How does the data look at the largest peak? Here's a plot against gender, adjusting for age:
+<xmp>
+SurfStatPlot( gender, Y( :, 70593 ), age );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Yga.jpg"><img src="./SurfStat_files/tn_Yga.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Note that the the F statistic on the plot is the square of the maximum T statistic for the contrast, i.e. 33.24 = 5.7658^2. F statistics with one degree of freedom always equal the square of T statistics. Moreover the P-values are also the same, i.e. the P-value of the F is the P-value of the 2-sided T (equal to twice the P-value of the one-sided T).</p><p>
+
+Finally, Q values or False Discovery Rate:
+</p><xmp>
+qval = SurfStatQ( slm, mask );
+SurfStatView( qval, avsurf, 'Males-females removing age' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Qm-f.jpg"><img src="./SurfStat_files/tn_Qm-f.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Recall that:
+</p></li><li> RFT controls the probability of <i>ever</i> finding a false positive
+     - you will <i>never</i> report a false positive, 19 times out of 20.
+</li><li> FDR controls the <i>proportion</i> of false positives amongst your discoveries
+      - you will <i>always</i> report false positives, but not too many (1/20).
+<p>
+</p></li><li> RFT is useful for <i>confirmation</i> (e.g. scientific publication)
+      - you want to be sure that <i>all</i> your discoveries are real.
+</li><li> FDR is useful for <i>exploration</i> (e.g. drug discovery: costs are in $$$)
+     - you want to make discoveries, but not too many bad ones.
+
+
+<hr>
+<a name="age"></a>
+<h3>Main effect for age</h3>
+
+Now try T statistics for a negative effect of age on cortical thickness:
+<xmp>
+slm = SurfStatT( slm, -age );
+SurfStatView( slm.t.*mask, avsurf, 'T (144 df) for -age removing gender' );
+</xmp>
+<a name="T"></a>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Tage.jpg"><img src="./SurfStat_files/tn_Tage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Let's try to click on the maximum T statistic with the "Data Cursor" button. I can't hit it exactly - the cursor is
+just to the right of the mask in the middle right figure. To find the id try:
+</p><xmp>
+>> find( slm.t == max( slm.t ) )
+      81887
+</xmp>
+To plot the cortical thickness at this point against age, adjusting for gender:
+<xmp>
+Yseed = double( Y(:,81887) );
+SurfStatPlot( age, Yseed, gender );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/seedage.jpg"><img src="./SurfStat_files/tn_seedage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+P and Q-values, in one line:
+<a name="FigP"></a>
+</p><xmp>
+SurfStatView( SurfStatP( slm, mask ), avsurf, '-Age removing gender' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Page.jpg"><img src="./SurfStat_files/tn_Page.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Only clusters are significant, and not peaks. This suggests that
+the age effect covers large regions, rather than local foci. This
+agrees with our conclusion above that there is age-related atrophy
+right across the brain. FDR tells the same story:
+</p><xmp>
+SurfStatView( SurfStatQ( slm, mask ), avsurf, '-Age removing gender' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Qage.jpg"><img src="./SurfStat_files/tn_Qage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+
+</p><hr>
+<a name="interaction"></a>
+<h3>Interaction</h3>
+
+Is the age effect the same for males and females?
+Test for an interaction between Age and Gender:
+<xmp>
+slm = SurfStatLinMod( Y, 1 + Age + Gender + Age*Gender, avsurf );
+slm = SurfStatT( slm, age.*Gender.male - age.*Gender.female );
+SurfStatView( slm.t.*mask, avsurf, 'T (143 df) for age*(male-female)' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Tagem-f.jpg"><img src="./SurfStat_files/tn_Tagem-f.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Nothing doing here. Nevertheless, let's take a look at what is happening at the seed point. Here's a plot of <code>Yseed</code> against <code>age</code> with two separate lines for each <code>gender</code>:
+</p><xmp>
+SurfStatPlot( age, Yseed, 1, gender );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/seedagegen.jpg"><img src="./SurfStat_files/tn_seedagegen.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+As before, a negative effect of age (atrophy), but little difference in slope between the two genders.
+
+
+</p><hr>
+<a name="F"></a>
+<h3>F statistics</h3>
+
+F statistics are obtained by comparing nested models.
+For example, let's compare the above model with interaction to the null model
+with just a constant, which can be fitted without bothering with the surface in the third argument:
+<xmp>
+slm0 = SurfStatLinMod( Y, 1 );
+slm = SurfStatF( slm, slm0 );
+SurfStatView( slm.t.*mask, avsurf, 'F statistic, 3,143 df' );
+</xmp>
+F statistics are in <code>slm.t</code>, and their degrees of freedom are in <code>slm.df</code>=[3 143]. <p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Fagemf.jpg"><img src="./SurfStat_files/tn_Fagemf.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+The P and Q values are calculated using the same functions. The software knows that <code>slm.t</code> is an F statistic, rather than a T statistic, because
+an F statistic has two degrees of freedom:
+</p><xmp>
+SurfStatView( SurfStatP( slm, mask ), avsurf, 'F statistic, 3,143 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Pagemf.jpg"><img src="./SurfStat_files/tn_Pagemf.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+</p><xmp>
+SurfStatView( SurfStatQ( slm, mask ), avsurf, 'F statistic, 3,143 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Qagemf.jpg"><img src="./SurfStat_files/tn_Qagemf.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+
+
+</p><hr>
+<a name="connectivity"></a>
+<h3>Connectivity</h3>
+
+Let's take the seed as the peak of the age effect above. It is located
+just to the right of the mask in the middle right figure. Is
+the cortical thickness at this point correlated with the rest of
+the cortical surface, allowing for an effect of age and gender?
+<xmp>
+slm = SurfStatLinMod( Y, 1 + Age + Gender + term(Yseed), avsurf );
+slm = SurfStatT( slm, Yseed );
+SurfStatView( slm.t.*mask, avsurf, 'Connectivity' );
+SurfStatColLim( [0 5] );
+</xmp>
+Of course the T statistic is infinite at the seed itself,
+so we needed to reset the colour limits:<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/C.jpg"><img src="./SurfStat_files/tn_C.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+A large part of the brain is correlated with the seed. However
+I would claim that pure connectivity as above is of little scientific interest.
+A more interesting question is how the connectivity
+changes with say gender. To answer this, add an interaction between seed
+and the rest of the model, then look at the interaction between
+seed and gender:
+</p><xmp>
+slm = SurfStatLinMod( Y, ( 1 + Age + Gender )*( 1 + term(Yseed) ), avsurf );
+slm = SurfStatT( slm, Yseed.*Gender.female - Yseed.*Gender.male );
+SurfStatView( slm.t.*mask, avsurf, 'Female connectivity - male connectivity' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Cm-f.jpg"><img src="./SurfStat_files/tn_Cm-f.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+There is really no evidence for a gender effect on connectivity. Nevertheless, let's take a look at the most significant peak at <code>id=3698</code> tucked inside the left temproal lobe. The T statistic is <code>slm.t(3698)=3.7024</code>. To see how the connectivity differs between genders, here's a plot of the data <code>Y3698</code> at that point. The data is adjusted for <code>Age</code> and its interaction with <code>Yseed</code>, and plotted against <code>Yseed</code> for each gender:
+</p><xmp>
+Y3698 = Y( :, 3698 );
+M = ( 1 + Age )*( 1 + term(Yseed) );
+SurfStatPlot( Yseed, Y3698, M, gender);
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/YseedC.jpg"><img src="./SurfStat_files/tn_YseedC.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+As you can see, the connectivity is more in females than males, which is why the T statistic was positive. The F statistic is <code>13.71=3.7024^2</code> as expected.</p><p>
+
+How does the connectivity change with age?
+</p><xmp>
+slm = SurfStatT( slm, Yseed.*age );
+SurfStatView( slm.t.*mask, avsurf, 'Age effect on connectivity' );
+SurfStatColLim( [-5 5] );
+</xmp>
+Again there were some spurious large values in the vicinity of the
+seed, so we had to reset the colour limits:<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Cage.jpg"><img src="./SurfStat_files/tn_Cage.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+This looks more promising; for confirmation:
+</p><xmp>
+SurfStatView( SurfStatP( slm, mask ), avsurf, 'Age effect on connectivity' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/PCage.jpg"><img src="./SurfStat_files/tn_PCage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+This time there is one small significant cluster where
+connectivity increases with age ... or maybe this is just the
+1 time out of 20 when we expect to see a false positive!</p><p>
+Unfortunately there is no easy way to make a plot that show the effect of an interaction between two continuous variables (here <code>Yseed</code> and <code>age</code>).
+
+</p><hr>
+<a name="roi"></a>
+<h3>ROI analysis</h3>
+
+If you have a surface atlas handy, you can read in a mask for an ROI just like thickness data, but taking the values 1 inside the ROI and 0 outside. If you have a volumetric atlas handy, see <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#v2s">below</a>. If you don't have an atlas handy, you can make a circular ROI centred at a point, as follows. You specify the centre either as <code>[x; y; z]</code> coordinates or by a vertex id. For example, one of our users was interested in a region in the top right figure. We clicked on the centre and found the <code>id</code>=53815. To make the ROI with a radius of 10mm:
+<xmp>
+id = 53815;
+maskROI = SurfStatROI( id, 10, avsurf );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/ROI.jpg"><img src="./SurfStat_files/tn_ROI.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The region shows up as white in the top right figure, just behind the temporal lobe. </p><p>
+
+You could also make an ROI from a cluster. Let's take the clusters of the T statistic for age in the model <code>M = Age + Gender</code>. The variable <code>clusid</code> contains the cluster id's for each vertex, obtained by adding a fourth output argument to <code>SurfStatP</code>:
+</p><xmp>
+slm = SurfStatT( SurfStatLinMod( Y, 1 + Age + Gender, avsurf ), -age );
+[ pval, peak, clus, clusid ] = SurfStatP( slm, mask );
+SurfStatView( pval, avsurf );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/ROIcluster.jpg"><img src="./SurfStat_files/tn_ROIcluster.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+(The Figure is the same as <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#FigP">before</a>.)
+Suppose we want to make an ROI from the dark blue cluster. First click on any point in the cluster, find its <code>id</code>=27805 (its P-value is 0.016783), then
+</p><xmp>
+clusid( 27805 )
+    10
+</xmp>
+is its cluster id number (10). We can now make an ROI out of cluster 10:
+<xmp>
+maskROI = clusid == clusid( 27805 );
+</xmp>
+By adding a third argument to <code>SurfStatP</code> (see <code>help SurfStatP</code>) you can change the threshold for defining clusters to any arbitrary value; by default it is the uncorrected P=0.001 threshold.<p>
+
+You can find clusters for any (non-statistical) image using <code>SurfStatPeakClus</code>, as follows. Suppose we want to form an ROI from the mean thickness, as <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#FigmeanY">here</a>. First make a structure, say <code>s</code>, with two fields <code>t</code> containing the data, and <code>tri</code> containing the triangles (<code>s</code> is arbitrary, but you must use <code>t</code> and <code>tri</code> as fields):
+</p><xmp>
+s.t = mean(Y);
+s.tri = avsurf.tri;
+[ peak, clus, clusid ] = SurfStatPeakClus( s, mask, 4 );
+SurfStatView( clusid, avsurf, 'Mean thickness (mm) > 4' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/ROImeanY.jpg"><img src="./SurfStat_files/tn_ROImeanY.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The figure shows the cluster id's (by coincidence there are four clusters). To make an ROI out of the green cluster (<code>clusid</code>=2, read from the colour bar in the figure):
+</p><xmp>
+maskROI = clusid == 2;
+</xmp>
+
+ROI's can be combined using the Matlab logical operations. Suppose you had two ROI's
+<code>maskROI1</code> and <code>maskROI2</code>.
+Using the Matlab "or" operator <code>|</code>, their union is
+<xmp>
+maskROI = maskROI1 | maskROI2;
+</xmp>
+To get their intersection, use the "and" operator <code>&amp;</code>.<p>
+
+Going back to the linear model with age and gender, we can
+find the resels of the first ROI:
+</p><xmp>
+slm = SurfStatLinMod( Y, 1 + Age + Gender, avsurf );
+reselsROI = SurfStatResels( slm, maskROI )
+    1.0000    5.7081    4.6337
+</xmp>
+Note that the first component is 1, which is the Euler Characteristic, suggesting that
+our ROI is a single connected region and does not contain any fragments or holes.
+If we wanted to search for peaks within the ROI (not likely since it is so small!) we should use a T statistic P=0.05 threshold of 3.0254:
+<xmp>
+stat_threshold( reselsROI, sum(maskROI), 1, slm.df)
+    3.0254
+</xmp>
+Usually we want to average the data within the ROI and analyze that:
+<xmp>
+YROI = mean( Y(:, maskROI), 2 );
+</xmp>
+This will give you a vector of the average thickness inside the ROI.
+To plot it against age, adjusting for gender:
+<xmp>
+SurfStatPlot( age, YROI, gender );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/ROIage.jpg"><img src="./SurfStat_files/tn_ROIage.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+<code>YROI</code> can be treated exactly like <code>Y</code>
+itself, but without specifying the surface, e.g.
+</p><xmp>
+slmROI = SurfStatLinMod( YROI, 1 + Age + Gender );
+slmROI = SurfStatT( slmROI, -age )
+       X: [147x4 double]
+      df: 144
+    coef: [4x1 double]
+     SSE: 14.3026
+      ef: 0.0159
+      sd: 0.0054
+       t: 2.9428
+</xmp>
+Obviously FDR is irrelevant, but to get P-values
+use
+<xmp>
+SurfStatP( slmROI )
+    P: 0.0019
+</xmp>
+You could also get F statistics in the usual way:
+<xmp>
+slmROI = SurfStatF( slmROI, slm0ROI )
+SurfStatP( slmROI )
+</xmp>
+
+
+<hr>
+<a name="v2s"></a>
+<h3>Volume to surface and vice-versa</h3>
+
+Most brain imaging data, such as atlases, are volumetric, so we need a handy way to get volumetric data onto surfaces. To do this we interpolate the volume onto the surface of each subject, then average. Unfortunately reading and writing volume data is messy, because it comes in so many different formats. Readers and writers are provided for MINC (<code>.mnc</code>), ANALYZE (<code>.img</code>), NIFTI (<code>.nii</code>) or AFNI (<code>.brik</code>) format. All the matlab functions for ANALYZE (<code>.img</code>) and NIFTI (<code>.nii</code>) are included with SurfStat. If you are using AFNI (<code>.brik</code>) formatted files, you will need to install the <a href="http://afni.nimh.nih.gov/afni/matlab">AFNI Matlab Library</a> and set the matlab path as <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#install">here</a>.<p>
+
+If you are using MINC (<code>.mnc</code>) formatted files you will need the extra tools in the
+<a href="http://www.bic.mni.mcgill.ca/software/emma">emma</a> toolbox also available for
+<a href="http://www.bic.mni.mcgill.ca/users/bert/emma-0.9.7-win32.zip"> Windows</a> and <a href="http://www.bic.mni.mcgill.ca/users/bert/emma-0.9.7-linux.tar.gz"> Linux</a>.
+Installing the Windows and Linux versions is a bit tricky.
+In the zipped file that you download, there are <code>.dll</code> files and <code>.exe</code> files -
+these must be moved to a directory in the operating system path, e.g. the <code>matlab/bin/win32</code> directory.
+Also you must create a directory <code>c:/tmp</code> or <code>/tmp</code> for
+emma to use as scratch space. Finally you must set the matlab path to the emma directory, as <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#install">here</a>. To test it out, see if you can read the MINC template file
+supplied with SurfStat:
+</p><xmp>
+fid = fopen( 'icbm_template_2.00mm.mnc' )
+template = fopen( fid )
+fclose( fid )
+vol = SurfStatReadVol1( template )
+</xmp>
+A common error at this stage is forgetting to move the <code>.dll</code> files and <code>.exe</code> files into the path of the operating system. If you don't get any red error messages, it has worked! Now check to see if you can write
+a MINC file:
+<xmp>
+vol.file_name = 'test.mnc';
+SurfStatWriteVol1( vol )
+</xmp>
+A common error at this stage is forgetting to make the <code>c:/tmp</code> or <code>/tmp</code> directories. Again if there are no red warning messages, you should have written a MINC file called <code>test.mnc</code> in your working directory (it will just contain zeros). Congratulations!<p>
+
+Now we are ready for the real thing. First read in your volumetric data from <code>c:/keith/surfstat/myfile.mnc</code>:
+</p><xmp>
+vol = SurfStatReadVol1( 'c:/keith/surfstat/myfile.mnc' );
+</xmp>
+Once that is done, we then read in all the surface data (this takes a few minutes):
+<xmp>
+surfs = SurfStatReadSurf( filesboth );
+</xmp>
+To interpolate the volume to the surface:
+<xmp>
+s = SurfStatVol2Surf( vol, surfs );
+SurfStatView( s, avsurf );
+</xmp>
+
+To do the reverse, and interpolate the surface data in <code>s</code> to a volume <code>vol2</code>, then write it to <code>c:/keith/surfstat/myfile2.mnc</code>:
+<xmp>
+vol2 = SurfStatSurf2Vol( s, surf);
+vol2.file_name = 'c:/keith/surfstat/myfile2.mnc';
+SurfStatWriteVol1( vol2 );
+</xmp>
+It is instructive to view the two files <code>c:/keith/surfstat/myfile.mnc</code> and <code>c:/keith/surfstat/myfile2.mnc</code> side by side. If you are using MINC files, then <code>register</code> is convenient (go <a href="http://www.bic.mni.mcgill.ca/users/fmorales/register.zip">here</a> for a Windows version). You can call it up from within Matlab as follows:
+<xmp>
+!"C:\Program Files\MATLAB\R2007b\toolbox\local\emma\register.exe" -rgb c:/keith/surfstat/myfile.mnc c:/keith/surfstat/myfile2.mnc &
+</xmp>
+You will see that <code>c:/keith/surfstat/myfile2.mnc</code> has chunks of data missing in places where there are no cortical surfaces. Also you will notice that <code>c:/keith/surfstat/myfile2.mnc</code> is a lot smoother looking than the original <code>c:/keith/surfstat/myfile.mnc</code> because the surfaces that it interpolates onto are all different. The different surfaces have the effect of blurring the data. <p>
+
+</p><hr>
+<a name="mixed"></a>
+<h3>Mixed effects, a.k.a. longitudinal data, a.k.a. repeated measures</h3>
+
+Mixed effects models are used when the observations are not independent with equal variances. This happens when there is longitudinal data or repeated measurements on a subject, which tend to be positively correlated, or when there are different variances for different groups of subjects. Both can be handled by mixed effects models. The simplest case is when the data set consists of subjects each with several measurements. The data set just analysed only has one measurement per subject, so there is no need for a mixed effects analysis. So to illustrate the methods, I shall create a fake data set. I shall pretend that all subjects with the same age (in years) and gender are the same "Subject" (never do this in real life!). The result is 35 "Subjects" with indices as follows (I have sorted the data by age within gender, so that the output looks nicer):
+<xmp>
+[ u, i, subj ] = unique( [ floor( age ) Gender.male ], 'rows' );
+num2str(subj')
+2   2   2   2   2   2   2   2   4   4   4   4   4   4   6   6   6
+6   6   6   6   8   8   8   8   8   8   8  10  10  10  10  10  12
+12  12  12  12  12  14  14  14  14  14  14  14  16  16  16  18  18
+18  20  20  22  22  22  24  24  24  27  27  33  34   1   1   1   1
+1   3   3   3   3   3   5   5   5   7   7   7   7   7   9   9   9
+9   9  11  11  11  11  11  11  13  13  13  13  13  13  13  13  13
+13  15  15  15  15  17  17  17  17  17  17  19  19  19  19  19  21
+21  21  21  23  23  23  23  23  23  23  25  25  25  25  25  25  25
+26  26  28  29  29  30  30  31  32  32  35
+Subj = term( var2fac( subj ) );
+</xmp>
+The last line converts <code>subj</code> to a cell array of strings, then to a term. What can we do with <code>Subj</code>? There are three choices; the first one is to ignore <code>Subj</code>, as <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#ICBMagain">above</a>:
+<xmp>
+M1 = 1 + Age + Gender;
+image( M1 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/M1.jpg"><img src="./SurfStat_files/tn_M1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Suppose in fact there are correlations between observations on the same subject. Then coefficients of fixed effects (<code>Age</code> and <code>Gender</code>) are still unbiased but less precise. But most importantly, their estimated standard deviations are biased (usually too small), so that the resulting T statistics are wrong (usually too big). One possibiility is to allow for <code>Subj</code> as a fixed effect:
+</p><xmp>
+M2= 1 + Age + Gender + Subj;
+image( M2 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/M2.jpg"><img src="./SurfStat_files/tn_M2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+(The image is a horrible mess because the 35 <code>Subj</code> indicators dominate.) This model also gives unbiased estimates of fixed effects (<code>Age</code> and <code>Gender</code>), but again they are less precise. The reason is that by allowing for a fixed effect of <code>Subj</code>, all our inference comes from differences <i>within</i> a subject. We are throwing away information from age or gender differences <i>between</i> subjects. In particular, we are throwing away any subject with just one observation, i.e. the 5 subjects (#28, 31, 33, 34, 35). We are only using age information within a subject. It is as if all subjects had the same age (in years).</p><p>
+
+Age effects are only inferred from the monthly effect within each subject, and information about age effects between subjects is lost. Nevertheless, inference about the age effects that remain are valid even if the observations within a subject are equally correlated. In other words, the estimated standard deviation of the age effects are unbiased, and T statistics have the correct null distribution. This analysis is better than <code>M1</code>, at least for age.</p><p>
+
+However it is a disaster for gender: it is now impossible to estimate gender, because gender only varies between subjects, and we have just removed a subject effect!.</p><p>
+
+The solution is to try a mixed effects model:
+</p><xmp>
+M3 = 1 + Age + Gender + random( Subj );
+image( M3 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/M3.jpg"><img src="./SurfStat_files/tn_M3.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Here we have made <code>Subj</code> into a random effect, meaning that its coefficients are independent Gaussian random variables. This induces equal correlations between observations on the same subject. On the right you will see the model for the variance of the observations. We have forgotten to add the identity matrix <code>I</code> to allow for independent "white" noise in every observation (this is added by default to any fixed effect model, but it must be specifically added to a mixed effects model):
+</p><xmp>
+M3 = 1 + Age + Gender + random( Subj ) + I;
+image( M3 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/M3I.jpg"><img src="./SurfStat_files/tn_M3I.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The variance is now a linear model with two "variables", a matrix with 1's in each subject, plus the identity matrix with 1's down the diagonal. This mixed effects model <code>M3</code> lies somewhere between the two fixed effects models <code>M1</code> and <code>M2</code>. In <code>M3</code>, if the variance of <code>random( Subj )</code> is 0, you get <code>M1</code>; if the variance of <code>random( Subj )</code> is infinite, you get <code>M2</code>. Model <code>M3</code> estimates a variance in between.
+You might be curious to know that if the design is balanced then inference about the age effect is the same in <code>M2</code> as in <code>M3</code>. A balanced design has the same number of observations at the same time instants (e.g. at ages 21.0, 21.5, 21.75 years) on each subject.</p><p>
+
+The rest of the analysis proceeds as before. <code>SurfStatLinMod</code> fits model <code>M3</code> by first fitting <code>M1</code>. It then uses the residuals to estimate the variance model by <a href="http://en.wikipedia.org/wiki/Reml">ReML</a>. The fixed effects and the overall variance are re-estimated, again by <a href="http://en.wikipedia.org/wiki/Reml">ReML</a>. Thus all parameter estimates are approximately unbiased. If this procedure were iterated, it would converge to the <a href="http://en.wikipedia.org/wiki/Reml">ReML</a> estimates, but this takes much more time, and the resulting estimates are not much different. If you are worried about this, you should use Jason Lerch's
+<a href="http://wiki.bic.mni.mcgill.ca/index.php/ThicknessStatistics">Thickness Statistics</a> which calls <a href="http://en.wikipedia.org/wiki/R_%28%20programming_language%29">R</a>'s <a href="http://cran.r-project.org/web/packages/nlme/index.html"><code>nlme</code></a>, but it is much more time consuming (up to 1 day per fit!). <a href="http://cran.r-project.org/web/packages/nlme/index.html"><code>nlme</code></a> will also fit more elaborate models such as an AR(p) time-series model for the correlation structure, which is not implemented in SurfStat.</p><p>
+Here we go:
+</p><xmp>
+slm = SurfStatLinMod( Y, M3, avsurf )
+SurfStatView( slm.r.*mask, avsurf, 'Correlation within subject' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Rmix.jpg"><img src="./SurfStat_files/tn_Rmix.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+<code>slm.r</code> contains the estimated correlation within subjects. It is clamped to a minimum of a small positive number to avoid a non-positive definite variance matrix. Most of the image is in fact clamped, indicating no correlations within "subjects". This is what we expect, since the "subjects" are fake. The results for a negative age effect (atrophy) are:
+</p><xmp>
+slm = SurfStatT( slm, -age )
+mean( slm.dfs( find(mask) ) )
+   54.9440
+SurfStatView( slm.t.*mask, avsurf, 'T stat for -age, 54.9 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Tagemix.jpg"><img src="./SurfStat_files/tn_Tagemix.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The first thing to note is that the degrees of freedom is not equal to #observations - #variables = 147 - 3 = 144 as for <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#T"><code>M1</code></a>. It is not even an integer. It is a non-integer <i>effective</i> degrees of freedom that varies spatially (since the variance model varies spatially), and is available in <code>slm.dfs</code>. Its average inside the mask is 54.9, and this is used for the P-value calculations (not shown). For a gender effect:
+</p><xmp>
+slm = SurfStatT( slm, Gender.male - Gender.female )
+mean( slm.dfs( find(mask) ) )
+   25.3734
+SurfStatView( slm.t.*mask, avsurf, 'T stat for male-female, 25.4 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Tmfmix.jpg"><img src="./SurfStat_files/tn_Tmfmix.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Note that you get different degrees of freedom for different contrasts, unlike for <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#T"><code>M1</code></a>. Now the degrees of freedom is less. Why? Essentially because gender is estimated between subjects, and there are only 35 subjects, so the degrees of freedom has to be less than 35.</p><p>
+More elaborate models are possible. It is common practice to assume that the interaction between a fixed effect and a random effect is also random. In the case of age, this allows for a random age slope for different subjects. The test for the age main effect still makes sense: it is testing to see if the mean of these random slopes is different from 0. To do this:
+</p><xmp>
+M = 1 + Age + Gender + random(Subj) + Age*random(Subj) + I;
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/MA1.jpg"><img src="./SurfStat_files/tn_MA1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+It turns out that this model is not appropriate because it is not invariant to a rescaling of age. If for instance we measured age from a baseline of (say) 18 years, then the fitted model would be different. To overcome this, we need to allow for a covariance between the random age-subject interaction and the random subject main effect, which can be written in two identical ways:
+</p><xmp>
+M = 1 + Age + Gender + ( 1 + Age )*random(Subj) + I;
+M = Gender + ( 1 + Age )*( 1 + random(Subj) ) + I;
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/MA2.jpg"><img src="./SurfStat_files/tn_MA2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now there are two extra components that allow for the covariance. As a result, fitting takes a little longer:
+</p><xmp>
+slm = SurfStatT( slm, -age )
+mean( slm.dfs( find(mask) ) )
+   12.6669
+SurfStatView( slm.t.*mask, avsurf, 'T stat for -age, 12.7 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/Tagesubjmix.jpg"><img src="./SurfStat_files/tn_Tagesubjmix.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The df has gone down from 54.9 to 12.7. The reason is that if we assume that there is a different age slope for each subject, then the age sd is now estimated between the 30 subjects with at least two observations, so the age sd has to have less than 30 degrees of freedom. The 30 is reduced even more, since more weight is put on the few subjects with larger numbers of observations. In general, you lose degrees of freedom as the variance model becomes more elaborate, which means you lose sensitivity to detect effects. </p><p>
+
+So my advice is to stick to simple models, such as <code>M3</code>, unless there is strong evidence to the contrary. You might be curious to know that <a href="http://www.math.mcgill.ca/keith/fmristat/">
+FmriStat</a> (and all the other common packages such as SPM and FSL) do in fact allow for an interaction between fixed effects and random effects. This is implemented by finding one slope per subject, throwing the rest of the data away, then combining the slopes in another linear model. The reason why it is appropriate for fMRI data is that the number of repeated measures in an fMRI time series is huge (100-200) compared to the number of repeated measures here (1-10). This means that sd's can be estimated very accurately within subjects, there is no need to pool sd information between subjects, and so no need for a complex mixed effects model.</p><p>
+
+Finally, it is possible to do <a href="http://en.wikipedia.org/wiki/Welch&#39;s_t_test">Welch's T test</a>, which tests for a difference in group means allowing for a difference in variance. For example, to test for a difference in gender, allowing for different variances for males and females, but ignoring age and subject,
+</p><xmp>
+M = 1 + Gender + Gender * I;
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/MG.jpg"><img src="./SurfStat_files/tn_MG.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Actually the model is over-parameterized. To reduce the model by eliminating redundant variables both for mean and variance:
+</p><xmp>
+M = redmod ( M );
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/MGr.jpg"><img src="./SurfStat_files/tn_MGr.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now it is clearer what is going on: there is a separate mean for males and females, and a separate variance for males and females. The effective degrees of freedom is 137.3, down slightly from the 147 - 2 = 145 without allowing for separate variances, which is the price you pay for allowing for separate variances. </p><p>
+
+The most general model would be to interact all fixed effects with all random effects:
+</p><xmp>
+M = redmod( ( 1 + Age + Gender )*( 1 + random( Subj ) ) + I );
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/MM.jpg"><img src="./SurfStat_files/tn_MM.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Apart from taking a long time to fit, such a model leaves too little degrees of freedom to make any useful inference.</p><p>
+
+So far only T tests for univariate mixed effects models are implemented - F tests and multivariate mixed effects models are yet to come.</p><p>
+
+<font color="red">A final note of caution:</font> the methods used to fit mixed effects models are only approximate. Convergence is not guaranteed. The way in which the model is forced to have a positive definite variance matrix restricts the types of correlation structures. The method is not completely invariant to a linear re-parameterization, even if fixed effects terms are added before crossing with a random effect as recommended above. However the algorithm will give <i>exact</i> results for a single random effect if the design is balanced. It will also give <i>exact</i> results for Welch's test even if the grouping factor has more than one group. In general it will give good results whenever there is just one additive random effect, such as <code>random(Subj)</code>, so my suggestion is to stick to that.
+
+
+
+
+</p><hr>
+<a name="map"></a>
+<h3>Memory mapping</h3>
+
+This section can be skipped unless you are curious about what happens "under the hood". For most purposes, you will not need to know what memory mapping is, or how it works, or even when it is being used, because all <code>SurfStat</code> functions handle memory mapping without you knowing. However there might be occasions when you need to know where your data is really stored, in which case, read on.<p>
+
+When the amount of data is big, it can exceed the available memory. In this case, the three functions that read data (<code>SurfStatReadSurf</code>, <code>SurfStatReadData</code>, <code>SurfStatReadVol</code>) all resort to memory mapping instead of reading the data into memory. Memory mapping is invoked if the total storage exceeds 64Mb of memory. You can change this memory limit to e.g. 128MB by issuing the following command:
+</p><xmp>
+global MAXMEM; MAXMEM=128;
+</xmp>
+or by adding an extra argument - see the <code>help</code> for the reader.<p>
+
+Memory mapping works as follows. The data is first written to a temporary file as 4 byte reals. The temporary file is in a directory <code>SurfStat</code> in the same directory as the first file to be read in. This directory will be created if it doesn't exist already. If it can't be created because you don't have permission, then an error message will be produced prompting you to supply a directory where you do have permission to write. <font color="red">Note that neither the temporary file, nor the temporary directory, are ever deleted. To avoid wasted disk space, you should delete these files after you have quit Matlab.</font></p><p>
+
+Then the output parameter of the reader, say <code>Y</code>, is a special structure that contains information on the name of the file where the data is stored, the format, and the dimensions of the data array (see below for an example). You can access the data by:
+</p><xmp>
+Y.Data(1).Data
+</xmp>
+If the data is 2D, then this is a an array of dimensions (#vertices × #data files). If the data is 3D, then this is a an array of dimensions (#vertices × #components or coordinates × #data files). For example, to access 2D data at vertex 1000, files 5 to 20, use:
+<xmp>
+Y.Data(1).Data( 1000, 5:20 )
+</xmp>
+To access 3D data at vertices 100, 200, 400, all components, and file 6 use:
+<xmp>
+Y.Data(1).Data( [100 200 400], :, 6 )
+</xmp>
+You can treat this exactly like an ordinary variable; you can for instance copy the data to a variable:
+<xmp>
+Y1 = Y.Data(1).Data( 1000, 5:20 )
+</xmp>
+or write a variable to the memory mapped data:
+<xmp>
+Y.Data(1).Data( [100 200 400], :, 6 ) = Y2
+</xmp>
+All the <code>SurfStat</code> functions will handle memory mapped data where appropriate.<p>
+
+As an example of memory mapping, we shall analyze the trivariate coordinates of the surfaces
+themselves. We shall see if coordinates depend on age allowing for a difference in coordinates between males and females. First we must read in all the surface data (this takes a few minutes):
+</p><xmp>
+surfs = SurfStatReadSurf( filesboth );
+</xmp>
+Since the amount of data 147 × 81924 × 3 × 4 = 138Mb exceeds the limit of 64Mb, then the data is memory mapped rather than read into memory. In the case of <code>SurfStatReadSurf</code>, only <code>surfs.coord</code> is memory mapped, and <code>surfs.tri</code> is read into memory in the usual way. To see this, type:
+<xmp>
+>> surfs
+      tri: [163840x3 int32]
+    coord: [1x1 memmapfile]
+</xmp>
+Investigating further:
+<xmp>
+>> surfs.coord
+    Filename: 'c:\keith\fMRI\ICBM\surfaces\SurfStat\tp95705ccb_c494_43e5_991a_fed16698f279'
+    Writable: true
+      Offset: 0
+      Format: {'single' [81924 3 147] 'Data'}
+      Repeat: Inf
+        Data: 1x1 struct array with fields:
+             Data
+</xmp>
+<code>Filename</code> is the memory mapped file. It is mapped as a 81924 × 3 × 147 single precision array. To access all the coordinates of vertex 1000 on subjects 20 and 25:
+<xmp>
+>> surfs.coord.Data(1).Data( 1000, :, [20 25] )
+   -2.8642   16.7308   -4.1040
+   -0.6023   19.9366   -4.6526
+</xmp>
+To view the surface of subject 15:
+<xmp>
+test.coord = surfs.coord.Data(1).Data( :, :, 15 )';
+test.tri = surfs.tri;
+SurfStatView( [], test, 'Subj 1000' );
+</xmp>
+
+
+<hr>
+<a name="smooth"></a>
+<h3>Smoothing</h3>
+
+To better detect differences over a broader region, we shall first smooth the coordinates read in above. How much to smooth? It depends on how big the features are that you wish to detect. To detect 20mm features, you should use a 20mm FWHM filter. Of course you never know how big the features are in advance, so you have to make a guess. Since the cortical thickness data was smoothed 20mm, we shall do the same to the coordinates:
+<xmp>
+Y = SurfStatSmooth( surfs.coord, avsurf, 10 );
+</xmp>
+The last parameter, 10, is the FWHM in mesh units. Since the mesh size of our data is about 2mm on average, then this will give roughly 20mm smoothing. Note that smoothing is usually the most time-consuming step; the above smoothing took 26 minutes on my 2-year-old laptop!
+To take a look at the smoothed coordinates of the first subject (00100), coloured by cortical thickness (compare this to the unsmoothed coordinates <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#s100">above</a>):
+<xmp>
+s100smooth.coord = Y.Data(1).Data( :, :, 1 )';
+s100smooth.tri = surfs.tri;
+SurfStatView( t100, s100smooth, 'Subj 00100 smoothed 20mm' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/s100smooth.jpg"><img src="./SurfStat_files/tn_s100smooth.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+
+
+
+</p><hr>
+<a name="multi"></a>
+<h3>Multivariate data statistical analysis</h3>
+
+Statistical analysis now proceeds exactly as for univariate data, except that the T statistic is now the maximum over all linear combinations of the variates. In other words, we take the maximum of the T statistics for the x coordinate, the y coordinate, the z coordinate, and all possible linear combinations such as x+y or 0.1*x+0.4*y-0.3*z. This maximum T is known as Hotelling's T (the square root of <a href="http://en.wikipedia.org/wiki/Hotelling%27s_T-square_distribution">Hotelling's T<sup>2</sup></a>). The same idea applies to the F statistic, which is now the maximum F over all linear combinations. This is known as <a href="http://mrw.interscience.wiley.com/emrw/9780470011812/eob/article/b2a10081/current/abstract">Roy's maximum root</a>. Random field corrected P-values for peaks and clusters are available.<p>
+As an example, let's look for an age effect on the smoothed surface coordinates, allowing for gender.
+</p><xmp>
+slm = SurfStatLinMod( Y, Gender + Age, avsurf );
+slm = SurfStatT( slm, age );
+h = SurfStatView( slm.t.*mask, avsurf, 'Max T for age effect on coordinates' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/coordaT.jpg"><img src="./SurfStat_files/tn_coordaT.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+It's interesting to compare this with the <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#T">T statistic for an age effect on cortical thickness</a>. However before getting excited, we should find out the corrected threshold:
+</p><xmp>
+resels = SurfStatResels( slm, mask )
+    2.0000    4.5114  228.9485
+stat_threshold( resels, length(slm.t), 1, slm.df, [], [], [], [], slm.k )
+    5.1849
+</xmp>
+Note that this is larger than the <a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/#thresh">4.4259</a> for the univariate T-statistic (even though the resels are smaller) - this is the price you pay for searching over all linear combinations of the multivariate data to get the maximum T statistic.<p>
+Unfortunately the P-values for peaks and clusters are not significant:
+</p><xmp>
+[ pval, peak, clus ] = SurfStatP( slm, mask );
+term( peak )
+
+  t       vertid  clusid  P
+---------------------------------
+  4.3592   1806   1       0.83991
+  4.2794  28210   2        1.0707
+  4.1982  16539   3        1.3633
+
+term(clus)
+
+  clusid  nverts  resels      P
+-------------------------------------
+  1       53        0.016794  0.30263
+  2       14       0.0041732   0.5022
+  3        6      0.00024013  0.68522
+</xmp>
+Why is <code>P&gt;1</code> for the last two peaks? The reason is that <code>P</code> approximates the expected number of peaks above <code>t</code>, which only approximates the P-value if <code>P</code> is small, say less than 0.1.
+Both the P-value and Q-value images are blank, so we don't show them, but here's the code:
+<xmp>
+SurfStatView( pval, avsurf, 'Max T for age effect on coordinates' );
+SurfStatView( SurfStatQ( slm, mask ), avsurf, 'Max T for age effect on coordinates' );
+</xmp>
+Even though the peak at 1806 is not significant, here are the age effects on the x, y and z coordinates, their sd, and (univariate) T statistics:
+<xmp>
+[ slm.ef(:, 1806)  slm.sd(:, 1806)  slm.ef(:, 1806)./slm.sd(:, 1806) ]
+    0.0528    0.0237    2.2242
+    0.0434    0.0306    1.4179
+    0.0742    0.0223    3.3248
+</xmp>
+Note that the univariate T statistics are all less than the maximum T statistic of 4.3586 (obviously). If this was significant, it would suggest, for example, that z coordinates increase by 0.07 ± 0.02 mm per year at this point near the right cingulate.<p>
+
+Here's an even better way of showing the movement of the surface with age. We can use Matlab's <code>quiver3</code> to show the age effects in <code>slm.ef</code> as little arrows. First let's pick three local maxima in the table above as origins for the arrows, then find their coordinates (the rows are <code>x</code>, <code>y</code>, <code>z</code>, the columns are the vertices):
+</p><xmp>
+id = [ 1806 28210 16539 ];
+coord = SurfStatInd2Coord( id, avsurf )
+
+   -9.2008   -6.5057   -5.4116
+   16.7131   14.8676   36.2732
+   33.1974   50.9881   14.2673
+</xmp>
+Now for a bit of Matlab code. We want to add the arrows to each of the axes in the above figure. Luckily we have saved the axis handles in <code>h</code> by putting <code>h</code> as the output of the <code>SurfStatView</code> function above. Then we loop over axes, adding red arrows in the positive direction and blue arrows in the negative direction, so we can always see the arrows:
+<xmp>
+for i = 1:8
+    axes( h(i) );
+    hold on;
+    quiver3( coord( 1, : ), coord( 2, : ), coord( 3, : ), ...
+        slm.ef( 1, id ), slm.ef( 2, id ), slm.ef( 3, id ), ...
+        'LineWidth',2, 'Color','red' );
+    quiver3( coord( 1, : ), coord( 2, : ), coord( 3, : ), ...
+        -slm.ef( 1, id ), -slm.ef( 2, id ), -slm.ef( 3, id ), ...
+        'LineWidth',2, 'Color','blue' );
+    hold off;
+end
+</xmp>
+Let's zoom in on one of the axes by hitting the "+" magnifying glass in the figure tool bar:<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/coordaTa.jpg"><img src="./SurfStat_files/tn_coordaTa.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+(Note that the arrows are not to scale.) The red arrows are pointing up and away from the brain centre, suggesting a movement of anatomy in that direction with increasing age. However we shouldn't read too much into this, because the P-values are not significant.</p><p>
+
+Finally, let's test for a quadratic age effect, allowing for gender, using the maximum F statistic (<a href="http://mrw.interscience.wiley.com/emrw/9780470011812/eob/article/b2a10081/current/abstract">Roy's maximum root</a>):
+</p><xmp>
+slm0 = SurfStatLinMod( Y, Gender );
+slm = SurfStatLinMod( Y, Gender + Age + Age^2, avsurf )
+slm = SurfStatF( slm, slm0 );
+SurfStatView( slm.t.*mask, avsurf, 'Max F for quadratic age effect (2,143 df)' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/coordaF.jpg"><img src="./SurfStat_files/tn_coordaF.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The corrected P-values are not significant, but there is one significant cluster:
+</p><xmp>
+[ pval, peak, clus ] = SurfStatP( slm, mask );
+
+term( peak )
+
+  t        vertid  clusid  P
+----------------------------------
+  13.5506  20342   2       0.24231
+  13.2001  14465   1        0.3077
+  11.5435  72311   4        0.9336
+  11.4164  12566   3        1.0149
+   11.375  50254   5        1.0442
+  11.3442  78056   5         1.066
+
+term(clus)
+
+  clusid  nverts  resels    P
+------------------------------------
+  1       108       0.09532  0.048088
+  2        38       0.06083  0.091886
+  3        73      0.019981   0.26443
+  4        23     0.0095408   0.39397
+  5        24     0.0068077   0.44802
+
+SurfStatView( SurfStatP( slm, mask ), avsurf, 'Max F for quadratic age effect (2,143 df)' );
+SurfStatView( SurfStatQ( slm, mask ), avsurf, 'Max F for quadratic age effect (2,143 df)' );
+</xmp>
+The Q-value image is blank (not shown), but the P-value image shows the single cluster just inside the right temporal lobe:<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/coordaFP.jpg"><img src="./SurfStat_files/tn_coordaFP.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+What is going on at the peak inside this region (<code>id=14465</code>)? Here's plot of the x,y,z coordinates against age for males and females separately:
+</p><xmp>
+clf;
+xyz='xyz';
+for j=1:3
+    subplot(2,3,j)
+    SurfStatPlot( age(find(Gender.male)), Y(find(Gender.male), 14465, j) );
+    title('Male'); legend off; xlabel('age'); ylabel(xyz(j)); xlim([18,45])
+end
+for j=1:3
+    subplot(2,3,j+3)
+    SurfStatPlot( age(find(Gender.female)), Y(find(Gender.female), 14465, j) );
+    title('Female'); legend off; xlabel('age'); ylabel(xyz(j)); ; xlim([18,45])
+end
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/coordaFPlot.jpg"><img src="./SurfStat_files/tn_coordaFPlot.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Looks like the quadratic effect is caused by one male and one female (ages 45 and 42, respectively) with very low z coordinate.
+
+
+
+
+</p><hr>
+<a name="vbm"></a>
+<h3>VBM data</h3>
+
+Here's an example of voxel based morphometry (VBM) data, analyzed in <a href="http://www.math.mcgill.ca/keith/royni/royni_abstract.htm">Worsley et al. (2004)</a>. There are two groups of subjects: a group of 19 subjects with non-missile trauma, and a group of 19 age and gender matched controls. Damage due to the trauma is expected in white matter, so the data consists of white matter density smoothed 10mm. Naturally we are interested in the difference between trauma and control groups, so the model is particularly simple. First we need a list of the 38 file names:
+<xmp>
+filenames = SurfStatListDir( 'C:/keith/fMRI/francesco/wm2/' );
+</xmp>
+Since the data is quite big (91 × 109 × 91 × 38 × 4 = 131Mb) we have to be careful about reading the data. The first thing might be to look at just one slice of the data, say the slice with <code>z=0</code>, laid out in two groups of trauma and control. To do this, we first read in just the one slice with <code>z</code> coordinate <code>0</code> from all data sets, which easily fits into memory:
+<xmp>
+[ Y0, vol0 ] = SurfStatReadVol( filenames, [], { [], [], 0 } );
+</xmp>
+The second parameter, left empty for the moment, is to allow for a mask, while the third specifies that we want all <code>x</code> slices, all <code>y</code> slices, but just the one slice with <code>z=0</code>.
+We then use
+<code>SurfStatViews</code> (the <code>s</code> is for slice) with a last parameter, <code>layout</code>, which is a matrix which lays
+out the slices (in the order in filenames) where you want them in the
+array of images (0 leaves out an image). The variable <code>control</code> indicates with a 1 which files are in the control group, in the order in <code>filenames</code>:
+<xmp>
+control=[0 0 1 1 1 1 0 1 1 0 0 0 0 1 0 0 0 1 ...
+    0 1 0 1 0 1 1 0 1 1 1 0 1 1 1 0 0 0 0 1];
+layout = reshape( [ find(1-control) 0 find(control) 0], 5, 8 )
+     1    12    19    34     3     9    24    31
+     2    13    21    35     4    14    25    32
+     7    15    23    36     5    18    27    33
+    10    16    26    37     6    20    28    38
+    11    17    30     0     8    22    29     0
+clf; SurfStatViews( Y0, vol0, 0, layout );
+title('WM demsity for 19 trauma subjects (left) and 19 controls (right)');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbm.jpg"><img src="./SurfStat_files/tn_vbm.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Even to the naked eye, it looks like the trauma group has less WM than the control group. To save storage, we now find a mask based on the average white matter density in the control group:
+</p><xmp>
+[ wmav, volwmav ] = SurfStatAvVol( filenames( find(control) ) );
+</xmp>
+<code>SurfStatView1</code> is a viewer for both volumetric and surface data with only one view (hence the name). By default it will show three orthogonal slices through the middle of the data:
+<xmp>
+clf; SurfStatView1( wmav, volwmav );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmmask1.jpg"><img src="./SurfStat_files/tn_vbmmask1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now we need to choose a suitable threshold to mask the white matter. 0.05, i.e. 5% or more white matter, looks like a good choice. To check this, add a thresholded image at 0.05 by leaving out the <code>clf</code> command (which clears the figure window):
+</p><xmp>
+SurfStatView1( wmav, volwmav, 'datathresh', 0.05 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmmask2.jpg"><img src="./SurfStat_files/tn_vbmmask2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Other properties such as the colour and transparency can be modified, see the help of <code>SurfStatView1</code>, and strung together in pairs of arguments after <code>volwmav</code>.</p><p>
+
+Now we are ready to read in all the data inside the mask. If there is a lot of data, <code>SurfStatReadVol</code> uses memory mapping rather than loading all the data into memory.
+</p><xmp>
+[ Y, vol ] = SurfStatReadVol( filenames, wmav > 0.05 );
+</xmp>
+However by specifying a mask where average WM&gt;0.05, we have cut down storage from 131Mb to 26Mb, so memory mapping is not necessary. If you wanted to speed things up by cutting the storage down even more, you can read in every 2nd voxel using:
+<xmp>
+[ Y, vol ] = SurfStatReadVol( filenames, wmav > 0.05, 2 );
+</xmp>
+We'll stick with the full data, which gives nicer pictures. Setting up the group factor is easy:
+<xmp>
+Group = term( var2fac( control, { 'trauma'; 'control' } ) );
+</xmp>
+Now we fit the model and test for a difference between trauma and control. Naturally we want control minus trauma, since we expect WM density to have decreased in the trauma group:
+<xmp>
+slm = SurfStatLinMod( Y, Group, vol );
+slm = SurfStatT( slm, Group.control - Group.trauma );
+clf; SurfStatView1( slm.t, vol );
+title( 'T-statistic, 36 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmt.jpg"><img src="./SurfStat_files/tn_vbmt.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Of course you may prefer to write out the T-statistic so you can load it into your own favourite viewer:
+</p><xmp>
+SurfStatWriteVol( 'c:/keith/surfstat/data/tstat.mnc', slm.t, vol );
+</xmp>
+Now for the P-values:
+<xmp>
+clf; SurfStatView1( SurfStatP( slm ), vol );
+title( 'P-value<0.05' );
+</xmp>
+The red blobs are local maxima with P&lt;0.05, and the transparent blue blobs are
+the clusters with extents that have P&lt;0.05:<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmp.jpg"><img src="./SurfStat_files/tn_vbmp.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+The damage is quite extensive, indicating that the white matter surrounding the ventricles has atrophied. To see how much atrophy, let's look at the estimated effect (control minus trauma) and its standard error:
+</p><xmp>
+clf; SurfStatView1( slm.ef, vol );
+title( 'Control - trauma wm' );
+
+clf; SurfStatView1( slm.sd, vol );
+title( 'Control - trauma wm sd (34 df)' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmef.jpg"><img src="./SurfStat_files/tn_vbmef.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmsd.jpg"><img src="./SurfStat_files/tn_vbmsd.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+You may prefer the more traditional view of slices, say every 10mm from -30mm to 70mm:
+</p><xmp>
+layout = reshape( [1:11 0], 3, 4);
+clf; SurfStatViews( slm.ef, vol, [-30:10:70], layout );
+title( 'Control - trauma wm' );
+
+clf; SurfStatViews( slm.sd, vol, [-30:10:70], layout );
+title( 'Control - trauma wm sd (34 df)' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmefs.jpg"><img src="./SurfStat_files/tn_vbmefs.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/vbmsds.jpg"><img src="./SurfStat_files/tn_vbmsds.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+It looks like the trauma subjects have lost between 20% and 40% WM, ± ~5%, in the regions surrounding the ventricles.
+
+
+</p><hr>
+<a name="dbm"></a>
+<h3>DBM data</h3>
+
+Here's an example of deformation based morphometry (DBM) data, analyzed in <a href="http://www.math.mcgill.ca/keith/royni/royni_abstract.htm">Worsley et al. (2004)</a>. This is trivariate volumetric data, where the three components are the deformations required to warp each subject to an atlas standard. There are two groups of subjects: a group of 17 subjects with non-missile trauma, and a group of 19 age and gender matched controls. Unfortunately the subjects in this example are not quite the same as those in the above VBM example. Naturally we are interested in the difference between trauma and control groups, so the model is particularly simple. First a look at the data, which comes in three separate files for the <code>x</code>, <code>y</code> and <code>z</code> deformation components for each subject. We first read in the file names then rearrange them into 17 × 3 and 19 × 3 cell arrays of file names as follows:
+<xmp>
+filenamestrauma = SurfStatListDir( 'C:/keith/fMRI/francesco/DXYZ_TRAUMA/' );
+filenamestrauma = reshape( filenamestrauma, 3, 17 )';
+
+filenamescontrol = SurfStatListDir( 'C:/keith/fMRI/francesco/DXYZ_CONTROLLO/' );
+filenamescontrol = reshape( filenamescontrol, 3, 19 )';
+</xmp>
+Let's take a look at slice <code>z=0</code> of all the data, arranged in rows of <code>x</code>, <code>y</code> and <code>z</code> deformations for the trauma group, followed by <code>x</code>, <code>y</code> and <code>z</code> deformations for the control group:
+<xmp>
+[ Y0, vol0 ] = SurfStatReadVol( [ filenamestrauma; filenamescontrol ], [], { [], [], 0 } );
+layout = [ [ reshape(1:51,17,3); zeros(2,3) ] zeros(19,1) reshape(52:108,19,3) ]'
+clf; SurfStatViews( Y0, vol0, 0, layout );
+title('Rows are x,y,z deformations for trauma (top) and control (bottom) groups');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbm0.jpg"><img src="./SurfStat_files/tn_dbm0.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+It's hard to see any difference in deformations between trauma and control, but at least the data look OK. Next we will need a mask. Since the trauma is expected to atrophy the white matter, let's form a mask by thresholding average white matter density. A file for this has already been created:
+</p><xmp>
+[ wm, volwm ] = SurfStatReadVol( 'c:/keith/fMRI/francesco/CNT_AVG_wm_mask.mnc' );
+clf; SurfStatView1( wm, volwm );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbmmask1.jpg"><img src="./SurfStat_files/tn_dbmmask1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+0.05, i.e. 5% or more white matter, looks like a reasonable threshold:
+</p><xmp>
+SurfStatView1( wm, volwm, 'datathresh', 0.05 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbmmask2.jpg"><img src="./SurfStat_files/tn_dbmmask2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now let's read in all the data, which just exceeds 64Mb, so it is memory mapped:
+</p><xmp>
+[ Y, vol ] = SurfStatReadVol( [ filenamestrauma; filenamescontrol ], wm > 0.05 );
+
+    Filename: 'C:\keith\fMRI\francesco\DXYZ_TRAUMA\SurfStat\tpb11de523_b7d0_49a1_91ec_0fc7ad1a95c9'
+    Writable: true
+      Offset: 0
+      Format: {'single' [163814 3 36] 'Data'}
+      Repeat: Inf
+        Data: 1x1 struct array with fields:
+             Data
+</xmp>
+Setting up the group factor is easy:
+<xmp>
+Group = term( var2fac( [ zeros(1,17) ones(1,19) ], { 'trauma'; 'control' } ) );
+</xmp>
+Now we fit the model and test for a difference between trauma and control:
+<xmp>
+slm = SurfStatLinMod( Y, Group, vol );
+slm = SurfStatT( slm, Group.trauma - Group.control );
+clf; SurfStatView1( slm.t, vol );
+title( 'Hotelling''s T-statistic, 3,34 df' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbmt.jpg"><img src="./SurfStat_files/tn_dbmt.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now for the P-values:
+</p><xmp>
+clf; SurfStatView1( SurfStatP( slm ), vol );
+title( 'P-value<0.05' );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbmp.jpg"><img src="./SurfStat_files/tn_dbmp.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The damage is quite extensive, but what are the actual deformation differences? We can visualize the deformations by adding them as little arrows to the image. To do this, let's first select some positions for the arrows. I've chosen positions on a lattice of 10mm intervals using Matlab's <code>ndgrid</code>:
+</p><xmp>
+[ x, y, z ] = ndgrid( -40:10:40, -50:10:30, -20:10:60 );
+</xmp>
+Then we get the id's of the nearest point in the image:
+<xmp>
+id = SurfStatCoord2Ind( [ x(:) y(:) z(:) ], vol );
+</xmp>
+id's outside the mask are set to zero, so to eliminate these:
+<xmp>
+id = id( id>0 );
+</xmp>
+Now get the actual coordinates of the remaining points:
+<xmp>
+coord = SurfStatInd2Coord( id, vol );
+</xmp>
+The deformation differences are in <code>slm.ef</code> but since the deformations are measured from subject to atlas, i.e. atlas minus subject, we should flip the sign so that we have trauma minus control deformations. Then we can use Matlab's <code>quiver3</code> to add the arrows:
+<xmp>
+hold on;
+quiver3( coord( 1, : ), coord( 2, : ), coord( 3, : ), ...
+    -slm.ef( 1, id ), -slm.ef( 2, id ), -slm.ef( 3, id ), 0, ...
+    'LineWidth',2, 'Color','yellow' );
+hold off;
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbmpa.jpg"><img src="./SurfStat_files/tn_dbmpa.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The "0" as the 7th argument of <code>quiver3</code> ensures that the arrows are drawn to scale, that is, they are the real movements in anatomy, in mm. Let's zoom in by hitting the "+" magnifying glass in the figure tool bar:</p><p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/dbmpaz.jpg"><img src="./SurfStat_files/tn_dbmpaz.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+It looks like the arrows are pointing out from the centre, indicating that the ventricles of the trauma subjects have expanded, or equivalently, that the white matter surrounding the ventricles has atrophied.</p><p> This illustrates nicely how DBM can not only detect where the anatomy has changed, but it can also show how  the anatomy has moved, i.e. the direction of the changes.
+
+
+</p><hr>
+<a name="pet"></a>
+<h3>PET data</h3>
+
+We use SurfStat to analyze the some non-kinetic PET CBF data from <a href="http://www.sciencedirect.com/science?_ob=ArticleURL&amp;_udi=B6WNP-4B9K76J-F&amp;_user=458507&amp;_coverDate=02%2F29%2F2004&amp;_rdoc=4&amp;_fmt=high&amp;_orig=browse&amp;_srch=doc-info(%23toc%236968%232004%23999789997%23482841%23FLA%23display%23Volume)&amp;_cdi=6968&amp;_sort=d&amp;_docanchor=&amp;_ct=33&amp;_acct=C000022002&amp;_version=1&amp;_urlVersion=0&amp;_userid=458507&amp;md5=1e05cdaf5dcb683764fd18182e4a3443">
+Vafee, M.S. &amp; Gjedde, A. (2004). Spatially dissociated flow-metabolism coupling in brain activation. <i>NeuroImage</i>, 21:507-515</a>. This same data has previously analyzed by <a href="http://www.math.mcgill.ca/keith/fmristat/">
+FmriStat</a> - see <a href="http://www.math.mcgill.ca/keith/fmristat/index_pet.htm">here</a>. In this study
+there were 14 subjects with 5 scans per subject. During the first 4 scans
+the subjects were given a right-hand finger tapping task at four
+different frequencies: 1Hz, 2Hz, 3Hz and 4Hz (labeled <code>h1</code>, <code>h2</code>, <code>h3</code> and
+<code>h4</code>). These are to be compared to the 5th scan of rest (labeled <code>hb</code>).
+We can get a list of all the 70 PET data files as follows:
+<xmp>
+filenames = SurfStatListDir( 'C:/keith/fMRI/manou/cbf_non_kin/' );
+</xmp>
+Since the data is quite big (70 × 128 × 128 × 80 × 4 = 350Mb) we have to be careful about reading the data. The first thing might be to look at just one slice of the data, say the slice with <code>z=0</code>, laid out in a task × subjects matrix. To do this, we first read in just the one slice with <code>z</code> coordinate <code>0</code> from all data sets, which easily fits into memory:
+<xmp>
+[ Y0, vol0 ] = SurfStatReadVol( filenames, [], { [], [], 0 } );
+</xmp>
+The second parameter, left empty for the moment, is to allow for a mask, while the third specifies that we want all <code>x</code> slices, all <code>y</code> slices, but just the one slice with <code>z=0</code>.
+We then use
+<code>SurfStatViews</code> with a last parameter, <code>layout</code>, which is a matrix which lays
+out the slices (in the order in filenames) where you want them in the
+array of images:
+<xmp>
+layout = reshape( 1:70, 5, 14 )
+     1     6    11    16    21    26    31    36    41    46    51    56    61    66
+     2     7    12    17    22    27    32    37    42    47    52    57    62    67
+     3     8    13    18    23    28    33    38    43    48    53    58    63    68
+     4     9    14    19    24    29    34    39    44    49    54    59    64    69
+     5    10    15    20    25    30    35    40    45    50    55    60    65    70
+clf; SurfStatViews( Y0, vol0, 0, layout );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/pet1.jpg"><img src="./SurfStat_files/tn_pet1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+It is obvious that there is a bad scan (#25). In the <a href="http://www.math.mcgill.ca/keith/fmristat/index_pet.htm">FmriStat analysis</a>, the entire subject subject #5 was dropped from the analysis. Here we shall retain all the data on subject #5, except the bad scan, and do a mixed effects analysis to recover as much information as possible from the data. To exclude the bad scan, #25:
+</p><xmp>
+filenames = filenames( [1:24, 26:70] );
+</xmp>
+To save storage, we first find a mask where all subjects
+have some data, and only read in this data. To do this we find the minimum across subjects:
+<xmp>
+[ mindata, volmin ] = SurfStatAvVol( filenames, @min, 0 );
+</xmp>
+The second argument of <code>SurfStatAvVol</code> tells the function that we want the minimum over scans (other possible choices are <code>@max</code> for the maximum, or <code>@plus</code> for the average, which is the default). The third argument replaces NaN ("not a number") by 0. <code>SurfStatView1</code> is a viewer for both volumetric and surface data with only one view (hence the name). By default it will show three orthogonal slices through the middle of the data:<p>
+</p><xmp>
+clf; SurfStatView1( mindata, volmin );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petmin.jpg"><img src="./SurfStat_files/tn_petmin.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now we need to choose a suitable threshold to mask the interior of the brain. 5000 looks like a good choice. To check this, reset the colour limits as follows:
+</p><xmp>
+set( gca, 'CLim', [ 5000 15000 ] );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petmin2.jpg"><img src="./SurfStat_files/tn_petmin2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now we are ready to read in all the data inside the mask. If there is a lot of data, as in this case,
+<code>SurfStatReadVol</code> uses memory mapping rather than loading all the data into
+memory:
+</p><xmp>
+[ Y, vol ] = SurfStatReadVol( filenames, mindata>=5000 );
+
+    Filename: 'C:\keith\fMRI\manou\cbf_non_kin\SurfStat\tp7e6b2b61_2069_4960_a922_0fac58f6eacc'
+    Writable: true
+      Offset: 0
+      Format: {'single' [498412 69] 'Data'}
+      Repeat: Inf
+        Data: 1x1 struct array with fields:
+             Data
+</xmp>
+If you had your own mask (1=in, 0=out) in 'mymaskfile', you must read it in as a volume with <code>SurfStatReadVol1</code>, extract the data part, then convert to a logical:
+<xmp>
+mask = SurfStatReadVol1( 'mymaskfile' );
+[ Y, vol ] = SurfStatReadVol( filenames, logical(mask.data) );
+</xmp>
+If you want to speed things up, you can read in every 2nd voxel, which doesn't
+need memory mapping, using:
+<xmp>
+[ Y, vol ] = SurfStatReadVol( filenames, mindata>=5000, 2 );
+</xmp>
+This would allow you to quickly explore a variety of models. Proceeding with the full data, let's check the slice with <code>z=0</code> (0 in <code>layout</code>leaves a gap in the array for the deleted scan):
+<xmp>
+layout = reshape( [1:24, 0, 25:69], 5, 14 );
+clf; SurfStatViews( Y, vol, 0, layout );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/pet2.jpg"><img src="./SurfStat_files/tn_pet2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+It is immediately obvious that the data need normalizing so that all images have roughly the same average intensity, as follows:
+</p><xmp>
+Y = SurfStatNorm( Y, [], 'divide');
+clf; SurfStatViews( Y, vol, 0, layout );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petnorm.jpg"><img src="./SurfStat_files/tn_petnorm.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Since the design is almost balanced, the simplest way for generating
+the levels of the factors for subject and condition is to generate them for a balanced design, then delete the levels for the bad scan:
+</p><xmp>
+subj = gl( 'Subj', 14, 5, 70);
+subj = subj( [1:24, 26:70] )
+
+    'Subj1'
+    'Subj1'
+    'Subj1'
+    'Subj1'
+    'Subj1'
+    'Subj2'
+    'Subj2'
+    ...
+    'Subj13'
+    'Subj13'
+    'Subj14'
+    'Subj14'
+    'Subj14'
+    'Subj14'
+    'Subj14'
+
+cond = gl( {'h1','h2','h3','h4','hb'} ,1, 70 );
+cond = cond( [1:24, 26:70] )
+
+    'h1'
+    'h2'
+    'h3'
+    'h4'
+    'hb'
+    'h1'
+    'h2'
+    ...
+    'h4'
+    'hb'
+    'h1'
+    'h2'
+    'h3'
+    'h4'
+    'hb'
+</xmp>
+Let's look at a model with condition as a fixed effect and subject as a random effect:
+<xmp>
+Cond = term( cond );
+Subj = term( subj );
+M = 1 + Cond + random( Subj ) + I;
+image( M );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petmod.jpg"><img src="./SurfStat_files/tn_petmod.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Fitting the model, the within-subject correlation is quite high, averaging 0.59:
+</p><xmp>
+slm = SurfStatLinMod( Y, M, vol );
+clf; SurfStatView1( slm.r, vol );
+title('Within-subject correlation')
+mean( slm.r )
+    0.5892
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petcor.jpg"><img src="./SurfStat_files/tn_petcor.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now we test for the difference between the 3Hz condition and the baseline, picking two slices at <code>z=[-20, 60]</code> for display:
+</p><xmp>
+slm = SurfStatT( slm, Cond.h3 - Cond.hb );
+clf; SurfStatView1( slm.t, vol, 'z', [-20 60] );
+title('T-statistic for 3Hz - baseline');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/pett1.jpg"><img src="./SurfStat_files/tn_pett1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+To get a better look, let's threshold the T-statistic at 3 and add it to the figure by leaving off the <code>clf</code> command (which clears the figure window):
+</p><xmp>
+SurfStatView1( slm.t, vol, 'datathresh', 3 );
+title('T-statistic for 3Hz - baseline');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/pett2.jpg"><img src="./SurfStat_files/tn_pett2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+We could add the mask to the image as well:
+</p><xmp>
+SurfStatView1( slm.t, vol, 'mask', 1 );
+title('T-statistic for 3Hz - baseline');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/pett3.jpg"><img src="./SurfStat_files/tn_pett3.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Other properties such as the colour and transparency can be modified, see the help of <code>SurfStatView1</code>, and strung together in pairs of arguments after <code>vol</code>. You may like the more traditional view of slices, say every 10mm:
+</p><xmp>
+layout = reshape( [1:11 0], 3, 4);
+clf; SurfStatViews( slm.t, vol, [-30:10:70], layout );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/pett4.jpg"><img src="./SurfStat_files/tn_pett4.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Of course you may prefer to write out the T-statistic so you can load it into your own favourite viewer:
+</p><xmp>
+SurfStatWriteVol( 'c:/keith/surfstat/data/tstat.mnc', slm.t, vol );
+</xmp>
+Now we come to the inference. Since the T-statistic comes from a linear mixed effects model, its effective degrees of freedom varies spatially, averaging at 51.2:
+<xmp>
+clf; SurfStatView1( slm.dfs, vol );
+mean( slm.dfs )
+   51.1516
+title('Degrees of freedom, mean = 51.2');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petdf.jpg"><img src="./SurfStat_files/tn_petdf.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Note that the mean effective df is slightly higher than the fixed effects
+df, which would be 69 - 14 - 5 + 1 = 51. This is because the mixed effects model has recovered some of the between-subject variation to increase the amount of information about the contrast.
+Finally the P-values and Q-values are:
+</p><xmp>
+[ pval, peak, clus] = SurfStatP( slm );
+
+term( clus )
+
+  clusid  nverts  resels       P
+------------------------------------------
+   1      2137        13.1781  4.3378e-006
+   2      1321        10.5468  4.7328e-006
+   3       731        4.50147   0.00021312
+   4       108       0.930881      0.18245
+   5        62       0.658461      0.39604
+...
+term( peak ) + term( SurfStatInd2Coord( peak.vertid, vol )', {'x','y','z'})
+
+  t       vertid  clusid  P            x       y       z
+--------------------------------------------------------------------
+  8.5028  454759   1      5.8716e-006  -34.84  -19.44           58.5
+  7.5756  444601   1      0.000124403  -36.18  -17.72           55.5
+  7.4453   64818   2      0.000189549   16.08  -53.84          -19.5
+  7.3037  467879   1      0.000299923   -33.5  -26.32             63
+  7.2892  463681   1      0.000313491  -34.84  -26.32           61.5
+   6.461   72281   2        0.0044887    20.1  -55.56            -18
+  6.3465   64638   2       0.00644978   21.44  -57.28          -19.5
+  6.1895  475829   1        0.0106013  -28.14     -16             66
+  5.9699  438053   1        0.0210979  -34.84  -38.36             54
+  5.6383  445139   3        0.0587249   -4.02    -7.4           55.5
+  5.4934  121064   2        0.0911926     6.7  -62.44             -9
+...
+clf; SurfStatView1( pval, vol );
+title('P-value < 0.05');
+</xmp>
+The red blobs are local maxima with P&lt;0.05, and the three transparent blue blobs are
+the three clusters with extents that have P&lt;0.05:<p>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petp.jpg"><img src="./SurfStat_files/tn_petp.jpg" alt="[Click to enlarge image]" border="0"></a></p><p>
+</p><xmp>
+clf; SurfStatView1( SurfStatQ( slm ), vol );
+title('Q-value < 0.05');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petq.jpg"><img src="./SurfStat_files/tn_petq.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Finally, just for amusement, let's add a surface to the last image:
+</p><xmp>
+avsurf = SurfStatReadSurf( 'c:/keith/fmri/icbm/av.obj' );
+load c:/keith/surfstat/data/meanthick
+SurfStatView1( meanthick, avsurf );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petqs.jpg"><img src="./SurfStat_files/tn_petqs.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+
+
+</p><hr>
+<a name="pet2"></a>
+<h3>PET data: more elaborate linear models</h3>
+
+In the above analysis, we only compared the scan at 3Hz with baseline. We might be interested in a linear effect of frequency. Since we are exploring the data, it is better to read in every second voxel, which avoids memory mapping and speeds up our analysis:
+<xmp>
+[ Y, vol ] = SurfStatReadVol( filenames, mindata>=5000, 2 );
+</xmp>
+There are two ways of doing this, as discussed in a <a href="http://www.math.mcgill.ca/keith/fmristat/#linear">similar analysis of fMRI data</a>. The first is to simply look at a linear contrast in the four frequencies, as follows:
+<xmp>
+slm = SurfStatLinMod( Y, M, vol );
+slm = SurfStatT( slm, -3*Cond.h1 - Cond.h2 + Cond.h3 + 3*Cond.h4 );
+mean( slm.dfs )
+   51.0016
+clf; SurfStatView1( slm.t, vol, 'z', [-20 60] );
+title('T-statistic for a linear contrast in Hz, 51.0 df');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlint.jpg"><img src="./SurfStat_files/tn_petlint.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+An alternative is to make up a new linear model with an explicit linear variable for frequency. To do this, we extract the frequencies from the <code>cond</code> variable, and set the baseline to 0:
+</p><xmp>
+hz = fac2var( cond );
+hz( hz==5 ) = 0;
+Hz = term( hz )
+
+  hz
+----
+  1
+  2
+  3
+  4
+  0
+  1
+  2
+  3
+  4
+  0
+  1
+  2
+  ...
+</xmp>
+This will be our frequency variable. Now we create a factor for the baseline, so that we can "model out" the baseline scan by giving it a separate coefficient:
+<xmp>
+Baseline = term( var2fac( hz==0, {'h1234', 'hb'} ) )
+
+  h1234  hb
+-----------
+  1      0
+  1      0
+  1      0
+  1      0
+  0      1
+  1      0
+  1      0
+  1      0
+  1      0
+  0      1
+  1      0
+  1      0
+  ...
+</xmp>
+The linear model with <code>Baseline + Hz</code> does not force the intercept of the Hz effect to go through the baseline data, since <code>Hz=0</code> might not produce the same response as the baseline. In other words, the intercept of the Hz effect is modeled separately from the baseline:
+<xmp>
+M1 = Baseline + Hz + random( Subj ) + I;
+clf; image( M1 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinM1.jpg"><img src="./SurfStat_files/tn_petlinM1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Now we fit the model in the usual way:
+</p><xmp>
+slm1 = SurfStatLinMod( Y, M1, vol );
+slm1 = SurfStatT( slm1, hz );
+mean(slm1.dfs)
+   53.0016
+clf; SurfStatView1( slm1.t, vol, 'z', [-20 60] );
+title('T-statistic for a linear effect in Hz, 53.0 df');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinT1.jpg"><img src="./SurfStat_files/tn_petlinT1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+As we can see, the two T-statistics, the first a linear contrast, the second a linear effect of Hz, are almost identical. The main difference is that the df of the first is lower (51) than the second (53). Why? The reason is that the first model has a <i>separate</i> effect for each level of Hz, in other words, it allows for an arbitrary non-linear effect of Hz; the second only has a linear effect of Hz, so it has ~2 more df for the error. Which is better? As usual, it's a trade-off; the first will have an sd that is less biased, but less accurate; the second will have an sd that might be biased (if the the true Hz effect is non-linear, e.g. quadratic) but more accurate. Luckily both methods give almost identical results. Here are the P-values for the second method:
+</p><xmp>
+[ pval, peak, clus ] = SurfStatP( slm1 );
+
+term( clus )
+  clusid  nverts  resels     P
+----------------------------------------
+   1      185        7.3794  8.7721e-006
+   2      106        1.5688     0.027234
+   3       39        1.3454     0.047272
+   4       46        1.3417     0.047724
+   5       25        1.3279     0.049443
+   6       19        1.0097      0.11653
+   7       18       0.75241      0.24668
+...
+
+term( peak ) + term( SurfStatInd2Coord( peak.vertid, vol )', {'x','y','z'})
+  t       vertid  clusid  P           x       y       z
+-----------------------------------------------------------
+  6.0356  14055   38      0.00497395  -69.68  -46.96  -10.5
+  5.9801  27761    2      0.00609785  -61.64   21.84    7.5
+  5.4596  56971    1       0.0404088   -40.2  -19.44   58.5
+  5.4004  58126    1       0.0499989  -37.52  -19.44   61.5
+  5.3777  21434    6       0.0541458    26.8   14.96   -1.5
+  5.1428  55731    1        0.125335  -42.88     -16   55.5
+...
+
+figure(2); clf; SurfStatView1( pval, vol );
+title('P-value < 0.05');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinp1.jpg"><img src="./SurfStat_files/tn_petlinp1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The activated local maxima are almost too small to see. Let's plot the data at the maximum T-statistic:
+</p><xmp>
+clf; SurfStatPlot( hz, Y( :, 14055 ), M1 );
+ylim([0.3 0.9]);
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinplotT1.jpg"><img src="./SurfStat_files/tn_petlinplotT1.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Although the T-statistic is high (6.04), the data doesn't seem to be highly correlated. This is because the Y values are adjusted only for the fixed effects, not the fixed and random (subject) effects. One way to adjust Y for subject is to treat subject as fixed:
+</p><xmp>
+MFixed = Baseline + Subj + I;
+clf; SurfStatPlot( hz, Y( :, 14055 ), MFixed );
+ylim([0.3 0.9]);
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinplotTF.jpg"><img src="./SurfStat_files/tn_petlinplotTF.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The command <code>ylim</code> sets the same y limits, so we can compare the plots.
+The slopes are almost identical, but now the data in the second plot are far less variable because the subject effect has been removed, so now the data looks more correlated.</p><p>
+
+Let's look at a quadratic effect of Hz. Again there are two ways of doing it, either through contrasts or through an explicit quadratic model. Here's the first approach, through a quadratic contrast:
+</p><xmp>
+slm = SurfStatT( slm, Cond.h1 - Cond.h2 - Cond.h3 + Cond.h4 );
+mean( slm.dfs )
+   51.0016
+clf; SurfStatView1( slm.t, vol, 'z', [-20 60] );
+title('T-statistic for a quadratic contrast in Hz, 51.0 df');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinquadt.jpg"><img src="./SurfStat_files/tn_petlinquadt.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Here's the model for the second approach, though a quadratic model:
+</p><xmp>
+M2 = Baseline + Hz + Hz^2 + random( Subj ) + I;
+clf; image( M2 );
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinM2.jpg"><img src="./SurfStat_files/tn_petlinM2.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+Here's the analysis of the quadratic effect:
+</p><xmp>
+slm2 = SurfStatLinMod( Y, M2, vol );
+slm2 = SurfStatT( slm2, hz.^2 );
+mean(slm2.dfs)
+   52.0016
+clf; SurfStatView1( slm2.t, vol, 'z', [-20 60] );
+title('T-statistic for an effect of Hz^2, 52.0 df');
+</xmp>
+<a href="https://galton.uchicago.edu/faculty/InMemoriam/worsley/research/surfstat/figs/petlinM2T.jpg"><img src="./SurfStat_files/tn_petlinM2T.jpg" alt="[Click to enlarge image]" border="0"></a><p>
+The analyses are almost identical, apart from the different df, an neither shows any significant quadratic effect.</p><p>
+
+Finally, let's look at a cubic effect of Hz, done both ways:
+</p><xmp>
+slm = SurfStatT( slm, -Cond.h1 + 3*Cond.h2 - 3*Cond.h3 + Cond.h4 );
+mean( slm.dfs )
+   51.0016
+
+M3 = Baseline + Hz + Hz^2 + Hz^3 + random( Subj ) + I;
+slm3 = SurfStatT( SurfStatLinMod( Y, M3, vol ), hz.^3 );
+mean(slm3.dfs)
+   51.0016
+</xmp>
+Why are the mean dfs the same? In fact the fits of the models, <code>slm.SSE</code>'s, are the same as well. The answer is that they are exactly the same model! A cubic model in Hz (<code>M3</code>) is identical to a separate mean for each of the four levels of Hz (<code>M</code>). The only difference is that the models are parameterized in different ways. But the fitted models are identical. Why? A cubic can be fitted exactly to any data at four points.
+
+<hr>
+<a name="future"></a>
+<h3>Future features</h3>
+
+</li><li> Support for Gifti file format.
+
+</li><li> F tests for mixed effects models.
+
+</li><li> Multivariate mixed effects models.
+
+</li><li> About time to upgrade
+<a href="http://www.math.mcgill.ca/keith/fmristat/">
+FmriStat</a> ...
+
+</li><li> I would really appreciate any feed-back!
+
+<hr>
+<a name="references"></a>
+<h3>References for random field theory</h3>
+
+</li><li> Adler, R.J. and Taylor, J.E. (2007). <i>Random fields and geometry</i>. Springer.<p>
+
+</p></li><li> Adler, R.J., Taylor, J.E. and Worsley, K.J. (2008). <a href="http://iew3.technion.ac.il/~radler/hrf.pdf"><i>Random fields, geometry, and their applications</i></a>. In preparation.<p>
+
+</p></li><li> Hagler, D.J., Saygin, A.P. and Sereno, M.I. (2006). Smoothing and cluster thresholding for cortical surface-based group analysis of fMRI data. <i>NeuroImage,</i> <b>33</b>:1093-1103.<p>
+
+</p></li><li> Hayasaka, S., Phan, K.L.,  Liberzon, I.,  Worsley, K.J. and Nichols, T.E. (2004). Non-Stationary cluster
+size inference with random field and permutation methods. <i>NeuroImage,</i> <b>22</b>:676-687.<p>
+
+</p></li><li>Taylor, J.E. and Adler, R.J. (2003), Euler characteristics for Gaussian fields on manifolds. <i>Annals of Probability,</i> <b>31</b>:533-563.<p>
+
+</p></li><li>Taylor, J.E. and Worsley, K.J. (2007).
+<a href="http://www.math.mcgill.ca/keith/noniso/noniso.htm">Detecting sparse signal in random fields, with
+an application to brain mapping. </a>
+<i>Journal of the American Statistical Association</i>,  <b>102</b>:913-928.<p>
+
+</p></li><li>Worsley, K.J.,  Andermann, M., Koulis,
+T., MacDonald, D., and Evans, A.C. (1999).
+<a href="http://www.math.mcgill.ca/keith/bm98/bm98.abstract.html">
+Detecting changes in non-isotropic images. </a>
+<i>Human Brain Mapping</i>, <b>8</b>:98-101.<p>
+
+
+
+
+</p></li></body></html>
