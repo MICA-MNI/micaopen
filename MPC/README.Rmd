@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 ---
 title: "MPC"
 author: "Casey Paquola"
-e-mail: "casey.paquola@mail.mcgill.ca"
 date: "21 September 2018"
 output: html_document
-urlcolor: blue
 ---
 
 # Microstructure profile covariance (MPC) analysis
@@ -83,5 +80,3 @@ Principle gradient from the manuscript (G1-HIST and G1-MRI). G1_hist is derived 
 
 Scripts to conduct diffusion map embedding in MATLAB may be found in https://github.com/MICA-MNI/micaopen/diffusion_map_embedding   
 
->>>>>>> master
-```
