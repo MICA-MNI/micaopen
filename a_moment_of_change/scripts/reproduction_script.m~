@@ -11,11 +11,13 @@ for init_project = 1
     GH          = '/data_/mica1/03_projects/casey/';
     baseDir     = [GH '/micaopen/a_moment_of_change/'];
     outDir      = [baseDir '/output/'];
+    mkdir(outDir)
     figDir      = [baseDir '/figures/'];
+    mkdir(figDir)
     
     % useful scripts
     addpath(genpath(baseDir))
-    addpath([GH '/micaopen/MPC'])
+    addpath(genpath([GH '/micaopen/MPC']))
     addpath([GH '/micaopen/surfstat_addons']) 
     addpath([GH '/micaopen/surfstat_chicago'])
     addpath([GH '/micaopen/diffusion_map_embedding']) 
@@ -42,7 +44,7 @@ for init_project = 1
     load([baseDir '/demographics.mat'], 'age', 'sex', 'subj')
     
     % atlases
-    mes_classes = annot2classes([GH '/micasoft/parcellations/fsaverage7/lh.mesulam.annot'], [GH '/micasoft/parcellations/fsaverage7/rh.mesulam.annot'], 0);
+    mes_classes = annot2classes([baseDir '/maps/lh.mesulam.annot'], [baseDir '/maps/rh.mesulam.annot'], 0);
     for node = 1:length(uparcel)
         mes_parc(node) = mode(mes_classes(parc==uparcel(node)));
     end
@@ -112,9 +114,8 @@ for Figure1 = 1
               'color', 'cmyk','Resolution',300 );
     
     % export MT moments with atlas assignments for joyplotting in R (Figure1_joyplots.R)
-    T = table(classes_mesulam', classes_cyto', ...
-        MTmoments_bl(1,:)', MTmoments_bl(2,:)', MTmoments_bl(3,:)', MTmoments_bl(4,:)', ...
-        'VariableNames', {'mesulam', 'cyto', 'mean', 'sd', 'skewness', 'kurtosis'});
+    T = table(mes_parc', MTmoments_bl(1,:)', MTmoments_bl(2,:)', MTmoments_bl(3,:)', MTmoments_bl(4,:)', ...
+        'VariableNames', {'mesulam', 'mean', 'sd', 'skewness', 'kurtosis'});
     writetable(T, [outDir, '/MTmoments_bl.csv'])
 end
 
@@ -188,6 +189,7 @@ for Figure_1B = 1
     % select rois and check on the surface
     rois = [12171529; 3482412; 2908416; 16729688]; % v1,  v2 (BA18), SPL (BA7), ACC (BA24)
     uparc = unique(parc);
+    roi_surface = zeros(1, length(uparc)); % preinitialise for displaying rois on the surface
     for ii=1:length(uparcel)
         index = parc==uparc(ii);
         surface_map(index) = roi_surface(ii);
@@ -196,7 +198,6 @@ for Figure_1B = 1
     colormap([1,1,1; cmap_mes])
     
     f = figure('units','centimeters','outerposition',[0 0 30 30]);
-    roi_surface = zeros(1, length(uparc)); % preinitialise for displaying rois on the surface
     for ii = 1:length(rois)
         
         % find parcel number
@@ -232,7 +233,6 @@ for Figure_1B = 1
     exportfig(f, [figDir, '/Figure_1B_profile_rois.png'], 'Format', 'png', 'FontMode', 'fixed',...
               'color', 'cmyk','Resolution',300 );
     
-
     f = figure;
     for m = 1:4
         
@@ -269,6 +269,7 @@ for Figure_1d = 1
    
     % MPC ordered by the gradient
     a(3) = axes('position',[0.01 0.79 .16 .16]);
+    [~, idx] = sort(embedding(:,1));
     colourMatrix = repmat(embedding(idx,1)', [length(embedding),1])';
     colourMatrix(normAngleMatrix(idx, idx) == 0.5) = min(embedding(:,1)) - 0.1;
     imagesc(colourMatrix, [min(embedding(:,1)) max(embedding(:,1))]);
@@ -356,6 +357,9 @@ end
 % Figure 2C - exemplar profiles for ROIS
 for Figure2C = 1
     
+    % define age strata
+    age_strata = 1 + (age>16) + (age>18) + (age>20) + (age>22) + (age>24);  
+    
     f = figure('units','centimeters','outerposition',[0 0 30 30]);
     cmap_line = colorbrewer.seq.YlGn{1,7}(2:7,:)/255;
     for ii = 1:length(rois)
@@ -416,7 +420,7 @@ for Figure2B = 1
         tmp = SurfStatQ( slm );
         out_q(m,out_t(m,:)>0) = tmp.Q(out_t(m,:)>0);
         
-        fig2a_maps(m,:) = out_t(m,:);
+        fig2b_maps(m,:) = out_t(m,:);
         
         % negative age effect
         slm = SurfStatT( slm, -age);
@@ -434,10 +438,20 @@ for Figure2B = 1
         tmp(tmp==0) = [];
         t_range(m,1)= min(tmp);
         t_range(m,2)= max(tmp);
+        
+        % rate of change in % 
+        eval_max_age = slm.coef(1,:) + (slm.coef(2,:)*max(age));
+        eval_min_age = slm.coef(1,:) + (slm.coef(2,:)*min(age));
+        rate_change(m,:) = (diff([eval_max_age; eval_min_age]) ./ abs(eval_min_age)) * 100;
+        tmp = rate_change(m,:) .* (out_q(m,:)<0.00625);
+        tmp(tmp==0) = [];
+        rate_change_ci(m,1)= prctile(tmp,2.5);
+        rate_change_ci(m,2)= prctile(tmp,97.5);
          
     end
     age_effects(:,5) = min(out_t'); % for range of t-statistics
     age_effects(:,6) = max(out_t');
+    csvwrite([outDir 'fig2b_maps.csv'], fig2b_maps])
     
     % model surface-effects
     for ii = 1:size(MP2,1)
@@ -452,7 +466,7 @@ for Figure2B = 1
     end
         
     f = figure('units','centimeters','outerposition',[0 0 30 30]);
-    
+    clear t_range
     cmap_tstat = interp_colormap(flipud(colorbrewer.div.RdBu{1,11}/255), 26);    
     for m = 1:4
         
@@ -469,8 +483,7 @@ for Figure2B = 1
                 
         % show surface wise changes
         [~, tmp] = sort(out_q(m,:));
-        %which_nodes = find(out_q(m,:)<0.00625);
-        which_nodes = tmp(1:5);
+        which_nodes = find(out_q(m,:)<0.00625);
         t_range(:,:,m) = [mean(out_surf_t(:,which_nodes),2) - std(out_surf_t(:,which_nodes),[],2)...
             mean(out_surf_t(:,which_nodes),2) ...
             mean(out_surf_t(:,which_nodes),2) + std(out_surf_t(:,which_nodes),[],2)];
@@ -500,7 +513,6 @@ for Figure2B = 1
         a(m+10) = axes('position', [-0.12+(m*0.2) 0.3 0.15 0.15]);
         scatter(MTmoments_bl(m,:), out_t(m,:), 10, mes_parc, 'filled')
         colormap(a(m+10), [1,1,1; cmap_mes])
-
     end
      
     exportfig(f, [figDir, '/Figure_2B.png'], 'Format', 'png', 'FontMode', 'fixed',...
@@ -510,19 +522,8 @@ end
 
 % Figure 2C  - Age-related changes across cortical types
 for Figure2C = 1
-
-    % export mean moments for significant regions per subject
-    for s = 1:size(MTmoments,1)
-        tmp = squeeze(MTmoments(s,:,:)).*(out_q<0.00625)';
-        tmp(tmp==0) = nan;
-        moment_sig_reg(s,:) = nanmean(tmp);
-    end
-    
-    T = table(subj, age, [ones(length(subj)/2, 1); ones(length(subj)/2, 1)*2], ...
-        moment_sig_reg, 'VariableNames', {'id', 'age', 'timepoint', 'moment'});
-    writetable(T, [outDir '/moment_sig_reg.csv'])
-    
-    dlmwrite([outDir '/moment_tstats.txt'], [classes_mesulam' out_t' out_q'])
+ 
+    dlmwrite([outDir '/moment_tstats.txt'], [mes_parc' out_t' out_q'])
 
 end
 
@@ -572,7 +573,7 @@ for correction_and_figure = 1
             end % calculate average MT moments for mesulam classes
     class_moment = zeros(size(MTmoments,1), 4, size(MTmoments,3));
     for mes = 1:4
-        class_moment(:,mes,:) = mean(MTmoments(:,classes_mesulam==mes,:),2);
+        class_moment(:,mes,:) = mean(MTmoments(:,mes_parc==mes,:),2);
     end
     
     % perform linear mixed effect models for mesulam classes
@@ -694,7 +695,7 @@ for Figure4 = 1
         
         % set up for figure
         cmap_mpc = interp_colormap(colorbrewer.seq.YlOrRd{1,9}./255, 26);
-        [~, mes_idx] = sort(classes_mesulam);
+        [mes_sorted, mes_idx] = sort(mes_parc);
 
         % Figure 4A (left) - example construction of MPC
         f = figure;
@@ -712,26 +713,20 @@ for Figure4 = 1
         imagesc(mean(MPC2(mes_idx,mes_idx,:),3), [0 1]); axis off
         colormap(a(2), cmap_mpc) 
         a(3) = axes('position', [0.39 0.65 0.008 0.3]);
-        imagesc(mes_idx'); axis off
-        colormap(a(3), cmap_mes)
+        imagesc(mes_sorted'); axis off
+        colormap(a(3), [1,1,1; cmap_mes])
         a(4) = axes('position', [0.4 0.952 0.3 0.008]);
-        imagesc(mes_idx); axis off
-        colormap(a(4), cmap_mes)
+        imagesc(mes_sorted); axis off
+        colormap(a(4), [1,1,1; cmap_mes])
         a(5) = axes('position', [0.702 0.65 0.008 0.3]);
-        imagesc(mes_idx'); axis off
-        colormap(a(5), cmap_mes)
+        imagesc(mes_sorted'); axis off
+        colormap(a(5), [1,1,1; cmap_mes])
         a(6) = axes('position', [0.4 0.64 0.3 0.008]);
-        imagesc(mes_idx); axis off
-        colormap(a(6), cmap_mes)
+        imagesc(mes_sorted); axis off
+        colormap(a(6), [1,1,1; cmap_mes])
         a(7) = axes('position', [0.8 0.65 0.008 0.3]);
         imagesc([1:100]'); axis off
         colormap(a(7), cmap_mpc)
-        
-        % set up terms
-        Age         = term(age);
-        Sex         = term(sex);
-        Subj        = term( var2fac (subj) );
-        M1          = 1 + Age + Sex + random(Subj) + I;
         
         % run model at the edge level
         MPC2_long = [];
@@ -748,8 +743,8 @@ for Figure4 = 1
         pos_t_MPC = squareform(pos_t_MPC);
         
         % t-statistic matrix
-        slim_mes    = classes_mesulam(classes_mesulam>0);
-        slim_t_MPC  = pos_t_MPC(classes_mesulam>0,classes_mesulam>0);
+        slim_mes    = mes_parc(mes_parc>0);
+        slim_t_MPC  = pos_t_MPC(mes_parc>0,mes_parc>0);
         [mes_idx, idx] = sort(slim_mes);
         a(2) = axes('position', [0.05 0.15 0.3 0.3]);
         imagesc(slim_t_MPC(idx,idx), [-4 4]); axis off
@@ -770,7 +765,7 @@ for Figure4 = 1
         % t-statistics matrix collapsed class
         for ii = 1:4
             for jj = 1:4
-                tmp = pos_t_MPC(classes_mesulam==ii,classes_mesulam==jj);
+                tmp = pos_t_MPC(mes_parc==ii,mes_parc==jj);
                 pos_t_MPC_class_mean(ii,jj) = mean(tmp(:));
                 pos_t_MPC_class_sd(ii,jj) = std(tmp(:));
             end
@@ -782,7 +777,8 @@ for Figure4 = 1
         
         exportfig(f, [figDir, '/Figure_4A.png'], 'Format', 'png', 'FontMode', 'fixed',...
               'color', 'cmyk','Resolution',300 );
-
+    end
+    
         % set up coordinates
         for node = 1:length(uparcel)
             nodeCentroid(node,1:3) = mean(FS.coord(:,parc==uparcel(node)),2);
@@ -842,7 +838,7 @@ for Figure4 = 1
         
         % Figure 4B - Spatial topography of age-related changes in
         % microstructural simiilarity
-        for Figure4A = 1
+        for Figure4B = 1
             
             f = figure('units','centimeters','outerposition',[0 0 30 30]);
             coluse = flipud(plasma);
@@ -878,19 +874,12 @@ for Figure4 = 1
             BoSurfStat_calibrate4Views(surface_map, FS, ...
                 [0.55 0.4 0.2 0.2; 0.74 0.24 0.2 0.2; 0.55 0.24 0.2 0.2; 0.74 0.4 0.2 0.2], ...
                 1:4, [min(surface_map) max(surface_map)], coluse)
-       
-       end
-        
-       for Figure4B = 1
 
             % bin the developmental gradient
             bins = 10;
             [~, idx] = sort(embedding(:,1));
             Drank = sort_back((1:length(embedding(:,1)))', idx);
             Dbins = discretize(Drank,bins);
-
-            % define age strata
-            age_strata = 1 + (age>16) + (age>18) + (age>20) + (age>22) + (age>24);  
             
             % create age-strata mpc gradients
             normAngleMatrix = connectivity2normangle(mean(MPC2(:,:,age_strata==1),3), 90);
@@ -984,8 +973,6 @@ for Figure4 = 1
             exportfig(f, [figDir, '/Figure_4B_anchors.png'], 'Format', 'png', 'FontMode', 'fixed',...
               'color', 'cmyk','Resolution',300 );
             
-            
-            
        end
        
        for Figue_4C = 1 
@@ -1005,7 +992,7 @@ for Figure4 = 1
             
            % t-statistic change in mean and skewness
            clim = [-7 7];
-           surface_map = BoSurfStatMakeParcelData(fig2a_maps(1,:), FS, parc);
+           surface_map = BoSurfStatMakeParcelData(fig2b_maps(1,:), FS, parc);
            surface_map = SurfStatSmooth(surface_map, FS, 5);
            surface_map = surface_map .* mask';
            BoSurfStat_calibrate2Views(surface_map, FS, ...
@@ -1014,7 +1001,7 @@ for Figure4 = 1
            hbar = colorbar('horiz', 'XTick', clim);
            hbar.Position = [0.06 0.63 0.1 0.01];
             
-           surface_map = BoSurfStatMakeParcelData(fig2a_maps(3,:), FS, parc);
+           surface_map = BoSurfStatMakeParcelData(fig2b_maps(3,:), FS, parc);
            surface_map = SurfStatSmooth(surface_map, FS, 5);
            surface_map = surface_map .* mask';
            BoSurfStat_calibrate2Views(surface_map, FS, ...
@@ -1022,7 +1009,9 @@ for Figure4 = 1
                 1, 2, clim, cmap_tstat)
            hbar = colorbar('horiz', 'XTick', clim);
            hbar.Position = [0.28 0.63 0.1 0.01];
-           exportfigbo(f, strcat(figDir, '/Figure_4C_left.png'), 'png', 10)
+           
+           exportfig(f, [figDir, '/Figure_4C_left.png'], 'Format', 'png', 'FontMode', 'fixed',...
+              'color', 'cmyk','Resolution',300 );
 
            f = figure('units','centimeters','outerposition',[0 0 30 30]);
             
@@ -1052,48 +1041,49 @@ for Figure4 = 1
            anchor_diff = mean(mean(MPC2(Dbins==ii,:,age_strata==6),3),1) - ...
                 mean(mean(MPC2(Dbins==ii,:,age_strata==1),3),1);
            a(1) = axes('position',[0.47 0.83 0.14 0.14]);
-           scatter(fig2a_maps(1,:), anchor_diff, 7, [0.6 0.6 0.6], ...
+           scatter(fig2b_maps(1,:), anchor_diff, 7, [0.6 0.6 0.6], ...
                'filled', 'MarkerEdgeColor', 'k');
-           xlim([min(fig2a_maps(1,:)) max(fig2a_maps(1,:))])
+           xlim([min(fig2b_maps(1,:)) max(fig2b_maps(1,:))])
            ylim([min(anchor_diff) max(anchor_diff)])
            set(gca, 'YTickLabel', [])
            set(gca, 'XTickLabel', [])
-           [r, p] = corr(fig2a_maps(1,:)', anchor_diff')
+           [r, p] = corr(fig2b_maps(1,:)', anchor_diff')
            
            a(2) = axes('position',[0.64 0.83 0.14 0.14]);
-           scatter(fig2a_maps(3,:), anchor_diff, 7, [0.6 0.6 0.6], ...
+           scatter(fig2b_maps(3,:), anchor_diff, 7, [0.6 0.6 0.6], ...
                'filled', 'MarkerEdgeColor', 'k');
-           xlim([min(fig2a_maps(3,:)) max(fig2a_maps(3,:))])
+           xlim([min(fig2b_maps(3,:)) max(fig2b_maps(3,:))])
            ylim([min(anchor_diff) max(anchor_diff)])
            set(gca, 'YTickLabel', [])
            set(gca, 'XTickLabel', [])
-           [r, p] = corr(fig2a_maps(3,:)', anchor_diff')
+           [r, p] = corr(fig2b_maps(3,:)', anchor_diff')
            
            ii = 1;
            anchor_diff = mean(mean(MPC2(Dbins==ii,:,age_strata==6),3),1) - ...
                 mean(mean(MPC2(Dbins==ii,:,age_strata==1),3),1);
            a(3) = axes('position',[0.47 0.68 0.14 0.14]);
-           scatter(fig2a_maps(1,:), anchor_diff, 7, [0.6 0.6 0.6], ...
+           scatter(fig2b_maps(1,:), anchor_diff, 7, [0.6 0.6 0.6], ...
                'filled', 'MarkerEdgeColor', 'k');
-           xlim([min(fig2a_maps(1,:)) max(fig2a_maps(1,:))])
+           xlim([min(fig2b_maps(1,:)) max(fig2b_maps(1,:))])
            ylim([min(anchor_diff) max(anchor_diff)])
            set(gca, 'YTickLabel', [])
            set(gca, 'XTickLabel', [])
-           [r, p] = corr(fig2a_maps(1,:)', anchor_diff')
+           [r, p] = corr(fig2b_maps(1,:)', anchor_diff')
 
            a(4) = axes('position',[0.64 0.68 0.14 0.14]);
-           scatter(fig2a_maps(3,:), anchor_diff, 7, [0.6 0.6 0.6], ...
+           scatter(fig2b_maps(3,:), anchor_diff, 7, [0.6 0.6 0.6], ...
                'filled', 'MarkerEdgeColor', 'k');
-           xlim([min(fig2a_maps(3,:)) max(fig2a_maps(3,:))])
+           xlim([min(fig2b_maps(3,:)) max(fig2b_maps(3,:))])
            ylim([min(anchor_diff) max(anchor_diff)])
            set(gca, 'YTickLabel', [])
            set(gca, 'XTickLabel', [])
-           [r, p] = corr(fig2a_maps(3,:)', anchor_diff')
+           [r, p] = corr(fig2b_maps(3,:)', anchor_diff')
             
-            exportfigbo(f, strcat(figDir, '/Figure_4C2.png'), 'png', 10)
+              exportfig(f, [figDir, '/Figure_4C_right.png'], 'Format', 'png', 'FontMode', 'fixed',...
+              'color', 'cmyk','Resolution',300 );
             
             % gradient by classes
-            dlmwrite([outDir '/gradient_classes.csv'],[classes_mesulam embedding(:,1)])
+            dlmwrite([outDir '/gradient_classes.csv'],[mes_parc embedding(:,1)])
             
             % write out values for neurosynth decoding
             synthDir = '/data_/mica1/03_projects/casey/sandbox1/BigBrainScripts/neurosynth_terms/';
@@ -1111,10 +1101,10 @@ for Figure4 = 1
                 tmp = Bo_surfData2parcelData([lh; rh]', parc); % parcellate
                 grad_synth(:,ii+1) = tmp;
             end
-            csvwrite([outDir '/gradient_synthing.csv'],grad_synth)
-            
-
+            csvwrite([outDir '/gradient_synthing.csv'],grad_synth)  
        end
+end
+
 
 %% Supplement - absolute difference in moments matrices and age-related changes
 for Supp_Fig = 1
@@ -1310,7 +1300,9 @@ for figure = 1
     end
     
 end
-exportfigbo(f, [figDir, '/morph_confounds.png'], 'png', 10)
+
+exportfig(f, [figDir, '/morph_confounds.png'], 'Format', 'png', 'FontMode', 'fixed',...
+              'color', 'cmyk','Resolution',300 );
 
 
 

@@ -42,6 +42,8 @@ for init_project = 1
     % data
     load([baseDir 'microstructure_profiles.mat'], 'MP2')
     load([baseDir '/demographics.mat'], 'age', 'sex', 'subj')
+    load([baseDir '/thick.mat'])
+    load([baseDir '/blurr.mat'])
     
     % atlases
     mes_classes = annot2classes([baseDir '/maps/lh.mesulam.annot'], [baseDir '/maps/rh.mesulam.annot'], 0);
@@ -188,8 +190,8 @@ for Figure_1B = 1
     
     % select rois and check on the surface
     rois = [12171529; 3482412; 2908416; 16729688]; % v1,  v2 (BA18), SPL (BA7), ACC (BA24)
-    roi_surface = zeros(1, length(uparc)); % preinitialise for displaying rois on the surface
     uparc = unique(parc);
+    roi_surface = zeros(1, length(uparc)); % preinitialise for displaying rois on the surface
     for ii=1:length(uparcel)
         index = parc==uparc(ii);
         surface_map(index) = roi_surface(ii);
@@ -438,11 +440,20 @@ for Figure2B = 1
         tmp(tmp==0) = [];
         t_range(m,1)= min(tmp);
         t_range(m,2)= max(tmp);
+        
+        % rate of change in % 
+        eval_max_age = slm.coef(1,:) + (slm.coef(2,:)*max(age));
+        eval_min_age = slm.coef(1,:) + (slm.coef(2,:)*min(age));
+        rate_change(m,:) = (diff([eval_max_age; eval_min_age]) ./ abs(eval_min_age)) * 100;
+        tmp = rate_change(m,:) .* (out_q(m,:)<0.00625);
+        tmp(tmp==0) = [];
+        rate_change_ci(m,1)= prctile(tmp,2.5);
+        rate_change_ci(m,2)= prctile(tmp,97.5);
          
     end
     age_effects(:,5) = min(out_t'); % for range of t-statistics
     age_effects(:,6) = max(out_t');
-    csvwrite([outDir 'fig2b_maps.csv'], fig2b_maps])
+    csvwrite([outDir 'fig2b_maps.csv'], fig2b_maps)
     
     % model surface-effects
     for ii = 1:size(MP2,1)
@@ -514,7 +525,7 @@ end
 % Figure 2C  - Age-related changes across cortical types
 for Figure2C = 1
  
-    dlmwrite([outDir '/moment_tstats.txt'], [classes_mesulam' out_t' out_q'])
+    dlmwrite([outDir '/moment_tstats.txt'], [mes_parc' out_t' out_q'])
 
 end
 
@@ -564,7 +575,7 @@ for correction_and_figure = 1
             end % calculate average MT moments for mesulam classes
     class_moment = zeros(size(MTmoments,1), 4, size(MTmoments,3));
     for mes = 1:4
-        class_moment(:,mes,:) = mean(MTmoments(:,classes_mesulam==mes,:),2);
+        class_moment(:,mes,:) = mean(MTmoments(:,mes_parc==mes,:),2);
     end
     
     % perform linear mixed effect models for mesulam classes
@@ -686,7 +697,7 @@ for Figure4 = 1
         
         % set up for figure
         cmap_mpc = interp_colormap(colorbrewer.seq.YlOrRd{1,9}./255, 26);
-        [~, mes_idx] = sort(classes_mesulam);
+        [mes_sorted, mes_idx] = sort(mes_parc);
 
         % Figure 4A (left) - example construction of MPC
         f = figure;
@@ -704,17 +715,17 @@ for Figure4 = 1
         imagesc(mean(MPC2(mes_idx,mes_idx,:),3), [0 1]); axis off
         colormap(a(2), cmap_mpc) 
         a(3) = axes('position', [0.39 0.65 0.008 0.3]);
-        imagesc(mes_idx'); axis off
-        colormap(a(3), cmap_mes)
+        imagesc(mes_sorted'); axis off
+        colormap(a(3), [1,1,1; cmap_mes])
         a(4) = axes('position', [0.4 0.952 0.3 0.008]);
-        imagesc(mes_idx); axis off
-        colormap(a(4), cmap_mes)
+        imagesc(mes_sorted); axis off
+        colormap(a(4), [1,1,1; cmap_mes])
         a(5) = axes('position', [0.702 0.65 0.008 0.3]);
-        imagesc(mes_idx'); axis off
-        colormap(a(5), cmap_mes)
+        imagesc(mes_sorted'); axis off
+        colormap(a(5), [1,1,1; cmap_mes])
         a(6) = axes('position', [0.4 0.64 0.3 0.008]);
-        imagesc(mes_idx); axis off
-        colormap(a(6), cmap_mes)
+        imagesc(mes_sorted); axis off
+        colormap(a(6), [1,1,1; cmap_mes])
         a(7) = axes('position', [0.8 0.65 0.008 0.3]);
         imagesc([1:100]'); axis off
         colormap(a(7), cmap_mpc)
@@ -734,8 +745,8 @@ for Figure4 = 1
         pos_t_MPC = squareform(pos_t_MPC);
         
         % t-statistic matrix
-        slim_mes    = classes_mesulam(classes_mesulam>0);
-        slim_t_MPC  = pos_t_MPC(classes_mesulam>0,classes_mesulam>0);
+        slim_mes    = mes_parc(mes_parc>0);
+        slim_t_MPC  = pos_t_MPC(mes_parc>0,mes_parc>0);
         [mes_idx, idx] = sort(slim_mes);
         a(2) = axes('position', [0.05 0.15 0.3 0.3]);
         imagesc(slim_t_MPC(idx,idx), [-4 4]); axis off
@@ -756,7 +767,7 @@ for Figure4 = 1
         % t-statistics matrix collapsed class
         for ii = 1:4
             for jj = 1:4
-                tmp = pos_t_MPC(classes_mesulam==ii,classes_mesulam==jj);
+                tmp = pos_t_MPC(mes_parc==ii,mes_parc==jj);
                 pos_t_MPC_class_mean(ii,jj) = mean(tmp(:));
                 pos_t_MPC_class_sd(ii,jj) = std(tmp(:));
             end
@@ -777,7 +788,7 @@ for Figure4 = 1
         
         % postive figure
         pos_edges = zeros(1, size(MPC2,2));
-        pos_edges(~idx) = slm.t .* (pos_q<0.01);
+        pos_edges(~idx) = slm.t .* (pos_q<0.025);
         pos_edges = squareform(pos_edges);
         [e_row, e_col] = find(pos_edges);
         edge_coords = [];
@@ -799,7 +810,7 @@ for Figure4 = 1
         slm = SurfStatT( slm, -age );
         neg_q = SurfStatQ( slm );
         neg_edges = zeros(1, size(MPC2,2));
-        neg_edges(~idx) = slm.t .* (neg_q.Q<0.01);
+        neg_edges(~idx) = slm.t .* (neg_q.Q<0.025);
         neg_edges = squareform(neg_edges);
         
         % negative figure
@@ -865,8 +876,6 @@ for Figure4 = 1
             BoSurfStat_calibrate4Views(surface_map, FS, ...
                 [0.55 0.4 0.2 0.2; 0.74 0.24 0.2 0.2; 0.55 0.24 0.2 0.2; 0.74 0.4 0.2 0.2], ...
                 1:4, [min(surface_map) max(surface_map)], coluse)
-       
-      
 
             % bin the developmental gradient
             bins = 10;
@@ -1076,7 +1085,7 @@ for Figure4 = 1
               'color', 'cmyk','Resolution',300 );
             
             % gradient by classes
-            dlmwrite([outDir '/gradient_classes.csv'],[classes_mesulam embedding(:,1)])
+            dlmwrite([outDir '/gradient_classes.csv'],[mes_parc embedding(:,1)])
             
             % write out values for neurosynth decoding
             synthDir = '/data_/mica1/03_projects/casey/sandbox1/BigBrainScripts/neurosynth_terms/';
