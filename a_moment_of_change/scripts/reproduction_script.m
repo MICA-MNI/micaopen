@@ -192,11 +192,11 @@ for Figure_1B = 1
     rois = [12171529; 3482412; 2908416; 16729688]; % v1,  v2 (BA18), SPL (BA7), ACC (BA24)
     uparc = unique(parc);
     roi_surface = zeros(1, length(uparc)); % preinitialise for displaying rois on the surface
-    for ii=1:length(uparcel)
-        index = parc==uparc(ii);
-        surface_map(index) = roi_surface(ii);
+    for ii=1:length(rois)
+        this_parc = find(uparc == rois(ii));
+        roi_surface(this_parc) = ii;
     end
-    SurfStatViewData(surface_map, FS)
+    SurfStatViewData(BoSurfStatMakeParcelData(roi_surface, FS, parc), FS)
     colormap([1,1,1; cmap_mes])
     
     f = figure('units','centimeters','outerposition',[0 0 30 30]);
