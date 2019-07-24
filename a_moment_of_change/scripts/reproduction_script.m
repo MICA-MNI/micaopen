@@ -599,14 +599,14 @@ for correction_and_figure = 1
                 age_to_term = age(1:end/2);
                 sex_to_term = double(sex(1:end/2));
 
-                out_t = zeros(size(MPmoments,3), size(MPmoments,2));
-                for ii = 1:size(MPmoments,2)
+                out_t = zeros(size(MTmoments,3), size(MTmoments,2));
+                for ii = 1:size(MTmoments,2)
                     
                     regr_to_term = regr(ii,1:end/2)';
                     
                     M2 = 1 + term(age_to_term) + term(sex_to_term) + term(regr_to_term);
                     
-                    slm = SurfStatLinMod(squeeze(MPmoments(1:end/2, ii, :)), M2);
+                    slm = SurfStatLinMod(squeeze(MTmoments(1:end/2, ii, :)), M2);
                     slm = SurfStatT( slm, regr_to_term );
                     out_t(:,ii) = slm.t;
 
@@ -636,8 +636,8 @@ for correction_and_figure = 1
         for figure_C_age_changes = 1
             
             % model relationship between age and each MT moment
-            out_t = zeros(size(MPmoments,3), size(MPmoments,2));
-            out_q = zeros(size(MPmoments,3), size(MPmoments,2));
+            out_t = zeros(size(MTmoments,3), size(MTmoments,2));
+            out_q = zeros(size(MTmoments,3), size(MTmoments,2));
             for m = 1:4
                 
                 clear slm
@@ -649,7 +649,7 @@ for correction_and_figure = 1
                 tmp = SurfStatQ( slm );
                 out_q(m,out_t(m,:)>0) = tmp.Q(out_t(m,:)>0);
                 
-                regr_age_corr(m,t) = corr(out_t(m,:)', age_change(m,:)');
+                regr_age_corr(m,t) = corr(out_t(m,:)', fig2b_maps(m,:)');
                 
                 % negative age effect
                 slm = SurfStatT( slm, -age);
@@ -1191,20 +1191,20 @@ end
 %% SPECIFICTY OF MYELIN EFFECTS
 % Controlling for thickness and blurring
 % map change in thickness across age range
-out_t = zeros(size(MPmoments,2), 4, 2, 2);
-out_q = zeros(size(MPmoments,2), 4, 2, 2);
+out_t = zeros(size(MTmoments,2), 4, 2, 2);
+out_q = zeros(size(MTmoments,2), 4, 2, 2);
 
 for baseline = 1
     
     age_to_term = age(1:end/2);
     sex_to_term = double(sex(1:end/2));
     
-    for ii = 1:size(MPmoments,2)
+    for ii = 1:size(MTmoments,2)
         thick_to_term = thick2(ii,1:end/2)';
 
         M2 = 1 + term(age_to_term) + term(sex_to_term) + term(thick_to_term);
 
-        slm = SurfStatLinMod(squeeze(MPmoments(1:end/2, ii, :)), M2);
+        slm = SurfStatLinMod(squeeze(MTmoments(1:end/2, ii, :)), M2);
         slm = SurfStatT( slm, thick_to_term );
         out_t(ii,:,1,1) = slm.t;
         tmp = SurfStatQ( slm );
@@ -1219,7 +1219,7 @@ for baseline = 1
 
         M2 = 1 + term(age_to_term) + term(sex_to_term) + term(blurr_to_term);
 
-        slm = SurfStatLinMod(squeeze(MPmoments(1:end/2, ii, :)), M2);
+        slm = SurfStatLinMod(squeeze(MTmoments(1:end/2, ii, :)), M2);
         slm = SurfStatT( slm, blurr_to_term );
         out_t(ii,:,2,1) = slm.t;
         tmp = SurfStatQ( slm );
@@ -1238,13 +1238,13 @@ for longitudinal = 1
     
     sex2 = double(sex);
     
-    for ii = 1:size(MPmoments,2)
+    for ii = 1:size(MTmoments,2)
         
         thick_to_term = thick2(ii,:)';
 
         M2 = 1 + Age + term(sex2) + term(thick_to_term) + random(Subj) + I;
 
-        slm = SurfStatLinMod(squeeze(MPmoments(:, ii, :)), M2);
+        slm = SurfStatLinMod(squeeze(MTmoments(:, ii, :)), M2);
         slm = SurfStatT( slm, thick_to_term );
         out_t(ii,:,1,2) = slm.t;
         tmp = SurfStatQ( slm );
@@ -1259,7 +1259,7 @@ for longitudinal = 1
 
         M2 = 1 + Age + term(sex2) + term(blurr_to_term) + random(Subj) + I;
 
-        slm = SurfStatLinMod(squeeze(MPmoments(:, ii, :)), M2);
+        slm = SurfStatLinMod(squeeze(MTmoments(:, ii, :)), M2);
         slm = SurfStatT( slm, blurr_to_term );
         out_t(ii,:,2,2) = slm.t;
         tmp = SurfStatQ( slm );
