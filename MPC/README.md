@@ -71,6 +71,8 @@ Atlas for levels of laminar differentiation (a la Mesulam 2001), 1-paralimbic, 2
   mesulam_conte69.txt  
 
 Atlas for cytoarchitectural complexity (Adler et al., 2018 Epilepsia)
+  lh.economo.annot & rh.economo.annot on fsaverage7  
+  economo_conte69.txt  
 
 SJH 1012 parcellation scheme  
   lh.sjh.annot & rh.sjh.annot on fsaverage7  
