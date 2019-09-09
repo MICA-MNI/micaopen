@@ -67,18 +67,20 @@ And direct the reader to the github repository: https://github.com/MICA-MNI/mica
 
 ## Extra features
 Atlas for levels of laminar differentiation (a la Mesulam 2001), 1-paralimbic, 2-hetermodal, 3-unimodal, 4-idiotypic, 0-cortical wall. 
-  lh.mesulam.annot & rh.mesulam.annot on fsaverage7
-  mesulam_conte69.txt
+  lh.mesulam.annot & rh.mesulam.annot on fsaverage7  
+  mesulam_conte69.txt  
 
-SJH 1012 parcellation scheme
-  lh.sjh.annot & rh.sjh.annot on fsaverage7
-  sjh_conte69.txt
+Atlas for cytoarchitectural complexity (Adler et al., 2018 Epilepsia)
+
+SJH 1012 parcellation scheme  
+  lh.sjh.annot & rh.sjh.annot on fsaverage7  
+  sjh_conte69.txt  
 
 Principle gradient from the manuscript (G1-HIST and G1-MRI). G1_hist is derived from Big Brain (Figure 2) and was mapped to fsaverage5 and conte69 using nearest neighbour interpolation (improved methods for registration of Big Brain to these surfaces is upcoming and should be adopted in the future). G1_mri is derived from T1w/T2w imaging from the Human Connectome Project (Figure 3). 
-  G1_hist_sjh_parcel_fsaverage7.txt
-  G1_hist_sjh_parcel_conte69.txt
-  G1_mri_sjh_parcel_fsaverage7.txt
-  G1_mri_sjh_parcel_conte69.txt
+  G1_hist_sjh_parcel_fsaverage7.txt  
+  G1_hist_sjh_parcel_conte69.txt  
+  G1_mri_sjh_parcel_fsaverage7.txt  
+  G1_mri_sjh_parcel_conte69.txt  
 
 Scripts to conduct diffusion map embedding in MATLAB may be found in https://github.com/MICA-MNI/micaopen/diffusion_map_embedding   
 
