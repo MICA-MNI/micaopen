@@ -24,6 +24,12 @@ z               = 0.5 * log( (1+r) ./ (1-r) );
 z(isinf(z))     = 0; 
 z(isnan(z))     = 0;
     
+
+mica_
+
+
+
+
 f=figure, 
     imagesc(z,[0 1])
 
