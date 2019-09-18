@@ -6,4 +6,4 @@ The procedure used a subset of participants of the Human Connectome Project (n=1
 2) Matrices were transformed into normalised angle matrices and we applied diffusion map embedding to resolve the principle gradients
 3) Gradient values were projected from 10k mesh to MNI152 volume space using mri_surf2vol (Freesurfer tool)
 
-
+The volumetric template was MNI152_T1_2mm_brain.nii, which is provided in the standard atlases of FSL. 
