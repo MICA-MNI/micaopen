@@ -9,7 +9,7 @@ Six equivolumetric surfaces were built between layer 1 and layer 4, and layer 4 
 
 Please cite Paquola et al., (2019) when using the Big Brain profiles (https://doi.org/10.1371/journal.pbio.3000284)
 
-You can find the original data at ftp://bigbrain.loris.ca/ (DOI: 10.1126/science.1235381)
+You can find the original data at ftp://bigbrain.loris.ca/ (https://doi.org/10.1126/science.1235381)
 Schaefer parcellations are found at https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal
 
 
