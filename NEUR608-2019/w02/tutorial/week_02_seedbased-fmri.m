@@ -25,10 +25,6 @@ z(isinf(z))     = 0;
 z(isnan(z))     = 0;
     
 
-mica_
-
-
-
 
 f=figure, 
     imagesc(z,[0 1])
@@ -47,9 +43,9 @@ f=figure;
     SurfStatColLim([-0.7 0.7]);
     colormap(parula);
     
+
     
-    
- seed = ts(:,7904); 
+ seed = ts(:,PCC); 
  rmap               = corr(seed, ts);
  f=figure;  
     SurfStatViewData(rmap,SM,'','black')

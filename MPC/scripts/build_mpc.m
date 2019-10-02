@@ -62,7 +62,7 @@ else
     % create MPC matrix from partial correlation
     R = partialcorr(I, mean(I,2));
     % remove negative values
-    R(R<0) = 0;
+    %R(R<0) = 0;
     % log transformation
     MPC = 0.5 * log( (1+R) ./ (1-R));
     MPC(isnan(MPC))     = 0; MPC(isinf(MPC)) = 0;
