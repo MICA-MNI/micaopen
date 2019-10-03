@@ -10,11 +10,13 @@ SurfStat: Contains Keith Worsley's SurfStat (Chicago version) for surface- and v
 
 BigBrain: BigBrain histological profiles and statistical profile moments. Please cite Paquola et al., (2019) when using the Big Brain profiles (https://doi.org/10.1371/journal.pbio.3000284)
 
-a_moment_of_change: This repository is a companion to our preprint "A Moment of Change: Shifts in myeloarchitecture characterise adolescent development of cortical gradients". In the repo, we provide preprocessed data used in the analysis as well as the script to reproduce the primary figures. 
+a_moment_of_change: This repository is a companion to our preprint "A Moment of Change: Shifts in myeloarchitecture characterise adolescent development of cortical gradients". In the repo, we provide preprocessed data used in the analysis as well as the script to reproduce the primary figures. Link here: https://www.biorxiv.org/content/10.1101/706341v2
 
-mica_powertools - extra scripts from the MICA lab, loosely documented only but perhaps soon unified and toolboxed
 
-autism_hierarchy - videos of step wise functional connectivity within a hierarchical framework (Hong et al., under review)
+Other goodies: 
+autism_hierarchy: videos of step wise functional connectivity analysis performed in connectome manifolds. For furter detauks see Hong et al., 2019 Nat Comms, link here https://www.nature.com/articles/s41467-019-08944-1
+
+mica_powertools: extra scripts from the MICA lab, loosely documented at this point but perhaps soon unified, better documented, and toolboxed
 
 dcm_sorter - python code to sort a dicom directory into subfolders 
 
