@@ -3,7 +3,7 @@
 Open Software from the MICA lab (http:/mica-mni.github.io), other useful tools, and supplementary data that accompanies some of our recent publications. 
 
 ## Main tools 
-*MPC*: tool for microstructure profile covariance analysis, which can generate subject specific networks from histological reconstructions as well as myelin sensitive MRI data, used for the analysis of microstructural gradients. For further details, see our paper: Paquola et al. 2019 PLoS Biology (https://doi.org/10.1371/journal.pbio.3000284)
+_MPC_: tool for microstructure profile covariance analysis, which can generate subject specific networks from histological reconstructions as well as myelin sensitive MRI data, used for the analysis of microstructural gradients. For further details, see our paper: Paquola et al. 2019 PLoS Biology (https://doi.org/10.1371/journal.pbio.3000284)
 
 gradients_volumetric: The gradients contained within this repo were created as part of Paquola et al.(2019) then projected to volumetric MNI152 space for wider use. 
 
