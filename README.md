@@ -18,4 +18,4 @@ autism_hierarchy - videos of step wise functional connectivity within a hierarch
 
 dcm_sorter - python code to sort a dicom directory into subfolders 
 
-The  micaopen tools result from the dedication and collaboration of all members of the lab, notably Reinder Vos de Wael, Casey Paquola, Oualid Benkarim, Sara Lariviere, Seok-Jun Hong, 
+The  micaopen tools result from the dedication and collaboration of all members of the lab, notably Casey Paquola, Reinder Vos de Wael, Oualid Benkarim, Sara Lariviere, Raul Cruces, Bo-Yong Park, Jessica Royer, Seok-Jun Hong and Boris Bernhardt.
