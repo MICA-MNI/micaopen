@@ -6,6 +6,7 @@ The MICA labs repo for all things Big Brain
 
 Intensity profiles (parcels x s, where s represents a equivolumetric surface)   
 Statistical moments (parcels x m, where m represents the moments: mean, std, skewness and kurtosis)  
+Microstructure profile covariance (MPC) matrices (parcels x parcels, in the same order as profiles)
 
 ### Construction notes
 
@@ -15,7 +16,7 @@ Profiles and moments are available with and without regression for the midsurfac
 
 ## References
 
-* Paquola et al., (2019) - original deployment of the BigBrain profiling (https://doi.org/10.1371/journal.pbio.3000284)
+* Paquola et al., (2019) - original deployment of the BigBrain profiling and microstructure profile covariance (https://doi.org/10.1371/journal.pbio.3000284)
 * Paquola et al., (2019) - original implementation of moment-based characterisation of the depth profiles (https://doi.org/10.1101/706341)
 * Amunts et al., (2017) - data descriptor of BigBrain (https://doi.org/10.1126/science.1235381)
 ftp://bigbrain.loris.ca/
