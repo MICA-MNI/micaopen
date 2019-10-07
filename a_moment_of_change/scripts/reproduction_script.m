@@ -322,6 +322,11 @@ for Figure_1D = 1
 
 end
 
+%% Supplement - big brain profiles and moments
+load('/data_/mica1/03_projects/casey/sandbox1/BigBrainScripts/laminar_based/BBs.mat', 'BBs');
+BBsy = BBs;
+load('/data_/mica1/03_projects/casey/sandbox1/BigBrainScripts/laminar_based/BBs_noYregress.mat', 'BBs');
+
 %% Supplement - regional variation in moments, when controlling for mean
 for correction = 1
     
