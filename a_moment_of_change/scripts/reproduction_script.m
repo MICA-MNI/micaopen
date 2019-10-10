@@ -18,8 +18,7 @@ for init_project = 1
     % useful scripts
     addpath(genpath(baseDir))
     addpath(genpath([GH '/micaopen/MPC']))
-    addpath([GH '/micaopen/surfstat_addons']) 
-    addpath([GH '/micaopen/surfstat_chicago'])
+    addpath(genpath([GH '/micaopen/surfstat'])) 
     addpath([GH '/micaopen/diffusion_map_embedding']) 
     addpath([GH '/sandbox1/NSPN/scripts/rotate_parcellation-master/Matlab'])   % please download repo from https://github.com/frantisekvasa/rotate_parcellation
     
@@ -321,11 +320,6 @@ for Figure_1D = 1
               'color', 'cmyk','Resolution',300 );
 
 end
-
-%% Supplement - big brain profiles and moments
-load('/data_/mica1/03_projects/casey/sandbox1/BigBrainScripts/laminar_based/BBs.mat', 'BBs');
-BBsy = BBs;
-load('/data_/mica1/03_projects/casey/sandbox1/BigBrainScripts/laminar_based/BBs_noYregress.mat', 'BBs');
 
 %% Supplement - regional variation in moments, when controlling for mean
 for correction = 1
