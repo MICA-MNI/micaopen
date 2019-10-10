@@ -18,8 +18,7 @@ for init_project = 1
     % useful scripts
     addpath(genpath(baseDir))
     addpath(genpath([GH '/micaopen/MPC']))
-    addpath([GH '/micaopen/surfstat_addons']) 
-    addpath([GH '/micaopen/surfstat_chicago'])
+    addpath(genpath([GH '/micaopen/surfstat'])) 
     addpath([GH '/micaopen/diffusion_map_embedding']) 
     addpath([GH '/sandbox1/NSPN/scripts/rotate_parcellation-master/Matlab'])   % please download repo from https://github.com/frantisekvasa/rotate_parcellation
     

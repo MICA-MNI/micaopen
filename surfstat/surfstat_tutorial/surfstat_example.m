@@ -4,9 +4,8 @@
 % then go to editor on top 
 
 %% 0. define directory and add toolbox
-P='/Users/boris/Documents/1_github/micaopen/surfstat_tutorial/'; 
-addpath([P 'surfstat'])
-
+P='/data_/mica1/03_projects/casey/micaopen/surfstat/surfstat_tutorial/'; 
+addpath(P)
 
 %% 1. Load the surface data 
 SP = SurfStatAvSurf({[P 'fsaverage5/lh.pial'],[P 'fsaverage5/rh.pial']})
@@ -20,7 +19,6 @@ SM.tri   = SP.tri;
 %% 2. load brain mask and some useful surface features 
 load([P 'fsaverage5/mask.mat']), 
 load([P 'fsaverage5/curv.mat'])
-
 
 
 %% 3a. Display what we have been loading, first the brain masks 
@@ -46,8 +44,6 @@ f=figure,
 SurfStatViewData(sign(curv), SM, 'curvature, signed')
 colormap([0.6 .6 .6; .8 .8 .8])
 
-
-
     
 %%  4. ready for some analysis: load the spreadsheet  
 % load csv file that contains our participant ids, groups and IVs 
@@ -70,7 +66,7 @@ left    = strcat(P, 'thickness/', ID, '_lh2fsaverage5_20.mgh');
 right   = strcat(P, 'thickness/', ID, '_rh2fsaverage5_20.mgh');
 
 % load data into a matrix
-T       = SurfStatReadData([left, right]); 
+T = SurfStatReadData([left, right]); 
 
 
 %% 4c. Display data that we just loaded 
@@ -224,6 +220,4 @@ f=figure
     SurfStatViewData(slm.t, SM, 't-value') 
     SurfStatColLim([0 12])
     colormap([0.8 .8 .8; parula])
-
-    
     
