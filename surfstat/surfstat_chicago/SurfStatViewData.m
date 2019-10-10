@@ -64,7 +64,7 @@ trisurf(surf.tri(tl,:),surf.coord(1,vl),surf.coord(2,vl),surf.coord(3,vl),...
     double(data(vl)),'EdgeColor','none');
 view(-90,0); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading flat;
+lighting phong; material dull; shading interp;
 
 a(2)=axes('position',[0.3 0.58 w h]);
 trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
