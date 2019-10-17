@@ -1,6 +1,6 @@
 # Big Brain Meta-data
 
-The MICA labs repo for all things Big Brain
+The MICA lab's repo for all things Big Brain
 
 ## This repository currently contains
 
