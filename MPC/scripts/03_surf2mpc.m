@@ -49,7 +49,7 @@ end
         end
         
         % concatenate hemispheres and flip so pial surface is at the top
-        BB = flipud([BBr BBl]);
+        BB = flipud([BBl BBr]);
         
         % load subject surface
         G = SurfStatReadSurf({strcat(dataDir, '/', sub, '/surfaces/', sub, '/surf/lh.pial'), strcat(dataDir, '/', sub, '/surfaces/', sub, '/surf/rh.pial')});
