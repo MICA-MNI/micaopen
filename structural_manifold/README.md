@@ -2,7 +2,8 @@
 # Structural Manifold
 > Data and code to use the structural manifold as a standard space or create your own  <br /> 
 > From "The Cortical Wiring Scheme of Hierarchical Information Processing", Paquola et al., 2020  <br /> 
-![alt_text](structural_manifold/method_overview.png)
+.. figure:: https://github.com/MICA-MNI/micaopen/blob/master/structural_manifold/method_overview.png
+   :alt: alias of image
 
 ---
 
