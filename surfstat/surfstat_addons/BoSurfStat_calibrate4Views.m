@@ -11,6 +11,7 @@ vr=vl+v/2;
 t=size(Slo.tri,1);
 tl=1:(t/2);
 tr=tl+t/2;
+
 a(handles(1)) =axes('position',[pos(1,1) pos(1,2) pos(1,3) pos(1,4)]);
 trisurf(Slo.tri(tl,:),Slo.coord(1,vl),Slo.coord(2,vl),Slo.coord(3,vl),...
 double(data(vl)),'EdgeColor','none');
