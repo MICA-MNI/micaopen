@@ -1,0 +1,136 @@
+1.1740 	WARNING 	pyo audio lib was requested but not loaded: No module named pyo
+1.7252 	INFO 	Loaded monitor calibration from ['2017_05_17 09:51']
+1.7259 	WARNING 	User requested fullscreen with size [1920 1080], but screen is actually [1366, 768]. Using actual size
+2.3427 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 1.,  1.,  1.]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0xa67703cc>, name='window1', pos=[0, 0], screen=0, size=array([1366,  768]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+2.3428 	EXP 	window1: recordFrameIntervals = False
+2.5059 	EXP 	window1: recordFrameIntervals = True
+2.6893 	EXP 	window1: recordFrameIntervals = False
+2.8284 	EXP 	Created instructions_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.075, italic=False, name='instructions_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=1)
+2.8341 	EXP 	Created dummy_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='dummy_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+2.8366 	EXP 	Created unnamed ImageStim = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=None, interpolate=False, mask=None, maskParams=None, name='unnamed ImageStim', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 960.,  720.]), texRes=128, units=u'norm', win=Window(...))
+2.8394 	EXP 	Created fixation_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='fixation_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+2.8513 	EXP 	Created thankyou_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, name='thankyou_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'End of experiment.\n\nThank you.', units=u'norm', win=Window(...), wrapWidth=1)
+2.8587 	EXP 	instructions_text: autoDraw = True
+3.7371 	DATA 	Keypress: 4
+3.7373 	EXP 	launchScan: vol: 1500  TR: 0.585s  skip: 0  sync: '5'
+3.7876 	EXP 	window1: mouseVisible = False
+3.8167 	EXP 	instructions_text: autoDraw = False
+4.2095 	DATA 	Keypress: 5
+4.2096 	EXP 	launchScan: start of scan
+4.2222 	EXP 	dummy_text: autoDraw = True
+10.2104 	EXP 	Imported Episodic_Encoding/Episodic_ListA.csv as conditions, 22 conditions, 2 params
+10.2114 	EXP 	Created sequence: random, trialTypes=22, nReps=1, seed=None
+10.2123 	EXP 	New trial (rep=0, index=0): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/9.jpg'}
+10.2324 	EXP 	dummy_text: autoDraw = False
+10.2324 	EXP 	dummy_text: autoDraw = False
+10.2324 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/9.jpg'
+10.2324 	EXP 	unnamed ImageStim: autoDraw = True
+14.2287 	EXP 	unnamed ImageStim: autoDraw = False
+14.2287 	EXP 	unnamed ImageStim: autoDraw = False
+14.2287 	EXP 	fixation_text: autoDraw = True
+17.7053 	EXP 	New trial (rep=0, index=1): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/19.jpg'}
+17.7215 	EXP 	fixation_text: autoDraw = False
+17.7215 	EXP 	fixation_text: autoDraw = False
+17.7215 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/19.jpg'
+17.7215 	EXP 	unnamed ImageStim: autoDraw = True
+21.7115 	EXP 	unnamed ImageStim: autoDraw = False
+21.7115 	EXP 	unnamed ImageStim: autoDraw = False
+21.7115 	EXP 	fixation_text: autoDraw = True
+24.1902 	EXP 	New trial (rep=0, index=2): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/10.jpg'}
+24.2066 	EXP 	fixation_text: autoDraw = False
+24.2066 	EXP 	fixation_text: autoDraw = False
+24.2066 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/10.jpg'
+24.2066 	EXP 	unnamed ImageStim: autoDraw = True
+28.1966 	EXP 	unnamed ImageStim: autoDraw = False
+28.1966 	EXP 	unnamed ImageStim: autoDraw = False
+28.1966 	EXP 	fixation_text: autoDraw = True
+31.1741 	EXP 	New trial (rep=0, index=3): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/22.jpg'}
+31.1899 	EXP 	fixation_text: autoDraw = False
+31.1899 	EXP 	fixation_text: autoDraw = False
+31.1899 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/22.jpg'
+31.1899 	EXP 	unnamed ImageStim: autoDraw = True
+35.1805 	EXP 	unnamed ImageStim: autoDraw = False
+35.1805 	EXP 	unnamed ImageStim: autoDraw = False
+35.1805 	EXP 	fixation_text: autoDraw = True
+37.1605 	EXP 	New trial (rep=0, index=4): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/16.jpg'}
+37.1783 	EXP 	fixation_text: autoDraw = False
+37.1783 	EXP 	fixation_text: autoDraw = False
+37.1783 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/16.jpg'
+37.1783 	EXP 	unnamed ImageStim: autoDraw = True
+41.1667 	EXP 	unnamed ImageStim: autoDraw = False
+41.1667 	EXP 	unnamed ImageStim: autoDraw = False
+41.1667 	EXP 	fixation_text: autoDraw = True
+44.1444 	EXP 	New trial (rep=0, index=5): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/15.jpg'}
+44.1601 	EXP 	fixation_text: autoDraw = False
+44.1601 	EXP 	fixation_text: autoDraw = False
+44.1601 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/15.jpg'
+44.1601 	EXP 	unnamed ImageStim: autoDraw = True
+48.1505 	EXP 	unnamed ImageStim: autoDraw = False
+48.1505 	EXP 	unnamed ImageStim: autoDraw = False
+48.1505 	EXP 	fixation_text: autoDraw = True
+51.6266 	EXP 	New trial (rep=0, index=6): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/11.jpg'}
+51.6425 	EXP 	fixation_text: autoDraw = False
+51.6425 	EXP 	fixation_text: autoDraw = False
+51.6425 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/11.jpg'
+51.6425 	EXP 	unnamed ImageStim: autoDraw = True
+55.6333 	EXP 	unnamed ImageStim: autoDraw = False
+55.6333 	EXP 	unnamed ImageStim: autoDraw = False
+55.6333 	EXP 	fixation_text: autoDraw = True
+58.6107 	EXP 	New trial (rep=0, index=7): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/18.jpg'}
+58.6291 	EXP 	fixation_text: autoDraw = False
+58.6291 	EXP 	fixation_text: autoDraw = False
+58.6291 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/18.jpg'
+58.6291 	EXP 	unnamed ImageStim: autoDraw = True
+62.6171 	EXP 	unnamed ImageStim: autoDraw = False
+62.6171 	EXP 	unnamed ImageStim: autoDraw = False
+62.6171 	EXP 	fixation_text: autoDraw = True
+64.0980 	EXP 	New trial (rep=0, index=8): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/21.jpg'}
+64.1137 	EXP 	fixation_text: autoDraw = False
+64.1137 	EXP 	fixation_text: autoDraw = False
+64.1137 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/21.jpg'
+64.1137 	EXP 	unnamed ImageStim: autoDraw = True
+68.1045 	EXP 	unnamed ImageStim: autoDraw = False
+68.1045 	EXP 	unnamed ImageStim: autoDraw = False
+68.1045 	EXP 	fixation_text: autoDraw = True
+70.5832 	EXP 	New trial (rep=0, index=9): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/12.jpg'}
+70.6016 	EXP 	fixation_text: autoDraw = False
+70.6016 	EXP 	fixation_text: autoDraw = False
+70.6016 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/12.jpg'
+70.6016 	EXP 	unnamed ImageStim: autoDraw = True
+74.5895 	EXP 	unnamed ImageStim: autoDraw = False
+74.5895 	EXP 	unnamed ImageStim: autoDraw = False
+74.5895 	EXP 	fixation_text: autoDraw = True
+77.5671 	EXP 	New trial (rep=0, index=10): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/3.jpg'}
+77.5852 	EXP 	fixation_text: autoDraw = False
+77.5852 	EXP 	fixation_text: autoDraw = False
+77.5852 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/3.jpg'
+77.5852 	EXP 	unnamed ImageStim: autoDraw = True
+81.5733 	EXP 	unnamed ImageStim: autoDraw = False
+81.5733 	EXP 	unnamed ImageStim: autoDraw = False
+81.5733 	EXP 	fixation_text: autoDraw = True
+84.0523 	EXP 	New trial (rep=0, index=11): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/13.jpg'}
+84.0687 	EXP 	fixation_text: autoDraw = False
+84.0687 	EXP 	fixation_text: autoDraw = False
+84.0687 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/13.jpg'
+84.0687 	EXP 	unnamed ImageStim: autoDraw = True
+88.0584 	EXP 	unnamed ImageStim: autoDraw = False
+88.0584 	EXP 	unnamed ImageStim: autoDraw = False
+88.0584 	EXP 	fixation_text: autoDraw = True
+90.5372 	EXP 	New trial (rep=0, index=12): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/8.jpg'}
+90.5537 	EXP 	fixation_text: autoDraw = False
+90.5537 	EXP 	fixation_text: autoDraw = False
+90.5537 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/8.jpg'
+90.5537 	EXP 	unnamed ImageStim: autoDraw = True
+94.5435 	EXP 	unnamed ImageStim: autoDraw = False
+94.5435 	EXP 	unnamed ImageStim: autoDraw = False
+94.5435 	EXP 	fixation_text: autoDraw = True
+96.0248 	EXP 	New trial (rep=0, index=13): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/5.jpg'}
+96.0426 	EXP 	fixation_text: autoDraw = False
+96.0426 	EXP 	fixation_text: autoDraw = False
+96.0426 	EXP 	unnamed ImageStim: image = u'Episodic_Encoding/Episodic_Encoding_ListA/5.jpg'
+96.0426 	EXP 	unnamed ImageStim: autoDraw = True
+100.0308 	EXP 	unnamed ImageStim: autoDraw = False
+100.0308 	EXP 	unnamed ImageStim: autoDraw = False
+100.0308 	EXP 	fixation_text: autoDraw = True
+103.0085 	EXP 	New trial (rep=0, index=14): {u'list_AB': u'A', u'wordpair': u'\u201cEpisodic_Encoding/Episodic_Encoding_ListA/1.jpg\u201d'}
+103.0089 	ERROR 	Couldn't find image file '“Episodic_Encoding/Episodic_Encoding_ListA/1.jpg”'; check path?

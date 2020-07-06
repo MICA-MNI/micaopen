@@ -1,0 +1,204 @@
+1.2661 	WARNING 	pyo audio lib was requested but not loaded: No module named pyo
+2.2236 	INFO 	Loaded monitor calibration from ['2017_05_17 09:51']
+2.2269 	WARNING 	User requested fullscreen with size [1920 1080], but screen is actually [1366, 768]. Using actual size
+2.9080 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 1.,  1.,  1.]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0xa68513cc>, name='window1', pos=[0, 0], screen=0, size=array([1366,  768]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+2.9081 	EXP 	window1: recordFrameIntervals = False
+3.0717 	EXP 	window1: recordFrameIntervals = True
+3.2550 	EXP 	window1: recordFrameIntervals = False
+3.4105 	EXP 	Created instructions_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.075, italic=False, name='instructions_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=1)
+3.4162 	EXP 	Created dummy_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='dummy_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+3.4187 	EXP 	Created stimList = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=None, interpolate=False, mask=None, maskParams=None, name='stimList', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 960.,  720.]), texRes=128, units=u'norm', win=Window(...))
+3.4215 	EXP 	Created fixation_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='fixation_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+3.4333 	EXP 	Created thankyou_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, name='thankyou_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'End of experiment.\n\nThank you.', units=u'norm', win=Window(...), wrapWidth=1)
+3.4398 	EXP 	instructions_text: autoDraw = True
+3.7709 	DATA 	Keypress: 1
+3.7712 	EXP 	launchScan: vol: 1500  TR: 0.585s  skip: 0  sync: '5'
+3.8260 	EXP 	window1: mouseVisible = False
+3.8561 	EXP 	instructions_text: autoDraw = False
+4.9118 	DATA 	Keypress: 5
+4.9118 	EXP 	launchScan: start of scan
+4.9192 	EXP 	dummy_text: autoDraw = True
+10.9100 	EXP 	Imported Episodic_Encoding/Episodic_ListA.csv as conditions, 22 conditions, 2 params
+10.9112 	EXP 	Created sequence: random, trialTypes=22, nReps=1, seed=None
+10.9122 	EXP 	New trial (rep=0, index=0): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/22.jpg'}
+10.9354 	EXP 	dummy_text: autoDraw = False
+10.9354 	EXP 	dummy_text: autoDraw = False
+10.9354 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+10.9354 	EXP 	stimList: autoDraw = True
+14.9275 	EXP 	stimList: autoDraw = False
+14.9275 	EXP 	stimList: autoDraw = False
+14.9275 	EXP 	fixation_text: autoDraw = True
+17.9049 	EXP 	New trial (rep=0, index=1): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/3.jpg'}
+17.9206 	EXP 	fixation_text: autoDraw = False
+17.9206 	EXP 	fixation_text: autoDraw = False
+17.9206 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+17.9206 	EXP 	stimList: autoDraw = True
+21.9114 	EXP 	stimList: autoDraw = False
+21.9114 	EXP 	stimList: autoDraw = False
+21.9114 	EXP 	fixation_text: autoDraw = True
+24.3906 	EXP 	New trial (rep=0, index=2): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/8.jpg'}
+24.4075 	EXP 	fixation_text: autoDraw = False
+24.4075 	EXP 	fixation_text: autoDraw = False
+24.4075 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+24.4075 	EXP 	stimList: autoDraw = True
+28.3965 	EXP 	stimList: autoDraw = False
+28.3965 	EXP 	stimList: autoDraw = False
+28.3965 	EXP 	fixation_text: autoDraw = True
+30.8751 	EXP 	New trial (rep=0, index=3): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/13.jpg'}
+30.8952 	EXP 	fixation_text: autoDraw = False
+30.8952 	EXP 	fixation_text: autoDraw = False
+30.8952 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+30.8952 	EXP 	stimList: autoDraw = True
+34.8814 	EXP 	stimList: autoDraw = False
+34.8814 	EXP 	stimList: autoDraw = False
+34.8814 	EXP 	fixation_text: autoDraw = True
+37.3605 	EXP 	New trial (rep=0, index=4): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/5.jpg'}
+37.3807 	EXP 	fixation_text: autoDraw = False
+37.3807 	EXP 	fixation_text: autoDraw = False
+37.3807 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+37.3807 	EXP 	stimList: autoDraw = True
+41.3665 	EXP 	stimList: autoDraw = False
+41.3665 	EXP 	stimList: autoDraw = False
+41.3665 	EXP 	fixation_text: autoDraw = True
+44.8429 	EXP 	New trial (rep=0, index=5): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/16.jpg'}
+44.8629 	EXP 	fixation_text: autoDraw = False
+44.8629 	EXP 	fixation_text: autoDraw = False
+44.8629 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+44.8629 	EXP 	stimList: autoDraw = True
+48.8492 	EXP 	stimList: autoDraw = False
+48.8492 	EXP 	stimList: autoDraw = False
+48.8492 	EXP 	fixation_text: autoDraw = True
+51.3281 	EXP 	New trial (rep=0, index=6): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/14.jpg'}
+51.3458 	EXP 	fixation_text: autoDraw = False
+51.3458 	EXP 	fixation_text: autoDraw = False
+51.3458 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+51.3458 	EXP 	stimList: autoDraw = True
+55.3343 	EXP 	stimList: autoDraw = False
+55.3343 	EXP 	stimList: autoDraw = False
+55.3343 	EXP 	fixation_text: autoDraw = True
+58.8108 	EXP 	New trial (rep=0, index=7): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/12.jpg'}
+58.8310 	EXP 	fixation_text: autoDraw = False
+58.8310 	EXP 	fixation_text: autoDraw = False
+58.8310 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+58.8310 	EXP 	stimList: autoDraw = True
+62.8170 	EXP 	stimList: autoDraw = False
+62.8170 	EXP 	stimList: autoDraw = False
+62.8170 	EXP 	fixation_text: autoDraw = True
+66.2935 	EXP 	New trial (rep=0, index=8): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/17.jpg'}
+66.3114 	EXP 	fixation_text: autoDraw = False
+66.3114 	EXP 	fixation_text: autoDraw = False
+66.3114 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+66.3114 	EXP 	stimList: autoDraw = True
+70.2998 	EXP 	stimList: autoDraw = False
+70.2998 	EXP 	stimList: autoDraw = False
+70.2998 	EXP 	fixation_text: autoDraw = True
+73.2775 	EXP 	New trial (rep=0, index=9): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/18.jpg'}
+73.2964 	EXP 	fixation_text: autoDraw = False
+73.2964 	EXP 	fixation_text: autoDraw = False
+73.2964 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+73.2964 	EXP 	stimList: autoDraw = True
+77.2836 	EXP 	stimList: autoDraw = False
+77.2836 	EXP 	stimList: autoDraw = False
+77.2836 	EXP 	fixation_text: autoDraw = True
+80.2609 	EXP 	New trial (rep=0, index=10): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/21.jpg'}
+80.2770 	EXP 	fixation_text: autoDraw = False
+80.2770 	EXP 	fixation_text: autoDraw = False
+80.2770 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+80.2770 	EXP 	stimList: autoDraw = True
+84.2675 	EXP 	stimList: autoDraw = False
+84.2675 	EXP 	stimList: autoDraw = False
+84.2675 	EXP 	fixation_text: autoDraw = True
+86.7464 	EXP 	New trial (rep=0, index=11): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/19.jpg'}
+86.7645 	EXP 	fixation_text: autoDraw = False
+86.7645 	EXP 	fixation_text: autoDraw = False
+86.7645 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+86.7645 	EXP 	stimList: autoDraw = True
+90.7526 	EXP 	stimList: autoDraw = False
+90.7526 	EXP 	stimList: autoDraw = False
+90.7526 	EXP 	fixation_text: autoDraw = True
+93.7298 	EXP 	New trial (rep=0, index=12): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/11.jpg'}
+93.7456 	EXP 	fixation_text: autoDraw = False
+93.7456 	EXP 	fixation_text: autoDraw = False
+93.7456 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+93.7456 	EXP 	stimList: autoDraw = True
+97.7365 	EXP 	stimList: autoDraw = False
+97.7365 	EXP 	stimList: autoDraw = False
+97.7365 	EXP 	fixation_text: autoDraw = True
+99.7167 	EXP 	New trial (rep=0, index=13): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/9.jpg'}
+99.7357 	EXP 	fixation_text: autoDraw = False
+99.7357 	EXP 	fixation_text: autoDraw = False
+99.7357 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+99.7357 	EXP 	stimList: autoDraw = True
+103.7226 	EXP 	stimList: autoDraw = False
+103.7226 	EXP 	stimList: autoDraw = False
+103.7226 	EXP 	fixation_text: autoDraw = True
+107.1992 	EXP 	New trial (rep=0, index=14): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/6.jpg'}
+107.2196 	EXP 	fixation_text: autoDraw = False
+107.2196 	EXP 	fixation_text: autoDraw = False
+107.2196 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+107.2196 	EXP 	stimList: autoDraw = True
+111.2053 	EXP 	stimList: autoDraw = False
+111.2053 	EXP 	stimList: autoDraw = False
+111.2053 	EXP 	fixation_text: autoDraw = True
+114.6818 	EXP 	New trial (rep=0, index=15): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/7.jpg'}
+114.6996 	EXP 	fixation_text: autoDraw = False
+114.6996 	EXP 	fixation_text: autoDraw = False
+114.6996 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+114.6996 	EXP 	stimList: autoDraw = True
+118.6881 	EXP 	stimList: autoDraw = False
+118.6881 	EXP 	stimList: autoDraw = False
+118.6881 	EXP 	fixation_text: autoDraw = True
+120.1694 	EXP 	New trial (rep=0, index=16): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/15.jpg'}
+120.1884 	EXP 	fixation_text: autoDraw = False
+120.1884 	EXP 	fixation_text: autoDraw = False
+120.1884 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+120.1884 	EXP 	stimList: autoDraw = True
+124.1754 	EXP 	stimList: autoDraw = False
+124.1754 	EXP 	stimList: autoDraw = False
+124.1754 	EXP 	fixation_text: autoDraw = True
+127.1530 	EXP 	New trial (rep=0, index=17): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/4.jpg'}
+127.1696 	EXP 	fixation_text: autoDraw = False
+127.1696 	EXP 	fixation_text: autoDraw = False
+127.1696 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+127.1696 	EXP 	stimList: autoDraw = True
+131.1593 	EXP 	stimList: autoDraw = False
+131.1593 	EXP 	stimList: autoDraw = False
+131.1593 	EXP 	fixation_text: autoDraw = True
+133.1390 	EXP 	New trial (rep=0, index=18): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/10.jpg'}
+133.1593 	EXP 	fixation_text: autoDraw = False
+133.1593 	EXP 	fixation_text: autoDraw = False
+133.1593 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+133.1593 	EXP 	stimList: autoDraw = True
+137.1451 	EXP 	stimList: autoDraw = False
+137.1451 	EXP 	stimList: autoDraw = False
+137.1451 	EXP 	fixation_text: autoDraw = True
+139.6242 	EXP 	New trial (rep=0, index=19): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'}
+139.6444 	EXP 	fixation_text: autoDraw = False
+139.6444 	EXP 	fixation_text: autoDraw = False
+139.6444 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+139.6444 	EXP 	stimList: autoDraw = True
+143.6306 	EXP 	stimList: autoDraw = False
+143.6306 	EXP 	stimList: autoDraw = False
+143.6306 	EXP 	fixation_text: autoDraw = True
+146.6084 	EXP 	New trial (rep=0, index=20): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/20.jpg'}
+146.6273 	EXP 	fixation_text: autoDraw = False
+146.6273 	EXP 	fixation_text: autoDraw = False
+146.6273 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+146.6273 	EXP 	stimList: autoDraw = True
+150.6144 	EXP 	stimList: autoDraw = False
+150.6144 	EXP 	stimList: autoDraw = False
+150.6144 	EXP 	fixation_text: autoDraw = True
+154.0907 	EXP 	New trial (rep=0, index=21): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/2.jpg'}
+154.1109 	EXP 	fixation_text: autoDraw = False
+154.1109 	EXP 	fixation_text: autoDraw = False
+154.1109 	EXP 	stimList: image = '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/1.jpg'
+154.1109 	EXP 	stimList: autoDraw = True
+158.0971 	EXP 	stimList: autoDraw = False
+158.0971 	EXP 	stimList: autoDraw = False
+158.0971 	EXP 	fixation_text: autoDraw = True
+160.0925 	EXP 	fixation_text: autoDraw = False
+160.0925 	EXP 	fixation_text: autoDraw = False
+160.0925 	EXP 	thankyou_text: autoDraw = True
+165.0715 	INFO 	saved data to u'/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/_Episodic Encoding Task_2017_Nov_15_1027.csv'
+165.0865 	INFO 	saved data to /home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/_Episodic Encoding Task_2017_Nov_15_1027.psydat
+165.0932 	EXP 	window1: mouseVisible = True

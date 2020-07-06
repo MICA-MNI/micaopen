@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: BPSO\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-22 17:51-0700\n"
+"PO-Revision-Date: 2016-04-02 10:25-0800\n"
+"Last-Translator: Craig Stark <cestark@uci.edu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Old"
+msgstr "熟悉"
+
+msgid "Similar"
+msgstr "類似"
+
+msgid "New"
+msgstr "陌生"
+
+msgid "Indoor"
+msgstr "室內"
+
+msgid "Outdoor"
+msgstr "室外"
+
+#: MnemonicSimilarity/canvas.cpp:70
+msgid "Indoor or Outdoor?"
+msgstr "室內 或 室外"
+
+#: MnemonicSimilarity/canvas.cpp:81
+msgid "Old, Similar, or New?"
+msgstr "熟悉, 類似, 陌生"
+
+#: MnemonicSimilarity/canvas.cpp:81
+msgid "Old or New?"
+msgstr "熟悉 或 陌生"
+
+#: MnemonicSimilarity/canvas.cpp:74
+#: MnemonicSimilarity/canvas.cpp:85
+msgid "Press spacebar to start"
+msgstr "請按空白鍵開始"
+
+#: MnemonicSimilarity/main.cpp:148
+msgid "&About...\tF1"
+msgstr "關於..."
+
+#: MnemonicSimilarity/main.cpp:163
+msgid "&File"
+msgstr "檔案"
+
+#: MnemonicSimilarity/main.cpp:165
+msgid "&Help"
+msgstr "求助"
+
+#: MnemonicSimilarity/main.cpp:157
+msgid "&Run full screen\tAlt-R"
+msgstr "全螢幕"
+
+#: MnemonicSimilarity/parameters.cpp:99
+msgid "Choose output directory"
+msgstr "輸出路徑"
+
+#: MnemonicSimilarity/main.cpp:152
+msgid "E&xit\tAlt-X"
+msgstr "退出"
+
+#: MnemonicSimilarity/main.cpp:149
+msgid "Help"
+msgstr "求助"
+
+#: MnemonicSimilarity/main.cpp:152
+msgid "Quit this program"
+msgstr "退出程式"
+
+#: MnemonicSimilarity/main.cpp:164
+msgid "Run"
+msgstr "執行"
+
+#: MnemonicSimilarity/main.cpp:158
+msgid "Run &windowed\tAlt-W"
+msgstr "執行 & 開啟視窗"
+
+#: MnemonicSimilarity/main.cpp:158
+msgid "Run in a window"
+msgstr "在視窗下執行"
+
+#: MnemonicSimilarity/main.cpp:157
+msgid "Run in full screen mode"
+msgstr "在全螢幕下執行"
+
+#: MnemonicSimilarity/main.cpp:151
+msgid "Show Parameters"
+msgstr "顯示參數"
+
+#: MnemonicSimilarity/main.cpp:148
+msgid "Show about dialog"
+msgstr "顯示對話"
+
+#: MnemonicSimilarity/main.cpp:149
+msgid "Show experimenter instructions"
+msgstr "顯示實驗說明"
+
+#: MnemonicSimilarity/main.cpp:177
+msgid "Welcome to BPSO"
+msgstr "歡迎來到 BPSO"
+
