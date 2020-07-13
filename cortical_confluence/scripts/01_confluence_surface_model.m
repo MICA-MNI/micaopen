@@ -13,15 +13,17 @@ end
 %% HIPPOCAMPAL PROFILES
 for hippocampus_fresh = 1
     
+    % adapted from Jordan De Kraker's scripts - https://osf.io/x542s/
     APres = 512; PDres = 256; IOres = 16;
    
     for right = 1
 
+        % rescaling to world coordinates
         x_world = [1:998; rescale(1:998, 2.4, 42)];
         y_world = [1:1324; rescale(1:1324, -17.7, 35.3)];
         z_world = [1:1082; rescale(1:1082, -36.6, 6.5)];
 
-        % load coordinates
+        % load coordinates - not included in GitRepo due to size, find it in https://osf.io/x542s/ (BIDSscripts/LaminarFeatures)
         load([mainDir '/data/LaminarFeatures/Vxyz-Isovolume_hemi-R.mat']);
         Vxyz = round(Vxyz);
         inds = sub2ind(sz, Vxyz(:,1),Vxyz(:,2),Vxyz(:,3));
