@@ -13,4 +13,6 @@ nIterations = 100
 ```
 Normally, `mica_iterativeAlignment` initiates by aligning to the first embedding in `C`. To specify a different first target, supply the first target as a third argument. 
 
+*Note*: The gradient identification and analysis workflopw has now been integrated into the BrainSpace toolbox. Please consider using https://github.com/MICA-MNI/BrainSpace instead, as it gives more flexible data handling, additional functions, and python/matlab support. More information on BrainSpace is provided at http://readthedocs.brainspace.io and the associated paper "BrainSpace: a toolbox for the analysis of macroscale gradients in neuroimaging and connectomics datasets" by Vos de Wael et al. can be found here https://www.nature.com/articles/s42003-020-0794-7
+
 

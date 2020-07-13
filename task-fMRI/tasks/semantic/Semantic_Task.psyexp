@@ -1,0 +1,300 @@
+<?xml version="1.0" ?>
+<PsychoPy2experiment encoding="utf-8" version="1.84.1">
+  <Settings>
+    <Param name="Show mouse" updates="None" val="False" valType="bool"/>
+    <Param name="Data filename" updates="None" val="'data/%s_%s_%s' %(expInfo['participant'], expName, expInfo['date'])" valType="code"/>
+    <Param name="Monitor" updates="None" val="testMonitor" valType="str"/>
+    <Param name="Enable Escape" updates="None" val="True" valType="bool"/>
+    <Param name="color" updates="None" val="$[1.000,1.000,1.000]" valType="str"/>
+    <Param name="Window size (pixels)" updates="None" val="[1440, 900]" valType="code"/>
+    <Param name="Full-screen window" updates="None" val="True" valType="bool"/>
+    <Param name="colorSpace" updates="None" val="rgb" valType="str"/>
+    <Param name="Experiment info" updates="None" val="{u'session': u'001', u'participant': u''}" valType="code"/>
+    <Param name="Save csv file" updates="None" val="False" valType="bool"/>
+    <Param name="Show info dlg" updates="None" val="True" valType="bool"/>
+    <Param name="Save wide csv file" updates="None" val="True" valType="bool"/>
+    <Param name="Save psydat file" updates="None" val="True" valType="bool"/>
+    <Param name="expName" updates="None" val="Semantic_Task" valType="str"/>
+    <Param name="logging level" updates="None" val="info" valType="code"/>
+    <Param name="blendMode" updates="None" val="avg" valType="str"/>
+    <Param name="Save excel file" updates="None" val="False" valType="bool"/>
+    <Param name="Units" updates="None" val="use prefs" valType="str"/>
+    <Param name="Use version" updates="None" val="" valType="str"/>
+    <Param name="Save log file" updates="None" val="True" valType="bool"/>
+    <Param name="Screen" updates="None" val="1" valType="num"/>
+  </Settings>
+  <Routines>
+    <Routine name="Fixation">
+      <CodeComponent name="fixation_code">
+        <Param name="Begin Experiment" updates="constant" val="fixList = [1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,2.5,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5,3.5]" valType="extendedCode"/>
+        <Param name="name" updates="None" val="fixation_code" valType="code"/>
+        <Param name="Begin Routine" updates="constant" val="random.shuffle(fixList)&amp;#10;fixDuration = fixList[0]" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+      </CodeComponent>
+      <TextComponent name="fixation_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="fixation_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="constant" val="+" valType="str"/>
+        <Param name="stopVal" updates="constant" val="$fixDuration" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="constant" val="[0, 0]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.3" valType="code"/>
+      </TextComponent>
+      <CodeComponent name="fixation_code2">
+        <Param name="Begin Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="name" updates="None" val="fixation_code2" valType="code"/>
+        <Param name="Begin Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="thisExp.addData(&quot;Fixation duration&quot;, fixList[0])&amp;#10;del fixList[0] " valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+      </CodeComponent>
+    </Routine>
+    <Routine name="ThankYou">
+      <TextComponent name="thankyou_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="thankyou_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="constant" val="End of experiment.&amp;#10;&amp;#10;Thank you." valType="str"/>
+        <Param name="stopVal" updates="constant" val="5.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="constant" val="[0, 0]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.1" valType="code"/>
+      </TextComponent>
+    </Routine>
+    <Routine name="Semantic_trial">
+      <CodeComponent name="timer_code">
+        <Param name="Begin Experiment" updates="constant" val="timerStarted = False" valType="extendedCode"/>
+        <Param name="name" updates="None" val="timer_code" valType="code"/>
+        <Param name="Begin Routine" updates="constant" val="if not timerStarted: &amp;#10;    startTime = globalClock.getTime() &amp;#10;    timerStarted = True &amp;#10;&amp;#10;# now save a start time for every trial (hence, not indented): &amp;#10;thisExp.addData(&quot;Trial_start&quot;, globalClock.getTime() - startTime)" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+      </CodeComponent>
+      <CodeComponent name="xposition_code">
+        <Param name="Begin Experiment" updates="constant" val="import random&amp;#10;xpositions = [-0.5,0,0.5]" valType="extendedCode"/>
+        <Param name="name" updates="None" val="xposition_code" valType="code"/>
+        <Param name="Begin Routine" updates="constant" val="random.shuffle(xpositions)&amp;#10;# now save the positions: &amp;#10;thisExp.addData(&quot;Position1&quot;, xpositions[0])&amp;#10;thisExp.addData(&quot;Position2&quot;, xpositions[1])&amp;#10;thisExp.addData(&quot;Position3&quot;, xpositions[2])" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+      </CodeComponent>
+      <CodeComponent name="target_code">
+        <Param name="Begin Experiment" updates="constant" val="posResponse = 0" valType="extendedCode"/>
+        <Param name="name" updates="None" val="target_code" valType="code"/>
+        <Param name="Begin Routine" updates="constant" val="if xpositions[0] == -0.5:&amp;#10; posResponse = 1&amp;#10;elif xpositions[0] == 0:&amp;#10; posResponse = 2&amp;#10;elif xpositions[0] == 0.5:&amp;#10; posResponse = 3" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+      </CodeComponent>
+      <TextComponent name="prime_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="prime_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="set every repeat" val="$prime" valType="str"/>
+        <Param name="stopVal" updates="constant" val="4.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="constant" val="[0, 0.2]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.15" valType="code"/>
+      </TextComponent>
+      <TextComponent name="target_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="target_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="set every repeat" val="$target" valType="str"/>
+        <Param name="stopVal" updates="constant" val="4.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="set every repeat" val="[xpositions[0], -0.2]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.15" valType="code"/>
+      </TextComponent>
+      <TextComponent name="dist1_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="dist1_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="set every repeat" val="$dist1" valType="str"/>
+        <Param name="stopVal" updates="constant" val="4.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="set every repeat" val="[xpositions[1], -0.2]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.15" valType="code"/>
+      </TextComponent>
+      <TextComponent name="dist2_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="dist2_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="set every repeat" val="$dist2" valType="str"/>
+        <Param name="stopVal" updates="constant" val="4.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="set every repeat" val="[xpositions[2], -0.2]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.15" valType="code"/>
+      </TextComponent>
+      <KeyboardComponent name="key_response">
+        <Param name="correctAns" updates="constant" val="$posResponse" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="True" valType="bool"/>
+        <Param name="name" updates="None" val="key_response" valType="code"/>
+        <Param name="stopVal" updates="constant" val="4.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="False" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="allowedKeys" updates="constant" val="'1','2','3'" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="store" updates="constant" val="last key" valType="str"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
+    </Routine>
+    <Routine name="WaitForTrigger">
+      <CodeComponent name="waitfortrigger_code">
+        <Param name="Begin Experiment" updates="constant" val="from psychopy.hardware.emulator import launchScan&amp;#10;#&amp;#10;# settings for launchScan:&amp;#10;MR_settings = { &amp;#10;    'TR': 2.000, # duration (sec) per volume&amp;#10;    'volumes': 400, # number of whole-brain 3D volumes / frames&amp;#10;    'sync': '5', # character to use as the sync timing event; assumed to come at start of a volume&amp;#10;    'skip': 3, # number of volumes lacking a sync pulse at start of scan (for T1 stabilization)&amp;#10;    }" valType="extendedCode"/>
+        <Param name="name" updates="None" val="waitfortrigger_code" valType="code"/>
+        <Param name="Begin Routine" updates="constant" val="vol = launchScan(win, MR_settings, globalClock=globalClock,mode='Scan')" valType="extendedCode"/>
+        <Param name="End Routine" updates="constant" val="" valType="extendedCode"/>
+        <Param name="End Experiment" updates="constant" val="" valType="extendedCode"/>
+        <Param name="Each Frame" updates="constant" val="" valType="extendedCode"/>
+      </CodeComponent>
+    </Routine>
+    <Routine name="dummys">
+      <TextComponent name="dummy_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="dummy_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="constant" val="+" valType="str"/>
+        <Param name="stopVal" updates="constant" val="6.0" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="constant" val="(0, 0)" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.3" valType="code"/>
+      </TextComponent>
+    </Routine>
+    <Routine name="Instructions">
+      <TextComponent name="instructions_text">
+        <Param name="opacity" updates="constant" val="1" valType="code"/>
+        <Param name="colorSpace" updates="constant" val="rgb" valType="str"/>
+        <Param name="name" updates="None" val="instructions_text" valType="code"/>
+        <Param name="wrapWidth" updates="constant" val="" valType="code"/>
+        <Param name="color" updates="constant" val="black" valType="str"/>
+        <Param name="text" updates="constant" val="In this experiment you will be presented with a single word on top of the screen, and 3 options at the bottom.&amp;#10;&amp;#10;Using the button box, your goal is to select 1 of the 3 options that is most associated with the given word. For example:&amp;#10;&amp;#10;                          BEE&amp;#10;&amp;#10;        STING       PAN       ATOM&amp;#10;&amp;#10;The correct answer in this example is STING.&amp;#10;&amp;#10;Once you make a selection please wait for the next trial to appear.&amp;#10;&amp;#10;Good luck." valType="str"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="pos" updates="constant" val="[0, 0]" valType="code"/>
+        <Param name="flip" updates="constant" val="" valType="str"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="units" updates="None" val="from exp settings" valType="str"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="ori" updates="constant" val="0" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="font" updates="constant" val="Arial" valType="str"/>
+        <Param name="letterHeight" updates="constant" val="0.075" valType="code"/>
+      </TextComponent>
+      <KeyboardComponent name="key_resp_2">
+        <Param name="correctAns" updates="constant" val="" valType="str"/>
+        <Param name="storeCorrect" updates="constant" val="False" valType="bool"/>
+        <Param name="name" updates="None" val="key_resp_2" valType="code"/>
+        <Param name="stopVal" updates="constant" val="" valType="code"/>
+        <Param name="durationEstim" updates="None" val="" valType="code"/>
+        <Param name="forceEndRoutine" updates="constant" val="True" valType="bool"/>
+        <Param name="startEstim" updates="None" val="" valType="code"/>
+        <Param name="discard previous" updates="constant" val="True" valType="bool"/>
+        <Param name="startType" updates="None" val="time (s)" valType="str"/>
+        <Param name="allowedKeys" updates="constant" val="'return'" valType="code"/>
+        <Param name="stopType" updates="None" val="duration (s)" valType="str"/>
+        <Param name="startVal" updates="None" val="0.0" valType="code"/>
+        <Param name="store" updates="constant" val="nothing" valType="str"/>
+        <Param name="syncScreenRefresh" updates="constant" val="True" valType="bool"/>
+      </KeyboardComponent>
+    </Routine>
+  </Routines>
+  <Flow>
+    <Routine name="Instructions"/>
+    <Routine name="WaitForTrigger"/>
+    <Routine name="dummys"/>
+    <LoopInitiator loopType="TrialHandler" name="semantic_trials_loop">
+      <Param name="conditionsFile" updates="None" val="conds/Semantic_ListB.csv" valType="str"/>
+      <Param name="name" updates="None" val="semantic_trials_loop" valType="code"/>
+      <Param name="isTrials" updates="None" val="True" valType="bool"/>
+      <Param name="random seed" updates="None" val="" valType="code"/>
+      <Param name="loopType" updates="None" val="random" valType="str"/>
+      <Param name="nReps" updates="None" val="1" valType="code"/>
+      <Param name="endPoints" updates="None" val="[0, 1]" valType="num"/>
+      <Param name="conditions" updates="None" val="[{'trial_number': 1, 'prime': u'arm', 'target': u'bracelet', 'semstr_category': 1, 'dist2': u'cane', 'dist1': u'cradle', 'semstr': 0.040000000000000001, 'list_AB': u'B'}, {'trial_number': 2, 'prime': u'ballet', 'target': u'jazz', 'semstr_category': 1, 'dist2': u'latch', 'dist1': u'sting', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 3, 'prime': u'bed', 'target': u'dresser', 'semstr_category': 1, 'dist2': u'mop', 'dist1': u'shingle', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 4, 'prime': u'beer', 'target': u'jug', 'semstr_category': 1, 'dist2': u'leg', 'dist1': u'rat', 'semstr': 0.040000000000000001, 'list_AB': u'B'}, {'trial_number': 5, 'prime': u'boat', 'target': u'compass', 'semstr_category': 1, 'dist2': u'mower', 'dist1': u'sprain', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 6, 'prime': u'bone', 'target': u'fossil', 'semstr_category': 1, 'dist2': u'kettle', 'dist1': u'suede', 'semstr': 0.14999999999999999, 'list_AB': u'B'}, {'trial_number': 7, 'prime': u'cat', 'target': u'paw', 'semstr_category': 1, 'dist2': u'keyboard', 'dist1': u'cork', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 8, 'prime': u'chalk', 'target': u'crayon', 'semstr_category': 1, 'dist2': u'luggage', 'dist1': u'mustard', 'semstr': 0.070000000000000007, 'list_AB': u'B'}, {'trial_number': 9, 'prime': u'church', 'target': u'organ', 'semstr_category': 1, 'dist2': u'square', 'dist1': u'yolk', 'semstr': 0.029999999999999999, 'list_AB': u'B'}, {'trial_number': 10, 'prime': u'donkey', 'target': u'camel', 'semstr_category': 1, 'dist2': u'tablet', 'dist1': u'margarine', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 11, 'prime': u'dream', 'target': u'hope', 'semstr_category': 1, 'dist2': u'alarm', 'dist1': u'camel', 'semstr': 0.062, 'list_AB': u'B'}, {'trial_number': 12, 'prime': u'gold', 'target': u'chain', 'semstr_category': 1, 'dist2': u'dusk', 'dist1': u'coyote', 'semstr': 0.080000000000000002, 'list_AB': u'B'}, {'trial_number': 13, 'prime': u'hand', 'target': u'paw ', 'semstr_category': 1, 'dist2': u'sand', 'dist1': u'grape', 'semstr': 0.080000000000000002, 'list_AB': u'B'}, {'trial_number': 14, 'prime': u'hell', 'target': u'sky', 'semstr_category': 1, 'dist2': u'cookie', 'dist1': u'cushion', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 15, 'prime': u'hospital', 'target': u'tweezers', 'semstr_category': 1, 'dist2': u'duck', 'dist1': u'grill', 'semstr': 0.029999999999999999, 'list_AB': u'B'}, {'trial_number': 16, 'prime': u'iron', 'target': u'appliance', 'semstr_category': 1, 'dist2': u'stethoscope', 'dist1': u'ewe', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 17, 'prime': u'jar', 'target': u'pint', 'semstr_category': 1, 'dist2': u'prison', 'dist1': u'cabbage', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 18, 'prime': u'leather', 'target': u'backpack', 'semstr_category': 1, 'dist2': u'oven', 'dist1': u'step', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 19, 'prime': u'leg', 'target': u'therapy', 'semstr_category': 1, 'dist2': u'porcelain', 'dist1': u'cello', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 20, 'prime': u'letter', 'target': u'symbol', 'semstr_category': 1, 'dist2': u'mustard', 'dist1': u'alarm', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 21, 'prime': u'liberty', 'target': u'justice', 'semstr_category': 1, 'dist2': u'bumper', 'dist1': u'conditioner', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 22, 'prime': u'lion', 'target': u'bear', 'semstr_category': 1, 'dist2': u'steel', 'dist1': u'razor', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 23, 'prime': u'moose', 'target': u'bison', 'semstr_category': 1, 'dist2': u'straw', 'dist1': u'lime', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 24, 'prime': u'name', 'target': u'theme', 'semstr_category': 1, 'dist2': u'lime', 'dist1': u'juice', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 25, 'prime': u'part', 'target': u'branch', 'semstr_category': 1, 'dist2': u'sting', 'dist1': u'tortoise', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 26, 'prime': u'pen', 'target': u'stapler', 'semstr_category': 1, 'dist2': u'problem', 'dist1': u'icing', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 27, 'prime': u'pin', 'target': u'thimble', 'semstr_category': 1, 'dist2': u'flush', 'dist1': u'king', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 28, 'prime': u'plane', 'target': u'missile', 'semstr_category': 1, 'dist2': u'hammer', 'dist1': u'shield', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 29, 'prime': u'poem', 'target': u'rhythm', 'semstr_category': 1, 'dist2': u'sheep', 'dist1': u'jam', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 30, 'prime': u'queen', 'target': u'gown', 'semstr_category': 1, 'dist2': u'trumpet', 'dist1': u'squid', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 31, 'prime': u'roof', 'target': u'shelter', 'semstr_category': 1, 'dist2': u'mule', 'dist1': u'nightmare', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 32, 'prime': u'rose', 'target': u'vase', 'semstr_category': 1, 'dist2': u'fork', 'dist1': u'crown', 'semstr': 0.029999999999999999, 'list_AB': u'B'}, {'trial_number': 33, 'prime': u'salt', 'target': u'sardine', 'semstr_category': 1, 'dist2': u'crown', 'dist1': u'shears', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 34, 'prime': u'scissors', 'target': u'scalpel', 'semstr_category': 1, 'dist2': u'tusk', 'dist1': u'vessel', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 35, 'prime': u'snow', 'target': u'wind', 'semstr_category': 1, 'dist2': u'message', 'dist1': u'clam', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 36, 'prime': u'stomach', 'target': u'nausea', 'semstr_category': 1, 'dist2': u'tractor', 'dist1': u'folder', 'semstr': 0.029999999999999999, 'list_AB': u'B'}, {'trial_number': 37, 'prime': u'stove', 'target': u'teapot', 'semstr_category': 1, 'dist2': u'cage', 'dist1': u'dusk', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 38, 'prime': u'stripe', 'target': u'skunk', 'semstr_category': 1, 'dist2': u'message', 'dist1': u'pitchfork', 'semstr': 0.02, 'list_AB': u'B'}, {'trial_number': 39, 'prime': u'water', 'target': u'swan', 'semstr_category': 1, 'dist2': u'feathers', 'dist1': u'steel', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 40, 'prime': u'wheat', 'target': u'hay', 'semstr_category': 1, 'dist2': u'vessel', 'dist1': u'splinter', 'semstr': 0.01, 'list_AB': u'B'}, {'trial_number': 41, 'prime': u'baby', 'target': u'cradle', 'semstr_category': 2, 'dist2': u'sunrise', 'dist1': u'stairs', 'semstr': 0.68000000000000005, 'list_AB': u'B'}, {'trial_number': 42, 'prime': u'cards', 'target': u'ace', 'semstr_category': 2, 'dist2': u'gate', 'dist1': u'camel', 'semstr': 0.29999999999999999, 'list_AB': u'B'}, {'trial_number': 43, 'prime': u'carrot', 'target': u'celery', 'semstr_category': 2, 'dist2': u'star', 'dist1': u'dice', 'semstr': 0.22, 'list_AB': u'B'}, {'trial_number': 44, 'prime': u'chicken', 'target': u'egg', 'semstr_category': 2, 'dist2': u'bass', 'dist1': u'couch', 'semstr': 0.27000000000000002, 'list_AB': u'B'}, {'trial_number': 45, 'prime': u'clam', 'target': u'mussel', 'semstr_category': 2, 'dist2': u'piece', 'dist1': u'lice', 'semstr': 0.29999999999999999, 'list_AB': u'B'}, {'trial_number': 46, 'prime': u'dawn', 'target': u'dusk', 'semstr_category': 2, 'dist2': u'toy', 'dist1': u'clock', 'semstr': 0.60999999999999999, 'list_AB': u'B'}, {'trial_number': 47, 'prime': u'desert', 'target': u'camel', 'semstr_category': 2, 'dist2': u'biscuit', 'dist1': u'stalk', 'semstr': 0.28000000000000003, 'list_AB': u'B'}, {'trial_number': 48, 'prime': u'duck', 'target': u'goose', 'semstr_category': 2, 'dist2': u'wheat', 'dist1': u'zenith', 'semstr': 0.26000000000000001, 'list_AB': u'B'}, {'trial_number': 49, 'prime': u'friend', 'target': u'pal', 'semstr_category': 2, 'dist2': u'shelter', 'dist1': u'shampoo', 'semstr': 0.77000000000000002, 'list_AB': u'B'}, {'trial_number': 50, 'prime': u'guitar', 'target': u'banjo', 'semstr_category': 2, 'dist2': u'pest', 'dist1': u'starch', 'semstr': 0.38, 'list_AB': u'B'}, {'trial_number': 51, 'prime': u'horn', 'target': u'trumpet', 'semstr_category': 2, 'dist2': u'squid', 'dist1': u'toy', 'semstr': 0.25, 'list_AB': u'B'}, {'trial_number': 52, 'prime': u'house', 'target': u'brick', 'semstr_category': 2, 'dist2': u'bucket', 'dist1': u'flame', 'semstr': 0.40000000000000002, 'list_AB': u'B'}, {'trial_number': 53, 'prime': u'ice-cream', 'target': u'scoop', 'semstr_category': 2, 'dist2': u'mole', 'dist1': u'therapy', 'semstr': 0.40999999999999998, 'list_AB': u'B'}, {'trial_number': 54, 'prime': u'knight', 'target': u'armour', 'semstr_category': 2, 'dist2': u'mirror', 'dist1': u'mushroom', 'semstr': 0.28999999999999998, 'list_AB': u'B'}, {'trial_number': 55, 'prime': u'lamb', 'target': u'ewe', 'semstr_category': 2, 'dist2': u'wicker', 'dist1': u'lip', 'semstr': 0.40000000000000002, 'list_AB': u'B'}, {'trial_number': 56, 'prime': u'meat', 'target': u'butcher', 'semstr_category': 2, 'dist2': u'onion', 'dist1': u'mosquito', 'semstr': 0.47999999999999998, 'list_AB': u'B'}, {'trial_number': 57, 'prime': u'money', 'target': u'coin', 'semstr_category': 2, 'dist2': u'mission', 'dist1': u'gloves', 'semstr': 0.44, 'list_AB': u'B'}, {'trial_number': 58, 'prime': u'mouse', 'target': u'rat', 'semstr_category': 2, 'dist2': u'yarn', 'dist1': u'intestine', 'semstr': 0.32000000000000001, 'list_AB': u'B'}, {'trial_number': 59, 'prime': u'movie', 'target': u'film', 'semstr_category': 2, 'dist2': u'maggot', 'dist1': u'protein', 'semstr': 0.54000000000000004, 'list_AB': u'B'}, {'trial_number': 60, 'prime': u'muffin', 'target': u'blueberry', 'semstr_category': 2, 'dist2': u'monarch', 'dist1': u'proof', 'semstr': 0.33000000000000002, 'list_AB': u'B'}, {'trial_number': 61, 'prime': u'noise', 'target': u'sound', 'semstr_category': 2, 'dist2': u'polish', 'dist1': u'monarch', 'semstr': 0.35999999999999999, 'list_AB': u'B'}, {'trial_number': 62, 'prime': u'noun', 'target': u'verb', 'semstr_category': 2, 'dist2': u'fruit', 'dist1': u'kite', 'semstr': 0.64000000000000001, 'list_AB': u'B'}, {'trial_number': 63, 'prime': u'ocean', 'target': u'waves', 'semstr_category': 2, 'dist2': u'sentence', 'dist1': u'symbol', 'semstr': 0.5, 'list_AB': u'B'}, {'trial_number': 64, 'prime': u'pancakes', 'target': u'syrup', 'semstr_category': 2, 'dist2': u'threat', 'dist1': u'truck', 'semstr': 0.5, 'list_AB': u'B'}, {'trial_number': 65, 'prime': u'plant', 'target': u'seed', 'semstr_category': 2, 'dist2': u'robe', 'dist1': u'leather', 'semstr': 0.44, 'list_AB': u'B'}, {'trial_number': 66, 'prime': u'pot', 'target': u'pan', 'semstr_category': 2, 'dist2': u'wound', 'dist1': u'bucket', 'semstr': 0.34999999999999998, 'list_AB': u'B'}, {'trial_number': 67, 'prime': u'rat', 'target': u'rodent', 'semstr_category': 2, 'dist2': u'bath', 'dist1': u'apron', 'semstr': 0.59999999999999998, 'list_AB': u'B'}, {'trial_number': 68, 'prime': u'shark', 'target': u'jaws', 'semstr_category': 2, 'dist2': u'luggage', 'dist1': u'kidney', 'semstr': 0.58999999999999997, 'list_AB': u'B'}, {'trial_number': 69, 'prime': u'shirt', 'target': u'blouse', 'semstr_category': 2, 'dist2': u'root', 'dist1': u'portion', 'semstr': 0.65000000000000002, 'list_AB': u'B'}, {'trial_number': 70, 'prime': u'shower', 'target': u'bath', 'semstr_category': 2, 'dist2': u'dresser', 'dist1': u'salad', 'semstr': 0.33000000000000002, 'list_AB': u'B'}, {'trial_number': 71, 'prime': u'skirt', 'target': u'pleat', 'semstr_category': 2, 'dist2': u'vegetable', 'dist1': u'desk', 'semstr': 0.57999999999999996, 'list_AB': u'B'}, {'trial_number': 72, 'prime': u'smell', 'target': u'odour', 'semstr_category': 2, 'dist2': u'tweezers', 'dist1': u'box', 'semstr': 0.69999999999999996, 'list_AB': u'B'}, {'trial_number': 73, 'prime': u'sock', 'target': u'shoe', 'semstr_category': 2, 'dist2': u'snorkel', 'dist1': u'scissors', 'semstr': 0.20999999999999999, 'list_AB': u'B'}, {'trial_number': 74, 'prime': u'sound', 'target': u'tone', 'semstr_category': 2, 'dist2': u'heritage', 'dist1': u'seed', 'semstr': 0.20000000000000001, 'list_AB': u'B'}, {'trial_number': 75, 'prime': u'stick', 'target': u'drum', 'semstr_category': 2, 'dist2': u'swing', 'dist1': u'axe', 'semstr': 0.25, 'list_AB': u'B'}, {'trial_number': 76, 'prime': u'sun', 'target': u'horizon', 'semstr_category': 2, 'dist2': u'axe', 'dist1': u'ant', 'semstr': 0.40999999999999998, 'list_AB': u'B'}, {'trial_number': 77, 'prime': u'tea', 'target': u'kettle', 'semstr_category': 2, 'dist2': u'incense', 'dist1': u'polish', 'semstr': 0.22, 'list_AB': u'B'}, {'trial_number': 78, 'prime': u'tree', 'target': u'branch', 'semstr_category': 2, 'dist2': u'volcano', 'dist1': u'snorkel', 'semstr': 0.64000000000000001, 'list_AB': u'B'}, {'trial_number': 79, 'prime': u'winter', 'target': u'summer', 'semstr_category': 2, 'dist2': u'biscuit', 'dist1': u'ivy', 'semstr': 0.40000000000000002, 'list_AB': u'B'}, {'trial_number': 80, 'prime': u'train', 'target': u'station', 'semstr_category': 2, 'dist2': u'zenith', 'dist1': u'vase', 'semstr': 0.32000000000000001, 'list_AB': u'B'}, {'trial_number': 81, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 82, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 83, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 84, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 85, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 86, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 87, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 88, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 89, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 90, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 91, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 92, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 93, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 94, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 95, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 96, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 97, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 98, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 99, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}, {'trial_number': 100, 'prime': u'xxxx', 'target': u'xxxx', 'semstr_category': 0, 'dist2': u'xxxx', 'dist1': u'xxxx', 'semstr': 0.0, 'list_AB': u'B'}]" valType="str"/>
+      <Param name="Selected rows" updates="None" val="" valType="str"/>
+    </LoopInitiator>
+    <Routine name="Semantic_trial"/>
+    <Routine name="Fixation"/>
+    <LoopTerminator name="semantic_trials_loop"/>
+    <Routine name="ThankYou"/>
+  </Flow>
+</PsychoPy2experiment>

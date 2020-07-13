@@ -1,0 +1,19 @@
+Lors de cette tâche, vous allez devoir comparer
+différentes configurations spatiales de trois objets
+à chaque essai.
+
+Tout d'abord, trois objets vous seront présentés dans
+une configuration spatiale spécifique. Ensuite, trois
+configuations additionnelles de ces mêmes objets vous
+seront présentées.
+
+Votre tâche est de déterminer celle parmi les trois
+options qui correspond à une légère rotation de la
+configuration originale.
+
+Pour choisir l'option de gauche: appuyez sur <2>
+Pour choisir l'option du centre: appuyez sur <3>
+Pour choisir l'optoin de droite: appuyez sur <4>
+
+
+Appuyez sur n'importe quel bouton pour continuer...

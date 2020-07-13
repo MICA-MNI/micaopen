@@ -1,0 +1,24 @@
+1.1773 	WARNING 	pyo audio lib was requested but not loaded: No module named pyo
+2.0827 	INFO 	Loaded monitor calibration from ['2017_05_17 09:51']
+2.0844 	WARNING 	User requested fullscreen with size [1920 1080], but screen is actually [1366, 768]. Using actual size
+2.7336 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 1.,  1.,  1.]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0xa67813cc>, name='window1', pos=[0, 0], screen=0, size=array([1366,  768]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+2.7337 	EXP 	window1: recordFrameIntervals = False
+2.8973 	EXP 	window1: recordFrameIntervals = True
+3.0807 	EXP 	window1: recordFrameIntervals = False
+3.2423 	EXP 	Created instructions_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.075, italic=False, name='instructions_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=1)
+3.2480 	EXP 	Created dummy_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='dummy_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+3.2505 	EXP 	Created stimList = ImageStim(autoLog=True, color=array([ 1.,  1.,  1.]), colorSpace='rgb', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, image=None, interpolate=False, mask=None, maskParams=None, name='stimList', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), size=array([ 960.,  720.]), texRes=128, units=u'norm', win=Window(...))
+3.2533 	EXP 	Created fixation_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='fixation_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+3.2651 	EXP 	Created thankyou_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, name='thankyou_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'End of experiment.\n\nThank you.', units=u'norm', win=Window(...), wrapWidth=1)
+3.2725 	EXP 	instructions_text: autoDraw = True
+4.4772 	DATA 	Keypress: 3
+4.4774 	EXP 	launchScan: vol: 1500  TR: 0.585s  skip: 0  sync: '5'
+4.5187 	EXP 	window1: mouseVisible = False
+4.5444 	EXP 	instructions_text: autoDraw = False
+5.0284 	DATA 	Keypress: 5
+5.0284 	EXP 	launchScan: start of scan
+5.0422 	EXP 	dummy_text: autoDraw = True
+11.0351 	EXP 	Imported Episodic_Encoding/Episodic_ListA.csv as conditions, 22 conditions, 2 params
+11.0364 	EXP 	Created sequence: random, trialTypes=22, nReps=1, seed=None
+11.0381 	EXP 	New trial (rep=0, index=0): {u'list_AB': u'A', u'wordpair': u'Episodic_Encoding/Episodic_Encoding_ListA/15.jpg'}
+11.0385 	ERROR 	Couldn't find image file '/home/mica/micasoft/python/fMRIBatteryMay2017/tasks/episodic/Episodic_Encoding/Episodic_Encoding_ListA/'; check path?

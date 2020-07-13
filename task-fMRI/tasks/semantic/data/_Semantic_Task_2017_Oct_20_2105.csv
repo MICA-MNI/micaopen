@@ -1,0 +1,6 @@
+trial_number,prime,target,semstr_category,semstr,dist1,dist2,list_AB,semantic_trials_loop.thisRepN,semantic_trials_loop.thisTrialN,semantic_trials_loop.thisN,semantic_trials_loop.thisIndex,Trial_start,Position1,Position2,Position3,key_response.keys,key_response.corr,Fixation duration,wordlist,participant,session,frameRate,expName,date,
+66,pond,duck,2,0.24,almond,hurt,A,0,0,0,65,4.05311584473e-06,-0.5,0.5,0,None,0,1.5,A,,001,60.0860110307,Semantic_Task,2017_Oct_20_2105,
+76,sugar,cane,2,0.27,tone,vein,A,0,1,1,75,5.4869799614,0.5,-0.5,0,None,0,3.5,A,,001,60.0860110307,Semantic_Task,2017_Oct_20_2105,
+2,ball,glove,1,0.01,ant,mailbox,A,0,2,2,1,12.9700601101,0,-0.5,0.5,None,0,1.5,A,,001,60.0860110307,Semantic_Task,2017_Oct_20_2105,
+70,shoe,slippers,2,0.63,custard,celery,A,0,3,3,69,18.4561479092,0.5,0,-0.5,None,0,2.5,A,,001,60.0860110307,Semantic_Task,2017_Oct_20_2105,
+14,heaven,harp,1,0.03,furniture,pint,A,0,4,4,13,24.9423918724,0,0.5,-0.5,None,0,2.5,A,,001,60.0860110307,Semantic_Task,2017_Oct_20_2105,

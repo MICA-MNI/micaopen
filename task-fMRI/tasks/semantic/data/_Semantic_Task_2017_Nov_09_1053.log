@@ -1,0 +1,45 @@
+1.2601 	WARNING 	pyo audio lib was requested but not loaded: No module named pyo
+3.0096 	INFO 	Loaded monitor calibration from ['2017_05_17 09:51']
+3.0123 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1366, 768]. Using actual size
+3.6380 	EXP 	Created window1 = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 0.7,  0.7,  0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0xa67b556c>, name='window1', pos=[0, 0], screen=0, size=array([1366,  768]), stereo=False, units=u'norm', useFBO=True, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+3.6380 	EXP 	window1: recordFrameIntervals = False
+3.8020 	EXP 	window1: recordFrameIntervals = True
+3.9854 	EXP 	window1: recordFrameIntervals = False
+4.1576 	EXP 	Created instructions_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.075, italic=False, name='instructions_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units=u'norm', win=Window(...), wrapWidth=1)
+4.1636 	EXP 	Created dummy_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='dummy_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+4.1718 	EXP 	Created prime_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-3.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.15, italic=False, name='prime_text', opacity=1.0, ori=0, pos=array([ 0. ,  0.2]), rgb=array([ 0.,  0.,  0.]), text=u'default text', units=u'norm', win=Window(...), wrapWidth=1)
+4.1763 	EXP 	Created target_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-4.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.15, italic=False, name='target_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'default text', units=u'norm', win=Window(...), wrapWidth=1)
+4.1809 	EXP 	Created dist1_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-5.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.15, italic=False, name='dist1_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'default text', units=u'norm', win=Window(...), wrapWidth=1)
+4.1855 	EXP 	Created dist2_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-6.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.15, italic=False, name='dist2_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'default text', units=u'norm', win=Window(...), wrapWidth=1)
+4.1881 	EXP 	Created fixation_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=-1.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.3, italic=False, name='fixation_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units=u'norm', win=Window(...), wrapWidth=1)
+4.1993 	EXP 	Created thankyou_text = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0.0, flipHoriz=False, flipVert=False, font='Arial', fontFiles=[], height=0.1, italic=False, name='thankyou_text', opacity=1.0, ori=0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'End of experiment.\n\nThank you.', units=u'norm', win=Window(...), wrapWidth=1)
+4.2072 	EXP 	instructions_text: autoDraw = True
+7.7771 	DATA 	Keypress: 2
+7.7773 	EXP 	launchScan: vol: 1500  TR: 0.585s  skip: 0  sync: '5'
+7.8223 	EXP 	window1: mouseVisible = False
+7.8442 	EXP 	instructions_text: autoDraw = False
+8.8970 	DATA 	Keypress: 5
+8.8970 	EXP 	launchScan: start of scan
+8.9105 	EXP 	dummy_text: autoDraw = True
+14.9249 	EXP 	Imported conds/Semantic_ListA.csv as conditions, 100 conditions, 8 params
+14.9268 	EXP 	Created sequence: random, trialTypes=100, nReps=1, seed=None
+14.9281 	EXP 	New trial (rep=0, index=0): {u'trial_number': 2, u'prime': u'ball', u'target': u'glove', u'semstr_category': 1, u'semstr': 0.01, u'dist1': u'ant', u'dist2': u'mailbox', u'list_AB': u'A'}
+14.9680 	EXP 	dummy_text: autoDraw = False
+14.9680 	EXP 	dummy_text: autoDraw = False
+14.9680 	EXP 	prime_text: text = u'ball'
+14.9680 	EXP 	target_text: text = u'glove'
+14.9680 	EXP 	target_text: pos = array([ 0.5, -0.2])
+14.9680 	EXP 	dist1_text: text = u'ant'
+14.9680 	EXP 	dist1_text: pos = array([-0.5, -0.2])
+14.9680 	EXP 	dist2_text: text = u'mailbox'
+14.9680 	EXP 	dist2_text: pos = array([ 0. , -0.2])
+14.9680 	EXP 	prime_text: autoDraw = True
+14.9680 	EXP 	target_text: autoDraw = True
+14.9680 	EXP 	dist1_text: autoDraw = True
+14.9680 	EXP 	dist2_text: autoDraw = True
+18.9339 	EXP 	prime_text: autoDraw = False
+18.9339 	EXP 	target_text: autoDraw = False
+18.9339 	EXP 	dist1_text: autoDraw = False
+18.9339 	EXP 	dist2_text: autoDraw = False
+18.9339 	EXP 	fixation_text: autoDraw = True
+20.9295 	DATA 	Keypress: escape

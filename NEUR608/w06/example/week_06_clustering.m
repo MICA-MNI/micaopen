@@ -1,5 +1,5 @@
 %% init  
-
+cd('/Users/boris/Documents/1_github/micaopen/NEUR608/w06/example')
 clear 
 GH = '/Users/boris/Documents/1_github/micaopen'
 addpath(genpath(GH))
@@ -12,7 +12,15 @@ parcels(isnan(parcels)) = 0;
 f=figure; BoSurfStatViewData(parcels, G,''); colormap(linspecer)
 
 
+cd /Users/boris/Desktop/qT1_MICA/
+d1 = dir('HC*lh*'); 
+d2 = dir('HC*rh*'); 
+qT1 = zeros(length(d1),size(G.coord,2));
+for i = 1:length(d1)
+    left = SurfStatReadData1(d1(i).name);
+    right = SurfStatReadData1(d2(i).name);
 %% load time series and build connectomes 
+
 d = SurfStatListDir('HCP*'); 
 
 for i = 1:length(d) 
@@ -38,6 +46,7 @@ dc                  = mean(meanz,2);
 dcmap               = mica_parcelData2surfData([0; dc], G, parcels); 
 f = figure;    
     BoSurfStatViewData(dcmap, G,''); 
+    colormap(parula)
     
     
 %%  k-means cluster, n=2
