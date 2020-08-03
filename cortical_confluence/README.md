@@ -28,6 +28,8 @@ https://www.biorxiv.org/content/10.1101/2020.06.12.148643v1
 ### Getting-started
 
 You may reproduce the primary analyses by following the numbered scripts. <br /> 
+- 01_confluence_surface_model: bridges between iso and allocortical surface representations within BigBrain space <br /> 
+- 02_cytoarchitectural_mapping: analysis of cytoarchitectural variation across iso-to-allocortical and anterior-posterior axes <br /> 
 The data descriptor will provide further information on each file. 
 
 ---
