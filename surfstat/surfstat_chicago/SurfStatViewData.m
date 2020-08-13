@@ -64,14 +64,14 @@ trisurf(surf.tri(tl,:),surf.coord(1,vl),surf.coord(2,vl),surf.coord(3,vl),...
     double(data(vl)),'EdgeColor','none');
 view(-90,0); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading interp;
+lighting phong; material dull;
 
 a(2)=axes('position',[0.3 0.58 w h]);
 trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
     double(data),'EdgeColor','none');
 view(0,90); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading interp;
+lighting phong; material dull;
 
 if cut<t
     a(3)=axes('position',[1-0.055-h*3/4 0.62 h*3/4 w]);
@@ -79,14 +79,14 @@ if cut<t
         double(data(vr)),'EdgeColor','none');
     view(90,0);
     daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-    lighting phong; material dull; shading interp;
+    lighting phong; material dull;
 else
     a(3)=axes('position',[1-0.055-h*3/4 0.62 h/r(2)*r(1)*3/4 w]);
     trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
         double(data),'EdgeColor','none');
     view(180,0);
     daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-    lighting phong; material dull; shading interp;
+    lighting phong; material dull;
 end
 
 a(4)=axes('position',[0.055 0.29 h*3/4 w]);
@@ -94,14 +94,14 @@ trisurf(surf.tri(tl,:),surf.coord(1,vl),surf.coord(2,vl),surf.coord(3,vl),...
     double(data(vl)),'EdgeColor','none');
 view(90,0); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading interp;
+lighting phong; material dull;
 
 a(5)=axes('position',[0.3 0.18 w h]);
 trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
     double(data),'EdgeColor','none');
 view(0,-90); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading interp;
+lighting phong; material dull;
 
 if cut<t
     a(6)=axes('position',[1-0.055-h*3/4 0.29 h*3/4 w]);
@@ -109,28 +109,28 @@ if cut<t
         double(data(vr)),'EdgeColor','none');
     view(-90,0);
     daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-    lighting phong; material dull; shading interp;
+    lighting phong; material dull;
 
     a(7)=axes('position',[0.055 0.02 w1 h1]);
     trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
         double(data),'EdgeColor','none');
     view(180,0);
     daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-    lighting phong; material dull; shading interp;
+    lighting phong; material dull;
 
     a(8)=axes('position',[1-0.055-w1 0.03 w1 h1]);
     trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
         double(data),'EdgeColor','none');
     view(0,0);
     daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-    lighting phong; material dull; shading interp;
+    lighting phong; material dull;
 else
     a(6)=axes('position',[1-0.055-h*3/4 0.29 h/r(2)*r(1)*3/4 w]);
     trisurf(surf.tri,surf.coord(1,:),surf.coord(2,:),surf.coord(3,:),...
         double(data),'EdgeColor','none');
     view(0,0);
     daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-    lighting phong; material dull; shading interp;
+    lighting phong; material dull;
 end    
     
 id0=[0 0 cuv 0 0 cuv 0 0];

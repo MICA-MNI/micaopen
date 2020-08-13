@@ -1,0 +1,14 @@
+trial_num,questions,Dimension,low_end,high_end
+1,J'étais fatigué(e) lors de la dernière tâche.,fatigue,pas du tout: 1,complètement: 11
+2,Mes pensées impliquaient des événements futurs.,future,pas du tout: 1,complètement: 11
+3,Mes pensées impliquaient des événements passés,past,pas du tout: 1,complètement: 11
+4,Mes pensées m'impliquaient moi-même.,self,pas du tout: 1,complètement: 11
+5,Mes pensées impliquaient d'autres personnes.,other,pas du tout: 1,complètement: 11
+6,Le contenu de mes pensées était:,emotion,négatif: 1,positif: 11
+7,Mes pensées étaient sous la forme d'images.,images,pas du tout: 1,complètement: 11
+8,Mes pensées étaient sous la forme de mots,words,pas du tout: 1,complètement: 11
+9,Mes pensées semblaient si réelles que j'avais l'impression d'y prendre part.,vividness,pas du tout: 1,complètement: 11
+10,Mes pensées étaient détaillées et spécifiques.,detail,pas du tout: 1,complètement: 11
+11,Mes pensées contenaient des thèmes récurrents.,habit,pas du tout: 1,complètement: 11
+12,Mes pensées avaient tendance à évoluer étape par étape.,evolving,pas du tout: 1,complètement: 11
+13,Mes pensées étaient:,deliberation,spontanées: 1,délibérées: 11

@@ -16,7 +16,7 @@ trisurf(Slo.tri(tl,:),Slo.coord(1,vl),Slo.coord(2,vl),Slo.coord(3,vl),...
 double(data(vl)),'EdgeColor','none');
 view(-90,0); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading interp;
+lighting phong; material dull; 
 set(a(handle1),'CLim',clim);   
 colormap(a(handle1),cmap)
 
@@ -25,6 +25,6 @@ trisurf(Slo.tri(tl,:),Slo.coord(1,vl),Slo.coord(2,vl),Slo.coord(3,vl),...
 double(data(vl)),'EdgeColor','none');
 view(90,0); 
 daspect([1 1 1]); axis tight; camlight; axis vis3d off;
-lighting phong; material dull; shading interp;
+lighting phong; material dull; 
 set(a(handle2),'CLim',clim); 
 colormap(a(handle2),cmap)

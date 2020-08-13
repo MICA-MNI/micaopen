@@ -1,0 +1,9 @@
+In this task, you will be presented with a
+series of paired items.
+
+Your task is to try and memorize each pair.
+
+Your memory of these paired items will be examined at a
+later time.
+
+Press any button to continue...

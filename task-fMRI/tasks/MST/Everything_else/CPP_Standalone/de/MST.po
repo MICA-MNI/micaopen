@@ -1,0 +1,113 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: MST German\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-22 17:51-0700\n"
+"PO-Revision-Date: 2016-04-02 10:24-0800\n"
+"Last-Translator: Craig Stark <cestark@uci.edu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Old"
+msgstr "Alt"
+
+msgid "Similar"
+msgstr "Ähnlich"
+
+msgid "New"
+msgstr "Neu"
+
+msgid "Indoor"
+msgstr "Innen"
+
+msgid "Outdoor"
+msgstr "Außen"
+
+#: MnemonicSimilarity/canvas.cpp:70
+msgid "Indoor or Outdoor?"
+msgstr "Innen oder Außen?"
+
+#: MnemonicSimilarity/canvas.cpp:81
+msgid "Old, Similar, or New?"
+msgstr "Alt, Ähnlich oder Neu ?"
+
+#: MnemonicSimilarity/canvas.cpp:81
+msgid "Old or New?"
+msgstr "Alt oder Neu ?"
+
+#: MnemonicSimilarity/canvas.cpp:74
+#: MnemonicSimilarity/canvas.cpp:85
+msgid "Press spacebar to start"
+msgstr "Betätigen sie die Leertaste um zu beginnen."
+
+#: MnemonicSimilarity/main.cpp:148
+msgid "&About...\tF1"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:163
+msgid "&File"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:165
+msgid "&Help"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:157
+msgid "&Run full screen\tAlt-R"
+msgstr ""
+
+#: MnemonicSimilarity/parameters.cpp:99
+msgid "Choose output directory"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:152
+msgid "E&xit\tAlt-X"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:149
+msgid "Help"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:152
+msgid "Quit this program"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:164
+msgid "Run"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:158
+msgid "Run &windowed\tAlt-W"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:158
+msgid "Run in a window"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:157
+msgid "Run in full screen mode"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:151
+msgid "Show Parameters"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:148
+msgid "Show about dialog"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:149
+msgid "Show experimenter instructions"
+msgstr ""
+
+#: MnemonicSimilarity/main.cpp:177
+msgid "Welcome to BPSO"
+msgstr ""
+
