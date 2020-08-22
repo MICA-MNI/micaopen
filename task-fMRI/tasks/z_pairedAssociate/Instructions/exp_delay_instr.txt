@@ -1,0 +1,17 @@
+Advance to instructions...
+#
+Welcome Back!
+
+Your memory for the word pairs will now be tested.
+
+You will be presented with one word from each pair on the left side of the screen.
+Try to use this word as a cue to recall the other word from the pair and type it into the space provided. Press return when you have typed in your answer.
+Please be as accurate as you can as the words MUST be spelled correctly. If you make a mistake, you can use the backspace button to correct it before hitting return.
+
+You will have 10 seconds to make each response. 
+You will not receive any feedback. 
+
+After each answer you will be also asked to indicate how confident you are about your response using a rating scale between 1 (not at all confident) to 7 (extremely confident).
+
+Press RETURN to start the task.
+

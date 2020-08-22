@@ -1,0 +1,75 @@
+10.5626 	EXP 	Created window1 = Window(allowGUI=True, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 0.7,  0.7,  0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0x141BA8D0>, name='window1', pos=[171, 0], screen=0, size=array([1024,  768]), stereo=False, units='pix', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+10.7357 	EXP 	Created message = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=62, italic=False, name='message', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'default text', units='pix', win=Window(...), wrapWidth=900)
+10.7743 	EXP 	Created Question = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=60, italic=False, name='Question', opacity=1.0, ori=0.0, pos=array([   0.,  250.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units='pix', win=Window(...), wrapWidth=1300)
+10.7976 	EXP 	Created Descriptions = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='Descriptions', opacity=1.0, ori=0.0, pos=array([  0., -60.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units='pix', win=Window(...), wrapWidth=1300)
+10.8195 	EXP 	Created RatingScale = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=45, italic=False, name='RatingScale', opacity=1.0, ori=0.0, pos=array([   0., -120.]), rgb=array([ 0.,  0.,  0.]), text=unicode(...), units='pix', win=Window(...), wrapWidth=1300)
+10.8369 	EXP 	Created instruction = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=30, italic=False, name='instruction', opacity=1.0, ori=0.0, pos=array([-50.,   0.]), rgb=array([ 0.,  0.,  0.]), text=u'default text', units='pix', win=Window(...), wrapWidth=900)
+10.8435 	EXP 	Created fixation = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=50, italic=False, name='fixation', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units='pix', win=Window(...), wrapWidth=500)
+10.8570 	EXP 	Created encodeleft = TextStim(alignHoriz='right', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=50, italic=False, name='encodeleft', opacity=1.0, ori=0.0, pos=array([-25.,   0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units='pix', win=Window(...), wrapWidth=1000)
+10.8605 	EXP 	Created encoderight = TextStim(alignHoriz='left', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=50, italic=False, name='encoderight', opacity=1.0, ori=0.0, pos=array([ 25.,   0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units='pix', win=Window(...), wrapWidth=1000)
+10.8658 	EXP 	Created encodedash = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=50, italic=False, name='encodedash', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'-', units='pix', win=Window(...), wrapWidth=1000)
+10.8711 	EXP 	Created target on screen = TextStim(alignHoriz='left', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='target on screen', opacity=1.0, ori=0.0, pos=array([-300.,  250.]), rgb=array([ 0.,  0.,  0.]), text=u'test', units='pix', win=Window(...), wrapWidth=1000)
+10.8808 	EXP 	Created feedback on screen = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='red', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='feedback on screen', opacity=1.0, ori=0.0, pos=array([-300.,  250.]), rgb=array([ 255.,    0.,    0.]), text=u'feedback', units='pix', win=Window(...), wrapWidth=500)
+10.9012 	EXP 	Created feedback: correct ans = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=42, italic=False, name='feedback: correct ans', opacity=1.0, ori=0.0, pos=array([   0.,  100.]), rgb=array([ 0.,  0.,  0.]), text=u'The correct answer is', units='pix', win=Window(...), wrapWidth=1100)
+10.9064 	EXP 	Created show correct ans = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='blue', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='show correct ans', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([   0.,    0.,  255.]), text=u'feedback', units='pix', win=Window(...), wrapWidth=500)
+10.9103 	EXP 	Created target on screen = TextStim(alignHoriz='left', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='target on screen', opacity=1.0, ori=0.0, pos=array([-300.,  250.]), rgb=array([ 0.,  0.,  0.]), text=u'test', units='pix', win=Window(...), wrapWidth=1000)
+10.9149 	EXP 	Created feedback on screen = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='red', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='feedback on screen', opacity=1.0, ori=0.0, pos=array([-300.,  250.]), rgb=array([ 255.,    0.,    0.]), text=u'feedback', units='pix', win=Window(...), wrapWidth=500)
+10.9263 	EXP 	Created feedback: correct ans = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='feedback: correct ans', opacity=1.0, ori=0.0, pos=array([   0.,  100.]), rgb=array([ 0.,  0.,  0.]), text=u'The correct answer is', units='pix', win=Window(...), wrapWidth=1100)
+10.9318 	EXP 	Created show correct ans = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='blue', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=list(...), fontFiles=[], height=50, italic=False, name='show correct ans', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([   0.,    0.,  255.]), text=u'feedback', units='pix', win=Window(...), wrapWidth=500)
+11.0640 	EXP 	instruction: text = "Welcome to this experiment!\n\nIn this task you will be presented with a number of word pairs.\n\nPlease try to learn these word pairs to the best of your ability as you will be tested on them at a later stage.\n\nTo help you remember the pairs, please try to think of associations between the words themselves. For instance, if the word pair was 'tiger-shoe' you might try to picture in your mind a tiger wearing a shoe.\n\nPress any button to start the task.\n\n"
+11.5686 	DATA 	Keypress: return
+12.6098 	DATA 	Keypress: return
+13.2131 	DATA 	Keypress: return
+13.4260 	DATA 	Keypress: return
+13.5673 	DATA 	Keypress: return
+13.8918 	DATA 	Keypress: space
+14.3342 	DATA 	Keypress: k
+14.5073 	DATA 	Keypress: k
+14.6885 	DATA 	Keypress: k
+15.0702 	DATA 	Keypress: return
+15.1358 	DATA 	Keypress: lshift
+15.3209 	DATA 	Keypress: return
+15.9243 	DATA 	Keypress: return
+16.0577 	DATA 	Keypress: return
+16.1911 	DATA 	Keypress: return
+16.5235 	DATA 	Keypress: space
+16.6968 	DATA 	Keypress: space
+16.8939 	DATA 	Keypress: space
+17.0751 	DATA 	Keypress: space
+17.2403 	DATA 	Keypress: space
+17.4693 	DATA 	Keypress: space
+17.6743 	DATA 	Keypress: space
+17.8395 	DATA 	Keypress: space
+18.0512 	DATA 	Keypress: k
+18.2164 	DATA 	Keypress: k
+18.4097 	DATA 	Keypress: k
+18.4098 	DATA 	Keypress: i
+18.8365 	DATA 	Keypress: 5
+19.1132 	DATA 	Keypress: 5
+19.3023 	DATA 	Keypress: t
+20.8221 	DATA 	Keypress: k
+21.0107 	DATA 	Keypress: j
+21.6757 	DATA 	Keypress: 1
+21.7012 	EXP 	instruction: text = 'Ready...'
+22.8023 	DATA 	Keypress: 2
+22.8109 	DATA 	Keypress: 1
+23.0184 	EXP 	Created topMsg = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=20, italic=False, name='topMsg', opacity=1.0, ori=0.0, pos=array([   0.,  100.]), rgb=array([0, 0, 0]), text=u'Waiting for scanner to start...', units='pix', win=Window(...), wrapWidth=500)
+23.0214 	EXP 	Display WaitingForScanner
+23.1991 	DATA 	Keypress: 2
+23.6988 	DATA 	Keypress: 2
+24.6613 	DATA 	Keypress: 5
+24.6813 	EXP 	fixation cross on screen
+25.7011 	EXP 	encodeleft: text = 'pill'
+25.7011 	EXP 	encoderight: text = 'cake'
+30.5012 	DATA 	Keypress: return
+30.5024 	DATA 	Mouse: Left button down, pos=(431,418)
+30.5027 	DATA 	Mouse:  Left button up, pos=(431,418)
+30.5031 	DATA 	Mouse: Left button down, pos=(431,418)
+30.5033 	DATA 	Mouse:  Left button up, pos=(431,418)
+30.5038 	DATA 	Keypress: escape
+30.5048 	DATA 	Keypress: escape
+30.5057 	DATA 	Keypress: lctrl
+30.5062 	DATA 	Keypress: c
+30.5073 	DATA 	Keypress: c
+30.5088 	DATA 	Keypress: c
+30.7213 	EXP 	fixation cross on screen

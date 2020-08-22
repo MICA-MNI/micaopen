@@ -4,8 +4,10 @@
 % then go to editor on top 
 
 %% 0. define directory and add toolbox
-P='/data_/mica1/03_projects/casey/micaopen/surfstat/surfstat_tutorial/'; 
-addpath(P)
+P='/Users/boris/Documents/1_github/micaopen/surfstat/surfstat_tutorial/'; 
+addpath(genpath(P))
+% P='/Users/boris/Documents/1_github/micaopen/surfstat/surfstat_chicago'; 
+% addpath(P)
 
 %% 1. Load the surface data 
 SP = SurfStatAvSurf({[P 'fsaverage5/lh.pial'],[P 'fsaverage5/rh.pial']})

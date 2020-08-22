@@ -20,20 +20,32 @@ function [classes, names] = annot2classes(lh_annot, rh_annot, hemi_split)
 
 [~, lh_l, lh_ctb] = read_annotation(lh_annot);
 [~, rh_l, rh_ctb] = read_annotation(rh_annot);
-names = [lh_ctb.struct_names; rh_ctb.struct_names];
+if hemi_split == 1
+    names = [lh_ctb.struct_names; rh_ctb.struct_names];
+else
+    names = lh_ctb.struct_names;
+end
 classes = zeros(length(lh_l), 1);
 for ii = 1:length(lh_l)
     which_row = find(lh_ctb.table(:,5) == lh_l(ii));
+    if length(which_row) >  1
+        disp('Warning: duplicate labels')
+        which_row = which_row(1);
+    end
     if lh_l(ii) == 0
         classes(ii) = 0;
     elseif isempty(which_row)
         classes(ii) = 0;
     else
-        classes(ii) = which_row;
+        classes(ii) = which_row(1);
     end
 end
 for ii = 1:length(rh_l)
     which_row = find(rh_l(ii)==rh_ctb.table(:,5));
+    if length(which_row) >  1
+        disp('Warning: duplicate labels')
+        which_row = which_row(1);
+    end
     if rh_l(ii) == 0
         classes(ii+length(lh_l)) = 0;
     elseif isempty(which_row)
