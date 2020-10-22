@@ -87,8 +87,8 @@ This tutorial can be followed using the group-level metadata.
 
 ### Feature notes
 
-- The parcellation is provided on fsavearage (.annot) and conte69 (.csv) <br /> 
-- The first label in each hemisphere of the annotation file and the '0' in the csv file comprise the medial wall and are not used in the analysis
+- The parcellations (vosdewael200 for Freesurfer-style and HCP-MMP1 for HCP style) are provided on fsavearage (.annot). The Freesurfer-style parcellation is also provided on  conte69 (.csv) <br /> 
+- For vosdewael200, the first label in each hemisphere of the annotation file and the '0' in the csv file comprise the medial wall and are not used in the analysis
 
 ---
 
