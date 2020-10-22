@@ -12,6 +12,7 @@
 
 - [Standard space](#standard-space)
 - [Step by step guide to building the structural manifold](#step-by-step)
+- [Manuscript data] (#manuscript-data) 
 - [Feature notes](#feature-notes)
 - [Support](#support)
 
@@ -77,6 +78,12 @@ This tutorial can be followed using the group-level metadata.
   eigenvectors(:,2) = eigenvectors(:,2).*-1; % the signs of the eigenvectors are arbitrary, so we flip the second for interpretability
   colour_coding = colour2gradients(eigenvectors(:,2), eigenvectors(:,1));
 ```
+
+### Manuscript data
+
+- Data corresponding to the Figures and Supplementary Figures presented in the manuscript can be found in the Manuscript_Data.xlsx. 
+- Instructions of how to interpret Manuscript_Data.xlsx, linking Figures to the columns and sheets, can be found in Manuscript_Data_Dictionary.docx
+
 
 ### Feature notes
 
