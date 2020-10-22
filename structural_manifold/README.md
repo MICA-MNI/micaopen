@@ -12,7 +12,7 @@
 
 - [Standard space](#standard-space)
 - [Step by step guide to building the structural manifold](#step-by-step)
-- [Manuscript data] (#manuscript-data) 
+- [Manuscript data](#manuscript-data) 
 - [Feature notes](#feature-notes)
 - [Support](#support)
 
