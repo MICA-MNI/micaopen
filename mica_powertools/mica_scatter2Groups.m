@@ -9,14 +9,20 @@ n1 = length(y1);
 x1 = ones(size(y1)) + randn(n1,1)*multiplier; 
 
 f=figure, hold on  
-scatter(x1,y1,'k','filled')
-
-
+plot(x1,y1,'o',...
+    'MarkerSize', 15,...
+    'MarkerEdgeColor',[1 1 1],...
+        'MarkerFaceColor',[0 0 0])
+    
 y2 = nanmean(data2,2); 
 n2 = length(y2); 
 x2 = ones(size(y2)) + randn(n2,1)*multiplier + 1; 
 
-scatter(x2,y2,'r','filled')
+plot(x2,y2,'o',...
+    'MarkerSize', 15,...
+    'MarkerEdgeColor',[1 1 1],...
+        'MarkerFaceColor',[1 0 0])
+    
 plot([0.8 1.2], [mean(y1) mean(y1)],'k','LineWidth',2)
 plot([0.9 1.1], [mean(y1)+std(y1) mean(y1)+std(y1)],'k')
 plot([0.9 1.1], [mean(y1)-std(y1) mean(y1)-std(y1)],'k')
