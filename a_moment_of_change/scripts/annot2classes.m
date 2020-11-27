@@ -14,6 +14,8 @@ function [classes, names] = annot2classes(lh_annot, rh_annot, hemi_split)
 % classes           vector the length of vertices in left and right
 %                   hemisphere combined
 % names             names of structures in order of list
+%
+% author: Casey Paquola @ MICA, MNI, 2020*
 
 
 [~, lh_l, lh_ctb] = read_annotation(lh_annot);

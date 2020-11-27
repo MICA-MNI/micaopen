@@ -1,0 +1,17 @@
+Maps
+bigbrain_axis_short_padded_2mm.nii.gz - iso-to-allocortical axis values registered to MNI152_T1_2mm_brain.nii.gz
+
+Scripts
+01_confluence_surface_model.m
+remove_vertices.m
+tesselation_stats.m
+
+Data
+gray_right_327680.obj - bigbrain surface from ftp://bigbrain.loris.ca/BigBrainRelease.2015/3D_Surfaces/Apr7_2016/MNI-obj/
+white_right_327680.obj - bigbrain surface from ftp://bigbrain.loris.ca/BigBrainRelease.2015/3D_Surfaces/Apr7_2016/MNI-obj/
+bigbrain_labels.mat - essential assignment based on the Desikan Killany atlas transformed to the bigbrain surface (0=of no interest, 1=wall, 2=MTL)
+
+Extra files (too big for github) to add to the Data directory
+full8_400um_2009b_sym_rsp.nii - bigbrain volume in histological spce with a transformed right, superior, posterior alignment (performed using AFNI)
+Vxyz-Isovolume_hemi-R.mat - unfolded hippocampus from https://osf.io/x542s/ (BIDSscripts/LaminarFeatures)
+

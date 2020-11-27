@@ -1,0 +1,14 @@
+trial_num,questions,Dimension,low_end,high_end
+1,I was feeling tired during the last task.,fatigue,not at all: 1,completely: 11
+2,My thoughts involved future events.,future,not at all: 1,completely: 11
+3,My thoughts involved past events.,past,not at all: 1,completely: 11
+4,My thoughts involved myself.,self,not at all: 1,completely: 11
+5,My thoughts involved other people.,other,not at all: 1,completely: 11
+6,The content of my thoughts was:,emotion,negative: 1,positive: 11
+7,My thoughts were in the form of images.,images,not at all: 1,completely: 11
+8,My thoughts were in the form of words.,words,not at all: 1,completely: 11
+9,My thoughts were vivid as if I was there.,vividness,not at all: 1,completely: 11
+10,My thoughts were detailed and specific.,detail,not at all: 1,completely: 11
+11,My thoughts had recurrent themes.,habit,not at all: 1,completely: 11
+12,My thoughts tended to evolve in a series of steps.,evolving,not at all: 1,completely: 11
+13,My thoughts were:,deliberation,spontaneous: 1,deliberate: 11

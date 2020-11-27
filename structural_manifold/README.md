@@ -8,7 +8,7 @@
 
 ---
 
-## Table of Contents (Optional)
+## Table of Contents
 
 - [Standard space](#standard-space)
 - [Step by step guide to building the structural manifold](#step-by-step)

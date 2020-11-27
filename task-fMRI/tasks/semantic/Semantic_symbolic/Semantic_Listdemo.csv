@@ -1,0 +1,5 @@
+prime,target,foil1,foil2,condition
+tasks/semantic/Semantic_symbolic/Semantic_Listdemo/eel.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/fish.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/cauliflower.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/monkey.jpg,E
+tasks/semantic/Semantic_symbolic/Semantic_Listdemo/basketball.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/football.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/opener.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/pool.jpg,E
+tasks/semantic/Semantic_symbolic/Semantic_Listdemo/olive_branch.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/palm_tree.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/rose.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/hose.jpg,D
+tasks/semantic/Semantic_symbolic/Semantic_Listdemo/nutcracker.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/cucumber.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/jelly_bean.jpg,tasks/semantic/Semantic_symbolic/Semantic_Listdemo/bowling_ball.jpg,D

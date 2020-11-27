@@ -1,0 +1,16 @@
+Lors de cette tâche, votre mémoire des paires d'objets
+qui vous ont été présentées précédemment sera évaluée.
+
+À chaque essai, un objet apparaîtra en haut de l'écran
+ainsi que trois autres en bas.
+
+En utilisant les boutons, votre tâche est de sélectionner
+parmi ces trois objets celui qui était initialement
+jumelé avec l'objet en haut de l'écran.
+
+Pour choisir l'option de gauche: appuyez sur <2>
+Pour choisir l'option du centre: appuyez sur <3>
+Pour choisir l'option de droite: appuyez sur <4>
+
+
+Appuyez sur n'importe quel bouton pour continuer...

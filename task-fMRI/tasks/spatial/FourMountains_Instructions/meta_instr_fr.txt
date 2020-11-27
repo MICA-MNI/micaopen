@@ -1,0 +1,5 @@
+Êtes-vous sûr d'avoir répondu correctement à
+l'essai précédent?
+
+Appuyez 1 pour OUI
+Appuyez 2 pour NON

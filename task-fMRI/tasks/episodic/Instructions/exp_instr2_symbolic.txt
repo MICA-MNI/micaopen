@@ -1,0 +1,16 @@
+In this task, your memory of the paired items
+that were previously shown to you will be tested.
+
+At each trial, one item will be shown at the top of the
+screen and three others will be displayed at the bottom.
+
+Using the button box, your task is to select the item
+that was initially paired up with the one at the top of
+the screen.
+
+To choose the leftmost option: press '2'
+To choose the center option: press '3'
+To choose the rightmost option: press '4'
+
+
+Press any button to continue...

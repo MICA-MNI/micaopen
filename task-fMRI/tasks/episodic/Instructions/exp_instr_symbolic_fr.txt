@@ -1,0 +1,10 @@
+Lors de cette tâche, une série d'objets en paire
+vous sera présentée.
+
+Votre tâche est d'essayer de mémoriser chaque paire.
+
+Votre mémoire de ces paires d'objets sera évaluée
+plus tard.
+
+
+Appuyez sur n'importe quel bouton pour continuer...

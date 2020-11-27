@@ -1,0 +1,122 @@
+1.2774 	WARNING 	pyo audio lib was requested but not loaded: No module named pyo
+4.0580 	INFO 	---START PARAMETERS---
+4.0580 	INFO 	subject: 1
+4.0581 	INFO 	session: 1
+4.0581 	INFO 	date: Oct_19_2312
+4.0581 	INFO 	isPractice: 0
+4.0582 	INFO 	blockLengths: [52, 52]
+4.0582 	INFO 	randomizeBlocks: 1
+4.0583 	INFO 	ITI_min: 4.500000
+4.0583 	INFO 	ITI_range: 3.000000
+4.0583 	INFO 	flankerDur: 0.080000
+4.0583 	INFO 	targetDur: 0.030000
+4.0584 	INFO 	respDur: 1
+4.0584 	INFO 	blankDur: 0.000000
+4.0584 	INFO 	respKeys: ['3', '1']
+4.0585 	INFO 	triggerKey: ['5', 't']
+4.0585 	INFO 	isFullScreen: 1
+4.0585 	INFO 	fixCrossSize: 10.000000
+4.0586 	INFO 	rtDeadline: 1.400000
+4.0586 	INFO 	rtTooSlowDur: 0.600000
+4.0586 	INFO 	---END PARAMETERS---
+4.0596 	INFO 	Loaded monitor calibration from ['2017_05_17 09:51']
+4.0623 	WARNING 	User requested fullscreen with size [1024  768], but screen is actually [1366, 768]. Using actual size
+4.7041 	EXP 	Created win = Window(allowGUI=False, allowStencil=False, autoLog=True, bitsMode=UNKNOWN, blendMode='avg', color=array([ 0.7,  0.7,  0.7]), colorSpace='rgb', fullscr=UNKNOWN, gamma=None, lms=UNKNOWN, monitor=<psychopy.monitors.calibTools.Monitor object at 0xa77fb60c>, name='win', pos=[0, 0], screen=0, size=array([1366,  768]), stereo=False, units='pix', useFBO=False, useRetina=False, viewOri=0.0, viewPos=None, viewScale=None, waitBlanking=True, winType='pyglet')
+4.7636 	EXP 	Created fixation = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='black', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=62, italic=False, name='fixation', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([ 0.,  0.,  0.]), text=u'+', units='pix', win=Window(...), wrapWidth=500)
+4.7688 	EXP 	Created topMsg = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=20, italic=False, name='topMsg', opacity=1.0, ori=0.0, pos=array([   0.,  100.]), rgb=array([0, 0, 0]), text=u'aaa', units='pix', win=Window(...), wrapWidth=500)
+4.7721 	EXP 	Created bottomMsg = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=20, italic=False, name='bottomMsg', opacity=1.0, ori=0.0, pos=array([   0., -100.]), rgb=array([0, 0, 0]), text=u'bbb', units='pix', win=Window(...), wrapWidth=500)
+4.7769 	EXP 	Created target = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=[], fontFiles=[], height=62, italic=False, name='target', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([0, 0, 0]), text=u'\u2190', units='pix', win=Window(...), wrapWidth=500)
+4.7799 	EXP 	Created flanker1 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=[], fontFiles=[], height=62, italic=False, name='flanker1', opacity=1.0, ori=0.0, pos=array([-124.,    0.]), rgb=array([0, 0, 0]), text=u'\u2192', units='pix', win=Window(...), wrapWidth=500)
+4.7825 	EXP 	Created flanker2 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=[], fontFiles=[], height=62, italic=False, name='flanker2', opacity=1.0, ori=0.0, pos=array([-62.,   0.]), rgb=array([0, 0, 0]), text=u'\u2192', units='pix', win=Window(...), wrapWidth=500)
+4.7850 	EXP 	Created flanker3 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=[], fontFiles=[], height=62, italic=False, name='flanker3', opacity=1.0, ori=0.0, pos=array([ 62.,   0.]), rgb=array([0, 0, 0]), text=u'\u2192', units='pix', win=Window(...), wrapWidth=500)
+4.7876 	EXP 	Created flanker4 = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='#000000', colorSpace='hex', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font=[], fontFiles=[], height=62, italic=False, name='flanker4', opacity=1.0, ori=0.0, pos=array([ 124.,    0.]), rgb=array([0, 0, 0]), text=u'\u2192', units='pix', win=Window(...), wrapWidth=500)
+4.7957 	EXP 	Created tooSlow = TextStim(alignHoriz='center', alignVert='center', antialias=True, autoLog=True, bold=False, color='red', colorSpace='named', contrast=1.0, depth=0, flipHoriz=False, flipVert=False, font='', fontFiles=[], height=30, italic=False, name='tooSlow', opacity=1.0, ori=0.0, pos=array([ 0.,  0.]), rgb=array([ 255.,    0.,    0.]), text=u'Too Slow!', units='pix', win=Window(...), wrapWidth=500)
+4.8242 	EXP 	topMsg: text = 'Keep your eyes on the cross at the center of the screen when it appears. You will then see a series of arrows.'
+4.8242 	EXP 	bottomMsg: text = 'Press any key to continue.'
+4.8242 	EXP 	Display Instructions1
+5.5798 	DATA 	Keypress: z
+5.5994 	EXP 	topMsg: text = 'Using your right hand, press the left button whenever the middle arrow points left and right button when it points right.'
+5.5994 	EXP 	bottomMsg: text = 'Press any key to continue.'
+5.5994 	EXP 	Display Instructions2
+6.0079 	DATA 	Keypress: z
+6.0294 	EXP 	topMsg: text = "If you answer too slowly, you'll see a message reminding you to speed up. Please respond as accurately as possible without being slower than this deadline."
+6.0294 	EXP 	bottomMsg: text = 'Press any key to continue.'
+6.0294 	EXP 	Display Instructions3
+6.3168 	DATA 	Keypress: z
+6.3286 	EXP 	topMsg: text = ' '
+6.3286 	EXP 	bottomMsg: text = "When you're ready to begin, press any key."
+6.3286 	EXP 	Display Instructions4
+6.7055 	DATA 	Keypress: z
+6.7134 	EXP 	topMsg: text = 'Waiting for scanner to start...'
+6.7134 	EXP 	bottomMsg: text = ''
+6.7134 	EXP 	Display WaitingForScanner
+7.1739 	DATA 	Keypress: z
+7.8097 	DATA 	Keypress: z
+8.0709 	DATA 	Keypress: z
+8.3400 	DATA 	Keypress: z
+8.6027 	DATA 	Keypress: 5
+8.6054 	EXP 	Display Fixation
+8.6055 	EXP 	---START EXPERIMENT---
+8.6055 	EXP 	Start Block 0
+8.6128 	EXP 	Display Fixation
+13.6504 	DATA 	Keypress: z
+13.6505 	DATA 	Keypress: z
+13.6505 	DATA 	Keypress: z
+13.6506 	DATA 	Keypress: z
+13.6507 	DATA 	Keypress: z
+13.6507 	DATA 	Keypress: z
+13.6508 	DATA 	Keypress: z
+13.6508 	DATA 	Keypress: z
+13.6509 	DATA 	Keypress: z
+13.6510 	DATA 	Keypress: z
+13.6510 	DATA 	Keypress: z
+13.6511 	DATA 	Keypress: z
+13.6511 	DATA 	Keypress: z
+13.6512 	DATA 	Keypress: z
+13.6513 	DATA 	Keypress: z
+13.6513 	DATA 	Keypress: z
+13.6514 	DATA 	Keypress: z
+13.6514 	DATA 	Keypress: z
+13.6515 	DATA 	Keypress: z
+13.6516 	DATA 	Keypress: z
+13.6531 	EXP 	flanker1: text = u'\u2192'
+13.6531 	EXP 	flanker2: text = u'\u2192'
+13.6531 	EXP 	flanker3: text = u'\u2192'
+13.6531 	EXP 	flanker4: text = u'\u2192'
+13.6531 	EXP 	Display RightFlankers
+13.7364 	EXP 	target: text = u'\u2190'
+13.7364 	EXP 	Display LeftTarget
+13.7700 	EXP 	Display Blank
+15.1426 	EXP 	Display TooSlow
+15.7444 	EXP 	Display Fixation
+18.5874 	DATA 	Keypress: escape
+18.5874 	DATA 	Keypress: escape
+18.5889 	EXP 	flanker1: text = u'\u2190'
+18.5889 	EXP 	flanker2: text = u'\u2190'
+18.5889 	EXP 	flanker3: text = u'\u2190'
+18.5889 	EXP 	flanker4: text = u'\u2190'
+18.5889 	EXP 	Display LeftFlankers
+18.6743 	EXP 	target: text = u'\u2192'
+18.6743 	EXP 	Display RightTarget
+18.7078 	EXP 	Display Blank
+20.0803 	EXP 	Display TooSlow
+20.4272 	DATA 	Keypress: q
+20.6823 	EXP 	Display Fixation
+25.7718 	DATA 	Keypress: q
+25.7719 	DATA 	Keypress: q
+25.7734 	EXP 	flanker1: text = u'\u2192'
+25.7734 	EXP 	flanker2: text = u'\u2192'
+25.7734 	EXP 	flanker3: text = u'\u2192'
+25.7734 	EXP 	flanker4: text = u'\u2192'
+25.7734 	EXP 	Display RightFlankers
+25.8588 	EXP 	target: text = u'\u2190'
+25.8588 	EXP 	Display LeftTarget
+25.8921 	EXP 	Display Blank
+27.0388 	DATA 	Keypress: q
+27.2646 	EXP 	Display TooSlow
+27.2920 	DATA 	Keypress: escape
+27.4734 	DATA 	Keypress: q
+27.6229 	DATA 	Keypress: escape
+27.7405 	DATA 	Keypress: q
+27.8342 	DATA 	Keypress: escape
+27.8647 	EXP 	win: mouseVisible = True

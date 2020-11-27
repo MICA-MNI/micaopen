@@ -1,0 +1,4 @@
+list_AB,wordpair,episodic_trials_loop.thisRepN,episodic_trials_loop.thisTrialN,episodic_trials_loop.thisN,episodic_trials_loop.thisIndex,Trial_start,Position1,Position2,Position3,key_response.keys,key_response.corr,Fixation duration,Participant,Session,frameRate,expName,Word-pair list,date,
+A,Episodic_Encoding/Episodic_Encoding_ListA/20.jpg,0,0,0,19,3.09944152832e-06,-0.5,0,0.5,None,0,3.0,,001,60.1840401887,Episodic Encoding Task,A,2017_Nov_15_1036,
+A,Episodic_Encoding/Episodic_Encoding_ListA/17.jpg,0,1,1,16,1.90734863281e-06,-0.5,0.5,0,None,0,2.0,,001,60.1840401887,Episodic Encoding Task,A,2017_Nov_15_1036,
+A,Episodic_Encoding/Episodic_Encoding_ListA/22.jpg,0,2,2,21,1.90734863281e-06,-0.5,0,0.5,None,0,1.5,,001,60.1840401887,Episodic Encoding Task,A,2017_Nov_15_1036,

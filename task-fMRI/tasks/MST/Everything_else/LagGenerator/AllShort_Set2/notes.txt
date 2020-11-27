@@ -1,0 +1,22 @@
+Run with CreateOrder_Allshort.m
+12/22/17
+
+Total:
+40 repeat pairs
+40 lure pairs
+30 extra foils
+--> 190 total trials
+
+8 repeat and 8 lure pairs at 0-lag
+32 repeat and 32 lure pairs at 2-12 lag
+
+1st column is the stimulus type + number:
+Offset_1R = 0; % 1-100 1st of repeat pair
+Offset_2R = 100; % 101-200  2nd of repeat pair
+Offset_1L = 200; % 201-300 1st of lure pair
+Offset_2L = 300; % 301-400 2nd of lure pair
+Offset_Foil = 400; % 401+ Foil
+
+2nd column is the lag + 500 (-1 for 1st and foil)
+
+
