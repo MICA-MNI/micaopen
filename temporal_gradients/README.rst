@@ -4,6 +4,7 @@
 Temporal Gradient Figures
 ____________________________________
 .. image:: figure.png
+    :width: 400px
 
 This is the code accompanying the manuscript `Microstructural underpinnings and macroscale functional implications of temporal lobe connectivity gradients <https://www.biorxiv.org/content/10.1101/2020.11.26.400382v1>`_. It will allow you to reproduce the main figures of the manuscript. The development version of the `BrainSpace toolbox <https://brainspace.readthedocs.io/>`_ is required for running the code herein. 
 
@@ -32,7 +33,6 @@ The function :matlab:`temporal_gradients.download_data` will automatically downl
  - gm_mics: GradientMaps object of the MICS dataset.
  - include: vertices included in the yeo network analysis (overlap of vertices not in the midline and those included in the yeo networks).
  - kfold_fc_r: subjectwise correlation between empirical and predicted functional connectivity in the discovery dataset.
- - mesulam: mesulam map 
  - microstructural_features: curvature, cortical thickness, and t1w/t2w intensities
  - mics_fc_r: subjectwise correlation between empirical and predicted functional connectivity in the MICS dataset.
  - node_strength: node strength of the temporal lobe
