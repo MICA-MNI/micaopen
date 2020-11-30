@@ -47,4 +47,4 @@ The function :matlab:`temporal_gradients.download_data` will automatically downl
  - yeo_tl: Yeo networks in the temporal lobe.
  - yeo_predicted: Predicted yeo networks in the discovery dataset of one of the folds.
 
-If you use any of the code in this package, then please consider citing `Vos de Wael et al., 2020, bioRxiv <https://www.biorxiv.org/content/10.1101/2020.11.26.400382v1>`_.
+If you use any of the code or data in this package, then please consider citing `Vos de Wael et al., 2020, bioRxiv <https://www.biorxiv.org/content/10.1101/2020.11.26.400382v1>`_.
