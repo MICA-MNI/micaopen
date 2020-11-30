@@ -10,7 +10,7 @@ function master_figure3()
 %   https://github.com/MICA-MNI/micaopen/tree/master/temporal_gradients.
 
 % Find local directory.
-fs = filesep();
+fs = string(filesep());
 package_dir = regexp(mfilename('fullpath'),'.*\+temporal_gradients','match','once');
 
 % Check for existence of the data file.
