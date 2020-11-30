@@ -3,9 +3,9 @@
 
 Temporal Gradient Figures
 ____________________________________
-This is the code accompanying the manuscript `Microstructural underpinnings and macroscale functional implications of temporal lobe connectivity gradients <https://www.biorxiv.org/content/10.1101/2020.11.26.400382v1>`_. It will allow you to reproduce the main figures of the manuscript. The development version of the `BrainSpace toolbox <https://brainspace.readthedocs.io/>`_ is required for running the code herein. 
-
 .. image:: figure.png
+
+This is the code accompanying the manuscript `Microstructural underpinnings and macroscale functional implications of temporal lobe connectivity gradients <https://www.biorxiv.org/content/10.1101/2020.11.26.400382v1>`_. It will allow you to reproduce the main figures of the manuscript. The development version of the `BrainSpace toolbox <https://brainspace.readthedocs.io/>`_ is required for running the code herein. 
 
 Usage
 =============
