@@ -18,6 +18,8 @@ First, make sure to add this toolbox and the BrainSpace development version to y
 
 Next, you can download the required data by running :matlab:`temporal_gradients.download_data`. The plots for, for example figure 1, can be produced by running :matlab:`temporal_gradients.master_figure1`. The resulting figures will be stored in the directory micaopen/temporal_gradients/+temporal_gradients/figures/figure1. 
 
+Note that the sizes of some graphics objects in the figures depend on screen resolution (and others don't), so generated figures may look slightly different from those in the manuscript. 
+
 Data
 ===============
 
