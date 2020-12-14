@@ -32,6 +32,7 @@ The function :matlab:`temporal_gradients.download_data` will automatically downl
  - gm_hcp_discovery: GradientMaps object of the discovery dataset.
  - gm_hcp_replication: GradientMaps object of the replication dataset.
  - gm_mics: GradientMaps object of the MICS dataset.
+ - HAR_expression: Human accelerated gene expression map for the left hemispheric Schaefer200 regions. 
  - include: vertices included in the yeo network analysis (overlap of vertices not in the midline and those included in the yeo networks).
  - kfold_fc_r: subjectwise correlation between empirical and predicted functional connectivity in the discovery dataset.
  - microstructural_features: curvature, cortical thickness, and t1w/t2w intensities
@@ -40,6 +41,7 @@ The function :matlab:`temporal_gradients.download_data` will automatically downl
  - r_ho: vertexwise correlation between predicted and empirical data in the replication and MICS datasets
  - repl_fc_r subjetwise correlation between empirical and predicted functional connectivity in the replication dataset.
  - sc_mask: log-transformed (for visualization only!) structural connectivity of the discovery dataset.
+ - schaefer_200_tl: Schaefer 200 regions in the left temporal lobe.
  - sjh: parcellation used for the MPC gradient
  - surf_lh: left hemispheric surface
  - surf_rh: right hemispheric surface

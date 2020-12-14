@@ -31,30 +31,46 @@ load(data_file, ...
     'surf_lh', ...
     'surf_rh', ...
     'evo_data', ...
-    'temporalLobe_msk');
+    'temporalLobe_msk', ...
+    'HAR_expression', ...
+    'schaefer_200_tl');
 
 evo_data_tl = structfun(@(x) x(temporalLobe_msk), evo_data, 'uniform', false);
 evo_data_tl = [evo_data_tl.HMS, evo_data_tl.exp];
+evo_data_harincl = [evo_data_tl,  ...
+    [parcel2full(HAR_expression,schaefer_200_tl); ...
+    parcel2full(HAR_expression,schaefer_200_tl)]];
 
-scatter_plots_3d(gm_hcp_discovery,evo_data_tl,[0,4;0,70], figure_dir);
-scatter_plots_2d(gm_hcp_discovery,evo_data_tl,[0,4;0,70], figure_dir);
-metric_surfaces(evo_data_tl, {surf_lh,surf_rh}, temporalLobe_msk, figure_dir);
+gradient_schaefer = full2parcel(gm_hcp_discovery.aligned{1}(:,1:3)', ...
+    schaefer_200_tl); % NOTE: NaNs in matrix are data outside the temporal lobe.
+nan_idx = all(isnan(gradient_schaefer),2);
+gradient_schaefer(nan_idx,:) = [];
+HAR_expression(nan_idx,:) = []; 
+fake_gradientmap.aligned = {gradient_schaefer}; % Workaround to plug this into the same function as the other markers.
+% Plot figures
+scatter_plots_3d(gm_hcp_discovery, evo_data_tl, [0,4;0,70], 2, ["fhi","exp"], figure_dir);
+scatter_plots_3d(fake_gradientmap, HAR_expression, [0.45,0.55], 1, "HAR", figure_dir);
+scatter_plots_2d(gm_hcp_discovery, evo_data_tl, [0,4;0,70], 2, ["fhi","exp"], {'Functional Homology','Areal Expansion'}, figure_dir);
+scatter_plots_2d(fake_gradientmap, HAR_expression, [0.45,0.55], 1, "HAR", {'HAR Gene Expression'}, figure_dir);
+metric_surfaces(evo_data_harincl, {surf_lh,surf_rh}, temporalLobe_msk, figure_dir);
+
 end
 
-function scatter_plots_3d(gm,Y,clim,figure_dir)
+function scatter_plots_3d(gm,Y,clim,num_hemi,types,figure_dir)
 % Builds 3D scatter plots.
 %
-%   SCATTER_PLOTS_3D(gm,Y,clim,,figure_dir) builds scatter plots of
-%   columns of Y (here: functional homology and areal expansion) in 3D
-%   gradient space. Color limits are provided in clim. Figures are stored
-%   in figure_dir.
+%   SCATTER_PLOTS_3D(gm,Y,clim,num_hemi,types,figure_dir) builds scatter
+%   plots of columns of Y (here: functional homology and areal expansion)
+%   in 3D gradient space. Color limits are provided in clim. Figures are
+%   stored in figure_dir.
 
 side = ["left","right"];
-type = ["fhi","exp"];
-for ii = 1:2 % hemisphere
+for ii = 1:num_hemi % hemisphere
     for jj = 1:size(Y,2) % modality
         % Select left/right hemisphere.
-        if ii == 1
+        if num_hemi == 1
+            y = Y;
+        elseif ii == 1
             y = Y(1:end/2,jj);
         else
             y = Y(end/2+1:end,jj);
@@ -62,35 +78,35 @@ for ii = 1:2 % hemisphere
         % Plot
         temporal_gradients.support.metric_scatter_3d(gm.aligned{ii},y,clim(jj,:), ...
             figure_dir + "/3d_scatter_" + ...
-            side{ii} + "_" + type{jj} + ".png")
+            side{ii} + "_" + types{jj} + ".png")
     end
 end
 end
 
 
-function scatter_plots_2d(gm,Y,lim,figure_dir)
+function scatter_plots_2d(gm,Y,lim,num_hemi, types, labels, figure_dir)
 % Builds 2D scatter plots.
 %
-%   SCATTER_PLOTS_2D(GM,Y,clim,,figure_dir) builds scatter plots of
-%   eccentricity versus columns of Y (here: functional homology and areal
-%   expansion). Y-axis limits are provided in lim. Figures are stored in
-%   figure_dir.
+%   SCATTER_PLOTS_2D(gm,Y,lim,num_hemi,figure_dir) builds scatter plots of
+%   eccentricity versus columns of Y. Y-axis limits are provided in lim.
+%   Figures are stored in figure_dir.
 
 side = ["left","right"];
-type = ["fhi","exp"];
-label = {'Functional Homology','Areal Expansion'};
 import temporal_gradients.support.eccentricity
-for ii = 1:2
+for ii = 1:num_hemi
     for jj = 1:size(Y,2)
-        if ii == 1
+        % Select left/right hemisphere.
+        if num_hemi == 1
+            y = Y;
+        elseif ii == 1
             y = Y(1:end/2,jj);
         else
             y = Y(end/2+1:end,jj);
         end
         temporal_gradients.support.metric_scatter(eccentricity(gm.aligned{ii}(:,1:3)), ...
-            y,[0,5],lim(jj,:),'Eccentricity',label{jj}, true, ...
+            y,[0,5],lim(jj,:),'Eccentricity',labels{jj}, true, ...
             figure_dir + "2d_scatter_" + ...
-            side{ii} + "_" + type{jj} + ".png")
+            side{ii} + "_" + types{jj} + ".png")
     end
 end
 end
@@ -105,8 +121,9 @@ function metric_surfaces(Y,surfaces,mask, figure_dir)
 
 fake_parcellation = zeros(20000,1);
 fake_parcellation(mask) = 1:3428;
-obj = plot_hemispheres(Y,surfaces,'labeltext',{{'Functional','Homology Index'},{'Areal', 'Expansion'}},'parcellation',fake_parcellation);
-obj.colorlimits([0 4; 0 70]);
+obj = plot_hemispheres(Y,surfaces,'labeltext',{{'Functional','Homology Index'}, ...
+    {'Areal', 'Expansion'}, {'HAR Gene', 'Expression'}},'parcellation',fake_parcellation);
+obj.colorlimits([0 4; 0 70; 0.45 0.55]);
 obj.colormaps([.7 .7 .7 ;parula]);
 set(obj.handles.text,'FontSize',16);
 export_fig([figure_dir '/hemispheres.png'],'-m2','-png')
