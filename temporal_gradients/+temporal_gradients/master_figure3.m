@@ -94,7 +94,7 @@ obj = plot_hemispheres(predicted,surface,'parcellation',fake_parcellation, ...
     'labeltext',{{'Predicted', 'Networks'}});
 obj.colormaps(yeo_cmap);
 obj.colorlimits([0,7])
-export_fig([figure_dir, 'yeo_canonical.png'], '-png', '-m2');
+export_fig([figure_dir, 'yeo_predicted.png'], '-png', '-m2');
 close(gcf);
 
 % Plot the canonical in the manifold. 
