@@ -49,8 +49,8 @@ yeo_figures(gm_hcp_discovery, ...
     surf_lh, ...
     figure_dir);
 decision_tree_figures({kfold_fc_r,repl_fc_r,mics_fc_r}, ...
-    cat(3,r,r_ho), ...
-    {surf_lh,surf_rh}, ...
+    cat(3,r(:,1),r_ho(:,1,:)), ...
+    {surf_lh}, ...
     temporalLobe_msk, ...
     figure_dir);
 end
@@ -80,7 +80,7 @@ yeo_cmap = [178.5 178.5 178.5;
 
 % Plot the canonical networks.
 obj = plot_hemispheres(canonical,surface, ...
-    'labeltext','Yeo Networks');
+    'labeltext','Yeo Networks','views','lmi');
 obj.colormaps(yeo_cmap);
 obj.colorlimits([0,7])
 export_fig([figure_dir, 'yeo_canonical.png'], '-png', '-m2');
@@ -91,7 +91,7 @@ fake_parcellation = zeros(10000,1);
 idx = find(mask);
 fake_parcellation(idx(include)) = 1:sum(include);
 obj = plot_hemispheres(predicted,surface,'parcellation',fake_parcellation, ...
-    'labeltext',{{'Predicted', 'Networks'}});
+    'labeltext',{{'Predicted', 'Networks'}},'views','lmi');
 obj.colormaps(yeo_cmap);
 obj.colorlimits([0,7])
 export_fig([figure_dir, 'yeo_predicted.png'], '-png', '-m2');
@@ -140,12 +140,12 @@ end
 export_fig([figure_dir, 'subjectwise_correlations.png'],'-png','-m2')
 
 % Vertexwise correlations
-fake_parcellation = zeros(20000,1);
-fake_parcellation(temporalLobe_msk) = 1:3428;
-plot = reshape(vertex_level,3428,3);
+fake_parcellation = zeros(10000,1);
+fake_parcellation(temporalLobe_msk(1:end/2)) = 1:1714;
+plot = reshape(vertex_level,1714,3);
 plot(plot<0) = 0.0001; % A bit above 0 otherwise gray will be assigned to these vertices too. 
 obj = plot_hemispheres(plot, surfaces, 'parcellation',fake_parcellation, ...
-    'labeltext', {{'HCP', 'Discovery'},{'HCP','Replication'},'MICS'});
+    'labeltext', {{'HCP', 'Discovery'},{'HCP','Replication'},'MICS'},'views','lmi');
 obj.colormaps([.7 .7 .7; parula(10000)]);
 obj.colorlimits([0 .9])
 export_fig([figure_dir, 'vertexwise_correlations.png'], '-png', '-m2');
