@@ -40,15 +40,30 @@ load(data_file, ...
 % Mask data for visualization
 connectivity_vector_3829(~c69_20k.mask) = -inf;
 
+% Grab eccentricity
+import temporal_gradients.support.eccentricity
+ecc = [eccentricity(gm_hcp_discovery.aligned{1}(:,1:3)); 
+       eccentricity(gm_hcp_discovery.aligned{2}(:,1:3))];
+pinksequential = [255,247,243
+                  253,224,221
+                  252,197,192
+                  250,159,181
+                  247,104,161
+                  221,52,151
+                  174,1,126
+                  122,1,119
+                  73,0,106];
+cmap = interp1(linspace(0,1,size(pinksequential,1)),pinksequential,linspace(0,1,64))/255;
+
 % Basic Figures
 build_connectivity_surface(connectivity_vector_3829,surf_lh,surf_rh, figure_dir);
 build_affinity_matrix(sc_mask,temporalLobe_msk,c69_20k.mask,figure_dir);
 build_scree_plot(gm_hcp_discovery.lambda{1}, [figure_dir, 'left_scree.png']);
-build_gradient_surfaces([gm_hcp_discovery.aligned{1};gm_hcp_discovery.aligned{2}],surf_lh,surf_rh,temporalLobe_msk, figure_dir);
+build_gradient_surfaces([gm_hcp_discovery.aligned{1};gm_hcp_discovery.aligned{2}],surf_lh,temporalLobe_msk, figure_dir);
 build_graph_scatters(gm_hcp_discovery,{connectivity_distance.hcp_discovery,degree_centrality.hcp_discovery}, ...
     ["Connectivity Distance","Degree Centrality"], figure_dir);
-build_graph_scatters_3d(gm_hcp_discovery,{connectivity_distance.hcp_discovery,degree_centrality.hcp_discovery}, ...
-    [10,20; 0.5e7,2e7],{parula,parula},["Connectivity Distance","Degree Centrality"], figure_dir);
+build_graph_scatters_3d(gm_hcp_discovery,{ecc, connectivity_distance.hcp_discovery,degree_centrality.hcp_discovery}, ...
+    [0.5, 4; 10,20; 0.5e7,2e7],{cmap, parula,parula},["Eccentricity", "Connectivity Distance","Degree Centrality"], figure_dir);
 end
 
 %% Figure builders
@@ -141,12 +156,12 @@ close(gcf);
 end
 
 
-function build_gradient_surfaces(gradients,surf_lh,surf_rh,temporalLobe_msk,figure_dir)
+function build_gradient_surfaces(gradients,surf_lh,temporalLobe_msk,figure_dir)
 % Builds surfaces displaying gradients.
 %
 %   BUILD_GRADIENT_SURFACES(gradients,surf_lh,surf_rh,temporalLobe_msk,
-%   figure_dir) plots the column vectors of gradients onto surfaces surf_lh
-%   and surf_rh. A temporal lobe mask must be provided. The resulting
+%   figure_dir) plots the column vectors of gradients onto surface surf_lh. 
+%   A temporal lobe mask must be provided. The resulting
 %   figure is stored as figure_dir/gradients.png. 
 
 % Construct a temporal lobe 'parcellation'.
@@ -154,8 +169,8 @@ fake_parcellation = zeros(20000,1);
 fake_parcellation(temporalLobe_msk) = 1:3428;
 
 % Plot surfaces.
-obj = plot_hemispheres(gradients(:,1:3),{surf_lh,surf_rh},'LabelText',"Gradient " + (1:3), ...
-    'Parcellation',fake_parcellation);
+obj = plot_hemispheres(gradients(1:end/2,1:3),{surf_lh},'LabelText',"Gradient " + (1:3), ...
+    'Parcellation',fake_parcellation(1:end/2), 'views', 'lmi');
 
 % Adjust colormap and color limits.
 colormap([.7 .7 .7; parula])
@@ -165,8 +180,28 @@ obj.colorlimits(lim);
 % Export. 
 export_fig([figure_dir, 'gradients.png'],'-m2','-png');
 close(gcf);
-end
 
+% Repeat for eccentricity.
+import temporal_gradients.support.eccentricity
+obj = plot_hemispheres(eccentricity(gradients(1:end/2,1:3)),{surf_lh},'LabelText',"Eccentricity", ...
+    'Parcellation',fake_parcellation(1:end/2), 'views', 'lmi');
+
+pinksequential = [255,247,243
+                  253,224,221
+                  252,197,192
+                  250,159,181
+                  247,104,161
+                  221,52,151
+                  174,1,126
+                  122,1,119
+                  73,0,106];
+cmap = interp1(linspace(0,1,size(pinksequential,1)),pinksequential,linspace(0,1,64))/255;
+colormap([.7 .7 .7 ; cmap(1:end-10,:)])
+lim = [0.5, 4];
+obj.colorlimits(lim);
+export_fig([figure_dir, 'eccentricity.png'],'-m2','-png');
+close(gcf);
+end
 
 function build_graph_scatters(GM,data,modality_name, figure_dir)
 % Builds 2D scatter plots for connectivity distance and degree centrality.
