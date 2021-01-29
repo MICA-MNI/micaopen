@@ -1,4 +1,12 @@
 function metric_scatter_3d(coord,z,clim,filename,cmap)
+% Core function for 3D scatter plots
+%
+%   METRIC_SCATTER(coord,z,clim,filename,cmap) creates a 3D scatter plot
+%   where points have coordinates coord and intensities z. The color limits
+%   are set with clim. The figure is stored as a .png file in filename. A
+%   colormap may be defined with cmap. If cmap is not included then it
+%   defaults to parula.
+
 if ~exist('cmap','var')
     cmap = parula;
 end
