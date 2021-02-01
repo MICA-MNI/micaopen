@@ -19,6 +19,12 @@ BrainSpace: https://github.com/MICA-MNI/BrainSpace/tree/Development \
 GIFTI: https://www.artefact.tk/software/matlab/gifti
 
 
+# Features
+* **Manifold eccentricity: 'ManEccen.m'**  
+* **Subcortical-weighted manifold: 'WeightedMan.m'**  
+* **Wiring distance: 'WiringDist.m'**  
+
+
 # Websites
 
 * **Personal:** http://by9433.wixsite.com/boyongpark 
