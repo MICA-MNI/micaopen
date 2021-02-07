@@ -1,4 +1,4 @@
-%% Generate template manifolds
+%% Basic settings
 clear;clc; close all
 
 %%% Add path
@@ -18,18 +18,19 @@ ncompo_select = 3;  % number of components to use
 NumROI = 200;       % number of ROIs
 
 %%% Load data and surfaces
-load('data.mat');
+load(strcat(ManEccenPath,'/data.mat'));
 % cortical surface
-[surf_lh, surf_rh] = load_conte69();
+[surf_ctx_lh, surf_ctx_rh] = load_conte69();
 labeling = load_parcellation('schaefer',NumROI);
 exp_tmp = ['parc = labeling.schaefer_',int2str(NumROI),';'];
 eval(exp_tmp);
 % subcortical surface
-surf_L = SurfStatReadSurf(strcat(ManEccenPath,'/surface/sctx_template_L'));
-surf_R = SurfStatReadSurf(strcat(ManEccenPath,'/surface/sctx_template_R'));
+surf_sctx_lh = SurfStatReadSurf(strcat(ManEccenPath,'/surface/sctx_template_L'));
+surf_sctx_rh = SurfStatReadSurf(strcat(ManEccenPath,'/surface/sctx_template_R'));
+% colormap
+load(strcat(ManEccenPath,'/colormap/coolwhitewarm.mat'));
 
-
-%%% Generate template gradients
+%% Generate template gradients
 sparsity = 0;
 gm_L = GradientMaps('kernel', 'na', 'approach', 'dm', 'alignment', 'pa', 'n_components', ncompo);
 gm_L = gm_L.fit(SC_group(1:NumROI/2,1:NumROI/2), 'sparsity', sparsity, 'reference', HCP_gradient_dti.gm(1:NumROI/2,:), 'niterations',500);
@@ -39,12 +40,12 @@ gm_R = gm_R.fit(SC_group(1+NumROI/2:end,1+NumROI/2:end), 'sparsity', sparsity, '
 gm_temp   = [ [gm_L.aligned{1}; gm_R.aligned{1}] ];  % template manifold
 gm_lambda = (gm_L.lambda{1} + gm_R.lambda{1})/2;     % eigenvalues
 
-%%% Visualize template gradients
+%%% Visualize
 scree_plot(gm_lambda);
 
 LT = cell(1,ncompo_select);
 for nc = 1:ncompo_select;  LT{nc} = strcat('E',int2str(nc));  end
-obj = plot_hemispheres(gm_temp(:,1:ncompo_select), {surf_lh,surf_rh}, 'labeltext', LT,'views','lm','parcellation',parc);
+obj = plot_hemispheres(gm_temp(:,1:ncompo_select), {surf_ctx_lh,surf_ctx_rh}, 'labeltext', LT,'views','lm','parcellation',parc);
 obj.colorlimits([-0.15, 0.15]);
 cmap = viridis; cmap(1,:) = [181/255 181/255 181/255];
 obj.colormaps(cmap)
@@ -55,7 +56,7 @@ ME = ManEccen(gm_temp, gm_ind, 3);
 
 %%% Visualize
 LT = []; LT{1} = 'ManEccen';
-obj = plot_hemispheres(ME, {surf_lh,surf_rh}, 'labeltext', LT,'views','lm','parcellation',parc);
+obj = plot_hemispheres(ME, {surf_ctx_lh,surf_ctx_rh}, 'labeltext', LT,'views','lm','parcellation',parc);
 obj.colorlimits([0, 0.15]);
 cmap = viridis; cmap(1,:) = [181/255 181/255 181/255];
 obj.colormaps(cmap)
@@ -71,7 +72,7 @@ wM = WeightedMan(SC_sctx, gm_ind, 3);
 
 %%% Visualize
 figure('Position',[100 200 700 500]);
-[a,cb] = sctxSurfStatViewData(wM, surf_L, surf_R, 'wM', 'w');
+[a,cb] = sctxSurfStatViewData(wM, surf_sctx_lh, surf_sctx_rh, 'wM', 'w');
 cb.Limits = [0 0.15];
 cb.Parent.Colormap = viridis;
 for i = 1:4
