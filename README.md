@@ -26,4 +26,4 @@ Open Software from the MICA lab (http:/mica-mni.github.io), other useful tools, 
 
 **autism_hierarchy**: videos of step wise functional connectivity analysis performed in connectome manifolds. For furter detauks see Hong et al., 2019 Nat Comms, link here https://www.nature.com/articles/s41467-019-08944-1
 
-The micaopen tools result from the dedication and collaboration of all members of the lab, notably Casey Paquola, Reinder Vos de Wael, Oualid Benkarim, Sara Lariviere, Raul Cruces, Bo-Yong Park, Jessica Royer, Seok-Jun Hong, and Boris Bernhardt.
+The micaopen tools result from the dedication and collaboration of all members of the lab, notably Casey Paquola, Reinder Vos de Wael, Oualid Benkarim, Sara Lariviere, Raul Cruces, Bo-Yong Park, Jessica Royer, Shahin Tavakol, Seok-Jun Hong, and Boris Bernhardt.
