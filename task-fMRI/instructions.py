@@ -1,12 +1,6 @@
-#!/usr/bin/env python2
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 10 10:24:39 2017
 
-@author: Shahin (using Reinder's "mainGUI.py" as scaffold)
-"""
-
-import Tkinter as tk
+import tkinter as tk
 import os 
 
 path = os.path.realpath(__file__)
@@ -18,13 +12,13 @@ class TaskGUI:
         self.master=master
         master.title("Instructions")
            
-        self.ENG_Path = os.path.join(path, 'stimulus_set_GUI.py')
-        self.FR_Path = os.path.join(path, 'stimulus_set_GUI_fr.py')
+        self.ENG_Path = os.path.join(path, 'symbolic_tasks_GUI.py')
+        self.FR_Path = os.path.join(path, 'symbolic_tasks_GUI_fr.py')
 
         # English
         self.ENG_Button = tk.Button(master, text = "English", command = lambda: self.startTask(self.ENG_Path))        
         # French
-        self.FR_Button = tk.Button(master, text = "French", command = lambda: self.startTask(self.FR_Path))           
+        self.FR_Button = tk.Button(master, text = "Français", command = lambda: self.startTask(self.FR_Path))           
         
          # Pack buttons
         self.ENG_Button.pack(side = 'left')

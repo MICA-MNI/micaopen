@@ -19,7 +19,8 @@ https://www.sciencedirect.com/science/article/pii/S1053811920307850
 # Prerequisite
 * **Prerequisite MATLAB toolbox** \
 BrainSpace: https://github.com/MICA-MNI/BrainSpace/tree/Development \
-GIFTI: https://www.artefact.tk/software/matlab/gifti
+GIFTI: https://www.artefact.tk/software/matlab/gifti \
+SurfStat: https://www.math.mcgill.ca/keith/surfstat
 
 
 # Websites
