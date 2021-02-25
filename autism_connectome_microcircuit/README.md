@@ -2,9 +2,7 @@
 
 * **Codes** \
 grp_comparison.m: Between-group comparison of structural gradients between individuals with autism and controls \
-rMFM.m: Microcircuit parameter estimation and simulation based on relaxed mean field model \
-
-   (Codes and libraries (lib) are obtained from https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/fMRI_dynamics/Wang2018_MFMem)
+rMFM.m: Microcircuit parameter estimation and simulation based on relaxed mean field model (Codes and libraries (lib) are obtained from https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/fMRI_dynamics/Wang2018_MFMem)
 
 
 * **Please cite the paper if you use this code** \
