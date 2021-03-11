@@ -87,7 +87,10 @@ colourSurface(colourness_vertices_smooth, FS, [0.61 0.5 0.2 0.2; 0.61 0.33 0.2 0
 %% Multivariate group comparison
 %%% Between-group comparison
 % prepare dependent variable
-gm_ind = [];    % # of subj x # of ROI x # of gradients (84 x 200 x 3)
+% Note: Users should enter their own individual gradients
+%       Here, individual gradients are not provided
+%       gm_ind form: # of subj x # of ROI x # of gradients (84 x 200 x 3)
+gm_ind = [];
 
 % prepare model
 Age_term = term(Age);
