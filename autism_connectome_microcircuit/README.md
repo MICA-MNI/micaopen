@@ -7,7 +7,7 @@ rMFM.m: Microcircuit parameter estimation and simulation based on relaxed mean f
 
 * **Please cite the paper if you use this code** \
 *B.-y. Park, S.-J. Hong, S. L. Valk, C. Paquola, O. Benkarim, R. A. I. Bethlehem, A. Di Martino, M. P. Milham, A. Gozzi, B. T. T. Yeo, J. Smallwood,  and B. C. Bernhardt.* Differences in subcortico-cortical interactions identified from connectome and microcircuit modelsin autism. *Nature Communications* (2021). \
-Link (will be updated soon) \
+Link: https://www.nature.com/articles/s41467-021-21732-0 \
 \
 (relaxed mean field model): *P. Wang, R. Kong, X. Kong, R. Liégeois, C. Orban, G. Deco, M. P. van den Heuvel, and B.T. T. Yeo.* Inversion of a large-scale circuit model reveals a cortical hierarchy in the dynamic resting human brain. *Science Advances* (2020). \
 https://advances.sciencemag.org/content/5/1/eaat7854
