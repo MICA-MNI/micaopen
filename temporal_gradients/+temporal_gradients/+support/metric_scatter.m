@@ -1,0 +1,36 @@
+function metric_scatter(x,y,xlim,ylim,xlab,ylab,add_corr,filename)
+% Core function for 2D scatter plots
+%
+%   METRIC_SCATTER(x,y,xlim,ylim,xlab,ylab,add_corr,filename) creates a
+%   scatter plot of x and y with limits xlim/ylim and labels xlab/ylab. If
+%   add_corr is true then a Pearson correlation value is added to the plot.
+%   The figure is stored as a .png file in filename.
+
+h.figure = figure('Color','w');
+h.axes = axes;
+h.sct = scatter(x,y,'.');
+if add_corr
+    r = corr(x(:),y(:),'rows','pairwise'); 
+    h.txt = text(0.01,0.9,sprintf('r = %0.2f',r), ...
+        'Units','normalized', 'FontName', 'DroidSans', ...
+        'FontSize', 14);
+else
+    h.txt = gobjects();
+end
+
+set(h.axes                          , ...
+    'PlotBoxAspectRatio', [2 1 1]   , ...
+    'XLim'              , xlim       , ...
+    'YLim'              , ylim      , ...
+    'XTick'             , xlim      , ...
+    'YTick'             , ylim      , ...
+    'FontName'          , 'DroidSans', ...
+    'FontSize'          , 14         );
+set(h.sct, 'SizeData', 20, 'MarkerEdgeColor', [.1 .1 .1]);
+h.txt(end+1) = text(0.5, -0.1, xlab, 'HorizontalAlignment','center', 'FontName', 'DroidSans', ...
+    'FontSize', 14, 'Units', 'Normalized');
+h.txt(end+1) = text(-0.08, 0.5, ylab, 'HorizontalAlignment','center', 'FontName', 'DroidSans', ...
+    'FontSize', 14, 'Units', 'Normalized', 'Rotation', 90);
+export_fig(char(filename), '-m2', '-png');
+close(gcf); 
+end

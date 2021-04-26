@@ -12,6 +12,7 @@
 
 - [Standard space](#standard-space)
 - [Step by step guide to building the structural manifold](#step-by-step)
+- [Manuscript data](#manuscript-data) 
 - [Feature notes](#feature-notes)
 - [Support](#support)
 
@@ -78,10 +79,16 @@ This tutorial can be followed using the group-level metadata.
   colour_coding = colour2gradients(eigenvectors(:,2), eigenvectors(:,1));
 ```
 
+### Manuscript data
+
+- Data corresponding to the Figures and Supplementary Figures presented in the manuscript can be found in the Manuscript_Data.xlsx. 
+- Instructions of how to interpret Manuscript_Data.xlsx, linking Figures to the columns and sheets, can be found in Manuscript_Data_Dictionary.docx
+
+
 ### Feature notes
 
-- The parcellation is provided on fsavearage (.annot) and conte69 (.csv) <br /> 
-- The first label in each hemisphere of the annotation file and the '0' in the csv file comprise the medial wall and are not used in the analysis
+- The parcellations (vosdewael200 for Freesurfer-style and HCP-MMP1 for HCP style) are provided on fsavearage (.annot). The Freesurfer-style parcellation is also provided on  conte69 (.csv) <br /> 
+- For vosdewael200, the first label in each hemisphere of the annotation file and the '0' in the csv file comprise the medial wall and are not used in the analysis
 
 ---
 

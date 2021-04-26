@@ -1,4 +1,4 @@
-import Tkinter as tk
+import tkinter as tk
 import os 
 
 path = os.path.realpath(__file__)
@@ -8,15 +8,15 @@ class TaskGUI:
     def __init__(self,master):
         # Initialize
         self.master=master
-        master.title("Episodic")
+        master.title("episodic task")
            
         self.encodingPath = os.path.join(path,'Episodic_Encoding_symbolic.py')
         self.recallPath = os.path.join(path,'Episodic_Recall_symbolic.py')
 
         # Episodic encoding
-        self.encodingButton = tk.Button(master, text = "Encoding", command = lambda: self.startTask(self.encodingPath))        
-        # Episodic recall
-        self.recallButton = tk.Button(master, text = "Recall", command = lambda: self.startTask(self.recallPath))            
+        self.encodingButton = tk.Button(master, text = "encoding", command = lambda: self.startTask(self.encodingPath))        
+        # Episodic retrieval
+        self.recallButton = tk.Button(master, text = "retrieval", command = lambda: self.startTask(self.recallPath))            
 
 
         # Pack buttons
