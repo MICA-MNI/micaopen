@@ -3,7 +3,7 @@ function colour_coding = colour2gradients(G1, G2)
 % colour_coding = colour2gradients(G1, G2)
 % colours nodes by their proximity to the apex of the triangles in 2d
 % gradient space
-% G1 max ~ red
+% G1max ~ red
 % G2max ~ green
 % G2min ~ blue
 %
