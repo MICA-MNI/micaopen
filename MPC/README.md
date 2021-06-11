@@ -1,17 +1,8 @@
----
-title: "MPC"
-author: "Casey Paquola"
-e-mail: "casey.paquola@mail.mcgill.ca"
-date: "21 September 2018"
-output: html_document
-urlcolor: blue
----
+## Update! BigBrainWarp
+We've expanded the contents of this repository to a new toolbox - we recommend turning your attention to BigBrainWarp for all the most up to date developments, as well as a suite of new tools to help perform integrative BigBrain-MRI analyes. -> https://bigbrainwarp.readthedocs.io/
 
 # Microstructure profile covariance (MPC) analysis
 Welcome to the MPC package; a companion to our article "Microstructural and functional gradients are increasingly dissociated in transmodal cortices". Here, we present the three step procedure to construct individualised microstructure profile covariance networks.
-
-## Update! BigBrainWarp
-We've expanded the contents of this repository to a new toolbox - we recommend turning your attention to BigBrainWarp for all the most up to date developments, as well as a suite of new tools to help perform integrative BigBrain-MRI analyes. -> https://bigbrainwarp.readthedocs.io/
 
 ### Table of contents
 * [Software dependencies](#software-dependencies)   
