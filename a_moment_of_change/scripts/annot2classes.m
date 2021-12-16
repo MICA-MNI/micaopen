@@ -17,7 +17,6 @@ function [classes, names] = annot2classes(lh_annot, rh_annot, hemi_split)
 %
 % author: Casey Paquola @ MICA, MNI, 2020*
 
-
 [~, lh_l, lh_ctb] = read_annotation(lh_annot);
 [~, rh_l, rh_ctb] = read_annotation(rh_annot);
 if hemi_split == 1
