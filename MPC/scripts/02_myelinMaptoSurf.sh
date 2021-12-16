@@ -34,7 +34,7 @@ for num_surfs in $(seq 10 1 30) ; do
 		rm -f "$SUBJECTS_DIR"/equivSurfs/"$num_surfs"surfs/"$hemi"h_equiv_"$num_surfs"surfs0.0.pial
 
 		# find all equivolumetric surfaces and list by creation time
-		x=$(ls "$SUBJECTS_DIR"/equivSurfs/"$num_surfs"surfs/${hemi}* | sort)
+		x=$(ls -t "$SUBJECTS_DIR"/equivSurfs/"$num_surfs"surfs/${hemi}*)
 
 		for n in $(seq 1 1 "$num_surfs") ; do
 
