@@ -1,6 +1,7 @@
 ## Microstructural profile covariance (MPC) based on bigbrain and other data types
 
-## This repo contains 
+### This repo contains 
+
 BigBrain Intensity profiles (parcels x s, where s represents a equivolumetric surface)   
 Statistical moments (parcels x m, where m represents the moments: mean, std, skewness and kurtosis)  
 Microstructure profile covariance (MPC) matrices (parcels x parcels, in the same order as profiles)
@@ -15,7 +16,7 @@ The purely equivolumetric approach utilises the original gray and white matter s
 
 The laminar-based approach involved the construction of six equivolumetric surfaces between layer 1 and layer 4, and layer 4 and white matter. Thus the eighth surface is layer 4.  The layer 1/2 boundary and layer 4 peak rely on an automateed layer detection algorithm (Wagstyl, 2018), which performs well in eulaminate cortex but is not validated for use in dysgranular and agranular cortex.  
 
-## References
+### References
 
 * Paquola et al., (2019) - original deployment of the BigBrain profiling and microstructure profile covariance (https://doi.org/10.1371/journal.pbio.3000284)
 * Paquola et al., (2019) - original implementation of moment-based characterisation of the depth profiles (https://doi.org/10.1101/706341)
@@ -26,7 +27,7 @@ ftp://bigbrain.loris.ca/
 https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal
 * Glasser et al., (2016) - Glasser parcellation (https://doi.org/10.1038/nature18933)
 
-## MOST IMPORTANTLY: Use the updated version.
+## MOST IMPORTANTLY: Use the updated data from https://bigbrainwarp.readthedocs.io/.
 We've recently expanded the contents of this repository into an entire toolbox, called "BigBrainWarp" 🎉. It contains a whole suite of tools and resources to help perform microstructural and integrative BigBrain-MRI analyes. So, what are you still doing here? Go to https://bigbrainwarp.readthedocs.io/
 
 If that doesn't fulfill all your microstructural desires, then maybe you need in vivo imaging data and pipelines. In that case see the MICs dataset (https://portal.conp.ca/dataset?id=projects/mica-mics) and the mica-pipe (https://github.com/MICA-MNI/micapipe).
