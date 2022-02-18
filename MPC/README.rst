@@ -3,6 +3,7 @@ Microstructural profile covariance (MPC), using BigBrain
 
 .. image:: figure.png
     :width: 600px
+    :align: center
     
 This repo contains 
 _____________   
