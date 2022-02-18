@@ -1,10 +1,11 @@
-## This repository currently contains
+## Microstructural profile covariance (MPC) based on bigbrain and other data types
 
-Intensity profiles (parcels x s, where s represents a equivolumetric surface)   
+## This repo contains 
+BigBrain Intensity profiles (parcels x s, where s represents a equivolumetric surface)   
 Statistical moments (parcels x m, where m represents the moments: mean, std, skewness and kurtosis)  
 Microstructure profile covariance (MPC) matrices (parcels x parcels, in the same order as profiles)
 
-Profiles and moments are available with and without regression for the midsurface y-coordinate. The BigBrain exhibits a strong anterior-posterior gradient in intensity values that is likely partially due to the coronal slicing and reconstruction, and partly to do with variations in cortical architecture. 
+Profiles and moments are available with and without regression for the midsurface y-coordinate. 
 
 ### Two types of surface construction
 
