@@ -1,7 +1,9 @@
 ## Microstructural profile covariance (MPC) based on bigbrain and other data types
 
 ### This repo contains 
-
+.. image:: figure.png
+    :width: 400px
+    
 BigBrain Intensity profiles (parcels x s, where s represents a equivolumetric surface)   
 Statistical moments (parcels x m, where m represents the moments: mean, SD, skewness and kurtosis)  
 Microstructure profile covariance (MPC) matrices (parcels x parcels, in the same order as profiles)
