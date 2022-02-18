@@ -1,6 +1,8 @@
-## Microstructural profile covariance (MPC) based on bigbrain and other data types
+Microstructural profile covariance (MPC) based on bigbrain and other data types
+=============
 
-### This repo contains 
+This repo contains 
+
 .. image:: figure.png
     :width: 400px
     
