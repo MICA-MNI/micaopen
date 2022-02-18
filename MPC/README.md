@@ -3,7 +3,7 @@
 ### This repo contains 
 
 BigBrain Intensity profiles (parcels x s, where s represents a equivolumetric surface)   
-Statistical moments (parcels x m, where m represents the moments: mean, std, skewness and kurtosis)  
+Statistical moments (parcels x m, where m represents the moments: mean, SD, skewness and kurtosis)  
 Microstructure profile covariance (MPC) matrices (parcels x parcels, in the same order as profiles)
 
 Profiles and moments are available with and without regression for the midsurface y-coordinate. 
