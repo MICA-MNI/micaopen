@@ -28,7 +28,7 @@ _____________
 * Paquola et al., (2019) - original deployment of the BigBrain profiling and microstructure profile covariance (https://doi.org/10.1371/journal.pbio.3000284)
 * Paquola et al., (2019) - original implementation of moment-based characterisation of the depth profiles (https://doi.org/10.1101/706341)
 * Amunts et al., (2017) - data descriptor of BigBrain (https://doi.org/10.1126/science.1235381)
-ftp://bigbrain.loris.ca/
+* ftp://bigbrain.loris.ca/
 * Wagstyl et al., (2018) - automated detection of layer 1/2 boundary and layer 4 peak (https://doi.org/10.1093/cercor/bhy074)
 * Schaefer et al., (2018) - Schaefer parcellation (https://doi.org/10.1093/cercor/bhx179)
 https://github.com/ThomasYeoLab/CBIG/tree/master/stable_projects/brain_parcellation/Schaefer2018_LocalGlobal
