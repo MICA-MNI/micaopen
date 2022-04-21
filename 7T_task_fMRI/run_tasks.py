@@ -134,7 +134,8 @@ class GUI(App):
         pop.cols = 2
         
         switches = []
-        switch_lab = ['Encoding & ES1', 'qT1', 'Retrieval & ES2', 'T2*', 'MST1 & ES3', 'DWI',                                 'MST2 & ES4', 'RS & ES5']
+        switch_lab = ['Encoding & ES1', 'qT1', 'Retrieval & ES2', 'T2*', 'MST1 & ES3', 'DWI',
+	                  'MST2 & ES4', 'RS & ES5']
         
         addFile = open('tmp.txt', 'a')
         for s in range(len(switch_lab)):
@@ -154,12 +155,52 @@ class GUI(App):
         switches[7].bind(active=self.switchBlock8)
         
         bgCol = (37/255, 121/255, 203/255, 1)
-        mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow',                                              background_color=bgCol, background_normal='', size_hint=(.1, .15))
+        mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow',
+	                           background_color=bgCol, background_normal='', size_hint=(.1, .15))
         mainPop.start.bind(on_release=self.start_tasks)
         mainPop.add_widget(pop)
         mainPop.add_widget(mainPop.start)
         
         newWin = Popup(title='English: protocol I', content=mainPop, size_hint=(.82, .8))
+        newWin.open()
+    
+    # popup for english, protocol2
+    def popup2(self):
+        mainPop = GridLayout(spacing=2.5, padding=50)
+        mainPop.cols = 1
+        
+        pop = GridLayout(padding=15)
+        pop.cols = 2
+        
+        switches = []
+        switch_lab = ['Spatial1 & ES1', 'qT1', 'Spatial2 & ES2', 'T2*', 'Semantic1 & ES3', 'DWI',
+	                  'Semantic2 & ES4', 'RS & ES5']
+        
+        addFile = open('tmp.txt', 'a')
+        for s in range(len(switch_lab)):
+            pop.add_widget(Label(text=switch_lab[s]))
+            switches.append(Switch(active=True))
+            addFile.write('\nBlock' + str(s+1) + ': True')
+            pop.add_widget(switches[s])
+        addFile.close()
+        
+        switches[0].bind(active=self.switchBlock1)
+        switches[1].bind(active=self.switchBlock2)
+        switches[2].bind(active=self.switchBlock3)
+        switches[3].bind(active=self.switchBlock4)
+        switches[4].bind(active=self.switchBlock5)
+        switches[5].bind(active=self.switchBlock6)
+        switches[6].bind(active=self.switchBlock7)
+        switches[7].bind(active=self.switchBlock8)
+        
+        bgCol = (37/255, 121/255, 203/255, 1)
+        mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow',
+	                           background_color=bgCol, background_normal='', size_hint=(.1, .15))
+        mainPop.start.bind(on_release=self.start_tasks)
+        mainPop.add_widget(pop)
+        mainPop.add_widget(mainPop.start)
+        
+        newWin = Popup(title='English: protocol II', content=mainPop, size_hint=(.82, .8))
         newWin.open()
     
     def switchBlock1(self, instance, value):
@@ -251,7 +292,7 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: English' + '\nprotocol: II')
                 outFile.close()
-                #self.popup2()
+                self.popup2()
             elif self.inner.FR.state=='down' and self.inner.PI.state=='down':
                 if os.path.isfile(outTmp):
                     os.remove(outTmp)
