@@ -1422,7 +1422,11 @@ def execute():
         trialList_spa1 = trialList_spa[0:24]
         trialList_spa2 = trialList_spa[24:48]
         trialList_sem1 = data.importConditions('semantic/sem1_List' + expInfo['list'] + '.csv')
+<<<<<<< HEAD
         trialList_sem2 = data.importConditions('semantic/sem2_List' + expInfo['list'] + '.csv')
+=======
+        #trialList_sem2 = data.importConditions('semantic/sem2_List' + expInfo['list'] + '.csv')
+>>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
 	
 	    # create list of variable fixation cross durations for each block
         n_trial_ES = len(trialList_ES)
@@ -1436,21 +1440,35 @@ def execute():
         ITI_spa1 = [3 + (x * fix_increment_spa1) for x in range_trial_spa1]
         ISI_spa1 = [.5 + (x * fix_increment_spa1) for x in range_trial_spa1]
         
+<<<<<<< HEAD
         n_trial_spa2 = len(trialList_spa2)
         fix_increment_spa2 = 1 / (n_trial_spa2 - 1)
         range_trial_spa2 = range(0, n_trial_spa2)
         ITI_spa2 = [3 + (x * fix_increment_spa2) for x in range_trial_spa2]
         ISI_spa2 = [.5 + (x * fix_increment_spa2) for x in range_trial_spa2]
+=======
+        # n_trial_spa2 = len(trialList_spa2)
+        # fix_increment_spa2 = 1 / (n_trial_spa2 - 1)
+        # range_trial_spa2 = range(0, n_trial_spa2)
+        # fix_dur_spa2 = [4 + (x * fix_increment_spa2) for x in range_trial_spa2]
+>>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         
         n_trial_sem1 = len(trialList_sem1)
         fix_increment_sem1 = 1 / (n_trial_sem1 - 1)
         range_trial_sem1 = range(0, n_trial_sem1)
         fix_dur_sem1 = [4 + (x * fix_increment_sem1) for x in range_trial_sem1]
         
+<<<<<<< HEAD
         n_trial_sem2 = len(trialList_sem2)
         fix_increment_sem2 = 1 / (n_trial_sem2 - 1)
         range_trial_sem2 = range(0, n_trial_sem2)
         fix_dur_sem2 = [4 + (x * fix_increment_sem2) for x in range_trial_sem2]
+=======
+        #n_trial_sem2 = len(trialList_sem2)
+        #fix_increment_sem2 = 1 / (n_trial_sem2 - 1)
+        #range_trial_sem2 = range(0, n_trial_sem2)
+        #fix_dur_sem2 = [4 + (x * fix_increment_sem2) for x in range_trial_sem2]
+>>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         
         # create subject-specific directory to keep logs
         rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'
@@ -2069,6 +2087,7 @@ def execute():
     
         ################################### Block 3: Spatial2 #################################################
         
+<<<<<<< HEAD
         # create .csv log file for spatial2
         if spatial2:
             task_lab = '_spatial2'
@@ -2279,6 +2298,8 @@ def execute():
             win.flip()    
             core.wait(4)
 
+=======
+>>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         ################################### Block 3 (cont'd): ES2 #############################################
         
         # create .csv log file for experience sampling 2
@@ -2694,6 +2715,7 @@ def execute():
         
         ################################### Block 7: Semantic2 ################################################
         
+<<<<<<< HEAD
         # create .csv log file for semantic2
         if semantic2:
             task_lab = '_semantic2'
@@ -2878,6 +2900,8 @@ def execute():
             win.flip()    
             core.wait(4)
 
+=======
+>>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         ################################### Block 7 (cont'd): ES4 #############################################
         
         # create .csv log file for experience sampling 4
