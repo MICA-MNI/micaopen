@@ -23,7 +23,6 @@ trial_num,stimulus_1,stimulus_2,stimulus_3,condition,prime,target,foil1,foil2
 22,spatial/ListA/leash.jpg,spatial/ListA/owl.jpg,spatial/ListA/marshmallow.jpg,D,spatial/ListA/prime22.png,spatial/ListA/target22.png,spatial/ListA/foil22_1.png,spatial/ListA/foil22_2.png
 23,spatial/ListA/lentils.jpg,spatial/ListA/napkin.jpg,spatial/ListA/mat.jpg,D,spatial/ListA/prime23.png,spatial/ListA/target23.png,spatial/ListA/foil23_1.png,spatial/ListA/foil23_2.png
 24,spatial/ListA/melon.jpg,spatial/ListA/otter.jpg,spatial/ListA/olives.jpg,E,spatial/ListA/prime24.png,spatial/ListA/target24.png,spatial/ListA/foil24_1.png,spatial/ListA/foil24_2.png
-<<<<<<< HEAD
 1,spatial/ListA/monkey.jpg,spatial/ListA/onion.jpg,spatial/ListA/moose.jpg,E,spatial/ListA_2/prime1.png,spatial/ListA_2/target1.png,spatial/ListA_2/foil1_1.png,spatial/ListA_2/foil1_2.png
 2,spatial/ListA/abacus.jpg,spatial/ListA/acorn.jpg,spatial/ListA/angel.jpg,D,spatial/ListA_2/prime2.png,spatial/ListA_2/target2.png,spatial/ListA_2/foil2_1.png,spatial/ListA_2/foil2_2.png
 3,spatial/ListA/can.jpg,spatial/ListA/cart.jpg,spatial/ListA/chinchilla.jpg,D,spatial/ListA_2/prime3.png,spatial/ListA_2/target3.png,spatial/ListA_2/foil3_1.png,spatial/ListA_2/foil3_2.png
@@ -48,29 +47,3 @@ trial_num,stimulus_1,stimulus_2,stimulus_3,condition,prime,target,foil1,foil2
 22,spatial/ListA/stapler.jpg,spatial/ListA/tortilla.jpg,spatial/ListA/tube.jpg,D,spatial/ListA_2/prime22.png,spatial/ListA_2/target22.png,spatial/ListA_2/foil22_1.png,spatial/ListA_2/foil22_2.png
 23,spatial/ListA/sword.jpg,spatial/ListA/plants.jpg,spatial/ListA/telescope.jpg,E,spatial/ListA_2/prime23.png,spatial/ListA_2/target23.png,spatial/ListA_2/foil23_1.png,spatial/ListA_2/foil23_2.png
 24,spatial/ListA/rifle.jpg,spatial/ListA/bench.jpg,spatial/ListA/cane.jpg,D,spatial/ListA_2/prime24.png,spatial/ListA_2/target24.png,spatial/ListA_2/foil24_1.png,spatial/ListA_2/foil24_2.png
-=======
-25,spatial/ListA/monkey.jpg,spatial/ListA/onion.jpg,spatial/ListA/moose.jpg,E,,,,
-26,spatial/ListA/abacus.jpg,spatial/ListA/acorn.jpg,spatial/ListA/angel.jpg,D,,,,
-27,spatial/ListA/can.jpg,spatial/ListA/cart.jpg,spatial/ListA/chinchilla.jpg,D,,,,
-28,spatial/ListA/clownfish.jpg,spatial/ListA/corkscrew.jpg,spatial/ListA/decanter.jpg,E,,,,
-29,spatial/ListA/dodo.jpg,spatial/ListA/donut.jpg,spatial/ListA/dragonfly.jpg,D,,,,
-30,spatial/ListA/earphones.jpg,spatial/ListA/fawn.jpg,spatial/ListA/fern.jpg,E,,,,
-31,spatial/ListA/gargoyle.jpg,spatial/ListA/gecko.jpg,spatial/ListA/gerbil.jpg,E,,,,
-32,spatial/ListA/hatchet.jpg,spatial/ListA/hedgehog.jpg,spatial/ListA/hoodie.jpg,D,,,,
-33,spatial/ListA/joystick.jpg,spatial/ListA/kale.jpg,spatial/ListA/ladybug.jpg,D,,,,
-34,spatial/ListA/lamprey.jpg,spatial/ListA/lute.jpg,spatial/ListA/magnet.jpg,E,,,,
-35,spatial/ListA/mandolin.jpg,spatial/ListA/medal.jpg,spatial/ListA/millipede.jpg,E,,,,
-36,spatial/ListA/money.jpg,spatial/ListA/mongoose.jpg,spatial/ListA/motorcycle.jpg,D,,,,
-37,spatial/ListA/nautilus.jpg,spatial/ListA/net.jpg,spatial/ListA/pancakes.jpg,D,,,,
-38,spatial/ListA/orca.jpg,spatial/ListA/parka.jpg,spatial/ListA/quartz.jpg,E,,,,
-39,spatial/ListA/pyjamas.jpg,spatial/ListA/ratchet.jpg,spatial/ListA/ruby.jpg,E,,,,
-40,spatial/ListA/sailfish.jpg,spatial/ListA/saturn.jpg,spatial/ListA/sunglasses.jpg,D,,,,
-41,spatial/ListA/stingray.jpg,spatial/ListA/termite.jpg,spatial/ListA/tomato.jpg,D,,,,
-42,spatial/ListA/toolbox.jpg,spatial/ListA/unicycle.jpg,spatial/ListA/urn.jpg,E,,,,
-43,spatial/ListA/trowel.jpg,spatial/ListA/vines.jpg,spatial/ListA/weel.jpg,E,,,,
-44,spatial/ListA/well.jpg,spatial/ListA/yogurt.jpg,spatial/ListA/yoyo.jpg,E,,,,
-45,spatial/ListA/weasel.jpg,spatial/ListA/walker.jpg,spatial/ListA/binoculars.jpg,D,,,,
-46,spatial/ListA/stapler.jpg,spatial/ListA/tortilla.jpg,spatial/ListA/tube.jpg,D,,,,
-47,spatial/ListA/sword.jpg,spatial/ListA/plants.jpg,spatial/ListA/telescope.jpg,E,,,,
-48,spatial/ListA/rifle.jpg,spatial/ListA/bench.jpg,spatial/ListA/cane.jpg,D,,,,
->>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98

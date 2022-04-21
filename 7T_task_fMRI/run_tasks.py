@@ -135,11 +135,7 @@ class GUI(App):
         
         switches = []
         switch_lab = ['Encoding & ES1', 'qT1', 'Retrieval & ES2', 'T2*', 'MST1 & ES3', 'DWI',
-<<<<<<< HEAD
 	                  'MST2 & ES4', 'RS & ES5']
-=======
-	              'MST2 & ES4', 'RS & ES5']
->>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         
         addFile = open('tmp.txt', 'a')
         for s in range(len(switch_lab)):
@@ -160,11 +156,7 @@ class GUI(App):
         
         bgCol = (37/255, 121/255, 203/255, 1)
         mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow',
-<<<<<<< HEAD
 	                           background_color=bgCol, background_normal='', size_hint=(.1, .15))
-=======
-	                       background_color=bgCol, background_normal='', size_hint=(.1, .15))
->>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         mainPop.start.bind(on_release=self.start_tasks)
         mainPop.add_widget(pop)
         mainPop.add_widget(mainPop.start)
@@ -182,11 +174,7 @@ class GUI(App):
         
         switches = []
         switch_lab = ['Spatial1 & ES1', 'qT1', 'Spatial2 & ES2', 'T2*', 'Semantic1 & ES3', 'DWI',
-<<<<<<< HEAD
 	                  'Semantic2 & ES4', 'RS & ES5']
-=======
-	              'Semantic2 & ES4', 'RS & ES5']
->>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         
         addFile = open('tmp.txt', 'a')
         for s in range(len(switch_lab)):
@@ -207,11 +195,7 @@ class GUI(App):
         
         bgCol = (37/255, 121/255, 203/255, 1)
         mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow',
-<<<<<<< HEAD
 	                           background_color=bgCol, background_normal='', size_hint=(.1, .15))
-=======
-	                       background_color=bgCol, background_normal='', size_hint=(.1, .15))
->>>>>>> 508d1b2dfb204ed77bcf46a4a1aa8a789322eb98
         mainPop.start.bind(on_release=self.start_tasks)
         mainPop.add_widget(pop)
         mainPop.add_widget(mainPop.start)
