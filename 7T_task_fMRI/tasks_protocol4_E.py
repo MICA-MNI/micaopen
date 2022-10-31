@@ -45,16 +45,19 @@ def execute():
             print('Protocol:     ' + expInfo['protocol'])
             print('Block 1:      semphon1 & experience sampling 1                      ' + expInfo['Block1'])
             print('Block 2:      quantitative T1-mapping                               ' + expInfo['Block2'])
-            print('Block 3:      semphon2 & experience sampling 2                     ' + expInfo['Block3'])
+            print('Block 3:      semphon2 & experience sampling 2                      ' + expInfo['Block3'])
             print('Block 4:      T2*-weighted imaging                                  ' + expInfo['Block4'])
-            print('Block 5:      mnemonic similarity task 1 & experience sampling 3    ' + expInfo['Block5'])
+            print('Block 5:      audiobook1 & experience sampling 3    ' + expInfo['Block5'])
             print('Block 6:      diffusion-weighted imaging                            ' + expInfo['Block6'])
-            print('Block 7:      mnemonic similarity task 2 & experience sampling 4    ' + expInfo['Block7'])
+            print('Block 7:      audiobook2 & experience sampling 4    ' + expInfo['Block7'])
             print('Block 8:      resting state & experience sampling 5                 ' + expInfo['Block8'])
             print('-------------------------------------------------------------------------')
 
             # import stimuli for each block
             trialList_ES = data.importConditions('exp_sampling/ES_trials.csv')
+            words_Ho = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Homophones')
+            words_Sy = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Synonyms')
+            words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
 
             n_trial_ES = len(trialList_ES)
             fix_increment_ES = 1 / (n_trial_ES - 1)
@@ -135,15 +138,14 @@ def execute():
                         print('trial', trial_num, '|', dimension, Space1 * empty, '|', question, Space2 * empty, '|',
                               confirmation_status, SR, '(0-10)')
 
-                        
             # define inter-block flags
             semphon1 = ES1 = eval(expInfo['Block1'])
             qT1 = eval(expInfo['Block2'])
             semphon2 = ES2 = eval(expInfo['Block3'])
             T2star = eval(expInfo['Block4'])
-            MST1 = ES3 = eval(expInfo['Block5'])
+            AB1 = ES3 = eval(expInfo['Block5'])
             DWI = eval(expInfo['Block6'])
-            MST2 = ES4 = eval(expInfo['Block7'])
+            AB2 = ES4 = eval(expInfo['Block7'])
             RS = ES5 = eval(expInfo['Block8'])
 
             # set up main clock & logging features
@@ -152,7 +154,7 @@ def execute():
             logging.console.setLevel(logging.ERROR)
 
             log_filename = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + '_' + expInfo['date']
-            logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
+            logFile = logging.LogFile(log_filename + '.csv', level=logging.EXP)
 
             # display window
             win = visual.Window(fullscr=True, color=1, units='height')
@@ -165,24 +167,23 @@ def execute():
             fixation = visual.TextStim(win, name='fixation', text='+', font=sans, pos=(0, 0), height=float(.08),
                                        color='black')
 
-            ################################### Block 1: Encoding  ################################################
-
+            ################################### Block 1: Semphon1  ################################################
             # create .csv log file for encoding
             if semphon1:
-                task_lab = '_semphon1'
+                task_lab = '_sp1'
                 prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
                 if prevRuns:
                     prevRuns.sort()
                     numRun = len(prevRuns)
                     newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    enc_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
+                    sp1_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
                 else:
-                    enc_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(enc_csvFile, 'w') as w_enc:
-                    writer = csv.writer(w_enc)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Stim_1', 'Stim_2'])
+                    sp1_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
+                        'session'] + task_lab + '_run-01.tsv'
+                sp1_enc = open(sp1_tsvFile, 'a')
+                writer = csv.writer(sp1_enc, delimiter='\t', lineterminator='\n')
+                writer.writerow(
+                    ['Onset', 'Trial_Duration', 'Trial_Number', 'Condition', 'RT', 'Stimulus_1', 'Stimulus_2', 'Expected_answer', 'Given_answer'])
 
                 # display encoding instructions
                 Txt.setText(open('semphon/text/task_instructions.txt', 'r').read())
@@ -198,15 +199,213 @@ def execute():
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
 
-                # TODO
-                # display fixation cross and record its onset
+                ##--- Nicole section start ---###
+
+                # latin square to determine order of conditions
+                # rows: diffent big_block, column: different sub_block (i.e. condition)
+                conditions = np.array([['A', 'B', 'C', 'D'],
+                                       ['C', 'A', 'B', 'D'],
+                                       ['B', 'C', 'A', 'D'],
+                                       ['A', 'B', 'C', 'D']])
+
+                # how many big blocks, i.e. repeats of all conditions
+                n_big_blocks = conditions.shape[0]
+                # how many sub blocks, i.e. conditions including rest
+                n_sub_blocks = conditions.shape[1]
+                # how many trials whithin one condition
+                n_trials = 10
+
+                # time for instruction for condition on screen
+                t_instruction = 3
+                # time for fixation cross
+                t_fixation = 0.5
+                # time words shown
+                t_words = 0.5
+                # time for pause between trials (clear screen), awaiting response
+                t_blank = 2
+                # extra gap time
+                t_gap = 0.15
+                # time for one trial
+                t_trial = t_fixation + t_words + t_blank
+
+                # time for resting block
+                t_rest_block = n_trials * t_trial
+
+                # percentage of correct trials
+                p_correct = 0.5
+                n_correct = int(np.floor(n_trials * p_correct))
+                rand_correct = np.zeros(n_trials)
+                rand_correct[0:n_correct] = 1
+
+                # yes key
+                key_code_L = '2'
+                # no key
+                key_code_R = '4'
+
+                # randomization of trial list
+                whole_list = np.arange(1, 25)
+                shuffle(whole_list)
+                A_list = whole_list[0: n_trials]
+                B_list = whole_list[n_trials: n_trials * 2]
+
+                # start clock counting from experiment start
+                time_start_exp = clock.getTime()
+
+                # master trial count
+                trial_number_tot = 0
+                # loop over big blocks (repeat all conditions with different order)
+                for i_big_block in range(0, n_big_blocks):
+
+                    # loop over sub_blocks (will go through all conditions including rest)
+                    for i_sub_block in range(0, n_sub_blocks):
+
+                        # -------------------------- start condition block --------------------
+                        condition = conditions[i_big_block, i_sub_block]
+
+                        # get time of condition block and write to log file
+                        time_start_block = clock.getTime()
+
+                        # select context: first 4 sub_blocks select column 0, then column 1
+                        # note that it loops from 0 to 9
+                        if condition == 'A':
+                            words = words_Ho
+                            condition_instruction = "Do the words sound the same?"
+                        elif condition == 'B':
+                            words = words_Sy
+                            condition_instruction = "Do the words have the same meaning?"
+                        elif condition == 'C':
+                            words = words_Vi
+                            condition_instruction = "Are the two letter strings the same?"
+                        elif condition == 'D':
+                            condition_instruction = "Rest"
+
+                        # randomization of correct and incorrect
+                        # rand_correct = np.random.permutation(np.repeat(np.array([1, 0]), round(n_trials / 2.)))
+                        shuffle(rand_correct)
+
+                        # initialize counter for trials
+                        count_trial = 1
+
+                        # display condition_instruction
+                        condition_text = visual.TextStim(win, text=condition_instruction, font=sans, pos=(0, 0), height=float(.08),
+                                       color='black')
+
+                        condition_text.draw()
+                        win.update()
+                        time_elapsed = 0
+
+                        # wait until t_instruction has passed
+                        while time_elapsed < (t_instruction):
+                            time_elapsed = clock.getTime() - time_start_block
+
+                        # loop over trials
+                        if condition != 'D':
+                            for i_trial in range(0, n_trials):
+                                trial_number_tot = trial_number_tot + 1
+
+                                # get time for start of trial
+                                time_start_trial = clock.getTime()
+
+                                if i_big_block == 0:
+                                    ind_trial = A_list[i_trial]
+                                elif i_big_block == 1:
+                                    ind_trial = A_list[i_trial] + 25
+                                elif i_big_block == 2:
+                                    ind_trial = B_list[i_trial]
+                                elif i_big_block == 3:
+                                    ind_trial = B_list[i_trial] + 25
+
+                                is_correct = rand_correct[i_trial]
+
+                                if is_correct:
+                                    word1 = words.Y_1[ind_trial - 1]
+                                    word2 = words.Y_2[ind_trial - 1]
+                                elif is_correct == 0:
+                                    word1 = words.N_1[ind_trial - 1]
+                                    word2 = words.N_2[ind_trial - 1]
+
+                                word1_text = visual.TextStim(win, text=word1, font=sans, pos=(0, float(.1)), height=float(.08),
+                                       color='black')
+
+                                word2_text = visual.TextStim(win, text=word2, font=sans, pos=(0, -float(.1)), height=float(.08),
+                                       color='black')
+
+                                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
+
+                                # show fixation cross
+                                onsettime = clock.getTime() - time_start_exp
+                                fixation.draw()
+                                win.update()
+                                core.wait(t_fixation)
+
+                                # show words
+                                word1_text.draw()
+                                word2_text.draw()
+                                fixation.draw()
+                                win.update()
+                                core.wait(t_words)
+                                # show blank screen
+                                win.update()
+                                given_answer = np.nan
+                                key_list = []
+                                RT = np.nan
+                                awaiting_response = 1
+                                time_elapsed = 0
+                                t_start_RT = clock.getTime()
+
+                                # clear events key press buffer so that any key can be captured
+                                event.clearEvents()
+
+                                while time_elapsed < (t_blank - t_gap):
+                                    # Capture for first response only
+                                    if awaiting_response:
+                                        keys_list = event.getKeys()
+                                        if any(key_code_L in key for key in keys_list):
+                                            given_answer = int(1)
+                                            awaiting_response = 0
+                                            RT = clock.getTime() - t_start_RT
+                                        elif any(key_code_R in key for key in keys_list):
+                                            given_answer = int(0)
+                                            awaiting_response = 0
+                                            RT = clock.getTime() - t_start_RT
+                                        # check if escape key has been pressed during the fixation period
+                                        elif any("escape" in key for key in keys_list):
+                                            # Esc has been pressed
+                                            time_stop = clock.getTime()
+                                            # write down note in logfile
+                                            #writer.writerow(
+                                            #    ["", round((time_stop - time_start_exp), 2), "stopped by escape key"])
+                                            # close experiment
+                                            #logfile.close()
+                                            #win.close()
+                                            #core.quit()
+                                            sys.exit()
+                                        else:
+                                            given_answer = np.nan
+                                            RT = np.nan
+
+                                    time_elapsed = clock.getTime() - t_start_RT
+
+                                writer.writerow(
+                                    [onsettime, t_trial, trial_number_tot, condition, RT, word1,
+                                     word2, int(is_correct), given_answer])
+                        # rest-block
+                        else:
+                            onsettime = clock.getTime() - time_start_exp
+                            fixation.draw()
+                            win.update()
+                            core.wait(t_rest_block)
+                            # show blank screen
+                            win.update()
+                            writer.writerow(
+                                [onsettime, t_rest_block, '-', condition, '-', '-', '-', '-', '-'])
+
+
+
+                ##--- Nicole section stop ---###
 
                 # log complete trial info in csv file
-                with open(enc_csvFile, 'a') as a_enc:
-                    writer = csv.writer(a_enc)
-                    #writer.writerow([fixStart, trial_num, condition, 'ON', stimStart - fixStart, '--', '--'])
-                    #writer.writerow([stimStart, trial_num, condition, 'OFF', '--', stim1, stim2])
-                    writer.writerow(['', '', '', '', '', '', ''])
+                # TODO log
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
@@ -215,7 +414,6 @@ def execute():
                 core.wait(4)
 
             ################################### Block 1 (cont'd): ES1 #############################################
-
             # create .csv log file for experience sampling 1
             if ES1:
                 task_lab = '_es1'
@@ -313,13 +511,12 @@ def execute():
                 core.wait(4)
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if qT1 == retrieval == T2star == MST1 == DWI == MST2 == RS == False:
+            if qT1 == semphon2 == T2star == AB1 == DWI == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
 
             ################################### Block 2: qT1 ######################################################
-
             if qT1:
                 # display block 2 sequence on console
                 print('\n\n\n\nBlock 2: qT1')
@@ -333,7 +530,7 @@ def execute():
                 event.waitKeys(keyList=['escape'])
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if retrieval == T2star == MST1 == DWI == MST2 == RS == False:
+            if semphon2 == T2star == AB1 == DWI == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
@@ -342,7 +539,7 @@ def execute():
 
             # create .csv log file for retrieval
             if semphon2:
-                task_lab = '_semphon2'
+                task_lab = '_sp2'
                 prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
                 if prevRuns:
                     prevRuns.sort()
@@ -351,7 +548,7 @@ def execute():
                     ret_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
                 else:
                     ret_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
+                        'session'] + task_lab + '_run-01.tsv'
                 with open(ret_csvFile, 'w') as w_ret:
                     writer = csv.writer(w_ret)
                     writer.writerow(
@@ -374,7 +571,7 @@ def execute():
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
 
-                # TODO
+                # TODO semphon2
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
@@ -383,7 +580,6 @@ def execute():
                 core.wait(4)
 
             ################################### Block 3 (cont'd): ES2 #############################################
-
             # create .csv log file for experience sampling 2
             if ES2:
                 task_lab = '_es2'
@@ -402,8 +598,6 @@ def execute():
                         ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
                          'High_end', 'Subject_Response', 'Reaction_Time'])
 
-            # run ES2 if flag is True
-            if ES2:
                 # initialize important task variables
                 shuffle(fix_dur_ES)
                 iters_ES = range(0, n_trial_ES)
@@ -483,7 +677,7 @@ def execute():
                 core.wait(4)
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if T2star == MST1 == DWI == MST2 == RS == False:
+            if T2star == AB1 == DWI == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
@@ -503,99 +697,24 @@ def execute():
                 event.waitKeys(keyList=['escape'])
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if MST1 == DWI == MST2 == RS == False:
+            if AB1 == DWI == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
 
-            ################################### Block 5: MST1 #####################################################
+            ################################### Block 5: AB1 #####################################################
 
-            # create .csv log file for MST1
-            if MST1:
-                task_lab = '_mst1'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    mst1_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    mst1_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(mst1_csvFile, 'w') as w_mst1:
-                    writer = csv.writer(w_mst1)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Stim_ID', 'Subject_Response',
-                         'Reaction_Time'])
+            # create .csv log file for AB1
+            if AB1:
+                task_lab = '_ab1'
 
-            if MST1:
-                # initialize important task variables
-                shuffle(fix_dur_mst1)
-                iters_mst1 = range(0, n_trial_mst1)
-                mst1_trials = list(iters_mst1)
-                im = visual.ImageStim(win, name='stimPic', image=None, pos=(0, 0))
-
-                # display MST1 instructions
-                Txt.setText(open('MST/text/MST1_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
 
                 # display block 5 sequence on console
-                print('\n\n\n\nBlock 5: MST1')
+                print('\n\n\n\nBlock 5: AB1')
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
 
-                # run mst1 loop
-                for idx in mst1_trials:
-
-                    # set stimulus pair
-                    IMAGE = PIL.Image.open(trialList_mst1[idx]['stimulus'])
-
-                    # record trial number and stimulus
-                    trial_num = trialList_mst1[idx]['trial_num']
-                    stim = os.path.basename(os.path.normpath(trialList_mst1[idx]['stimulus']))
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_mst1, idx)
-
-                    # print trial info on console
-                    if trial_num <= 9:
-                        print('trial', trial_num, ' |', stim[:-4])
-                    else:
-                        print('trial', trial_num, '|', stim[:-4])
-
-                    # display stimulus and record its onset
-                    MSTtext = visual.TextStim(win, text='Indoors or Outdoors?', font=sans, name='instruction',
-                                              pos=(0, .4), height=float(.04), wrapWidth=1100, color='black')
-
-                    stimStart = MSTScreen(mainClock)
-
-                    # get subject response info
-                    trialEndTime = stimStart + 2
-                    subResp = MST1Response(mainClock, trialEndTime, stimStart)
-                    keyPressTime = subResp[0]
-                    SR = subResp[1]
-                    RT = subResp[2]
-
-                    # display subject response info on console
-                    if RT == 'N/A':
-                        print('Subject did not respond/was too slow')
-                        print('\n')
-                    else:
-                        print('Subject chose "' + SR + '" in ', RT, 'sec')
-                        print('\n')
-
-                    # log complete trial info in csv file
-                    with open(mst1_csvFile, 'a') as a_mst1:
-                        writer = csv.writer(a_mst1)
-                        writer.writerow([fixStart, trial_num, 'ON', stimStart - fixStart, '--', '--', '--'])
-                        writer.writerow([stimStart, trial_num, 'OFF', '--', stim, '--', '--'])
-                        writer.writerow([keyPressTime, trial_num, 'OFF', '--', '--', SR, RT])
-                        writer.writerow(['', '', '', '', '', '', ''])
+                #TODO: Audiobook 1
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
@@ -604,7 +723,6 @@ def execute():
                 core.wait(4)
 
             ################################### Block 5 (cont'd): ES3 #############################################
-
             # create .csv log file for experience sampling 3
             if ES3:
                 task_lab = '_es3'
@@ -704,13 +822,12 @@ def execute():
                 core.wait(4)
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if DWI == MST2 == RS == False:
+            if DWI == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
 
             ################################### Block 6: DWI ######################################################
-
             if DWI:
                 # display block 4 sequence on console
                 print('\n\n\n\nBlock 6: DWI')
@@ -724,42 +841,13 @@ def execute():
                 event.waitKeys(keyList=['escape'])
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if MST2 == RS == False:
+            if AB2 == RS == False:
                 sys.exit()
             else:
                 pass
 
-            ################################### Block 7: MST2 #####################################################
-
-            # create .csv log file for MST2
-            if MST2:
-                task_lab = '_mst2'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    mst2_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    mst2_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(mst2_csvFile, 'w') as w_mst2:
-                    writer = csv.writer(w_mst2)
-                    writer.writerow(['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Stim_ID',
-                                     'Subject_Response', 'Accuracy', 'Reaction_Time'])
-
-            if MST2:
-                # initialize important task variables
-                shuffle(fix_dur_mst2)
-                iters_mst2 = range(0, n_trial_mst2)
-                mst2_trials = list(iters_mst2)
-                im = visual.ImageStim(win, name='stimPic', image=None, pos=(0, 0))
-
-                # display MST2 instructions
-                Txt.setText(open('MST/text/MST2_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
+            ################################### Block 7: AB2 #####################################################
+            if AB2:
 
                 # launch scan
                 Trigger(mainClock)
@@ -769,62 +857,8 @@ def execute():
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
 
-                # run mst2 loop
-                for idx in mst2_trials:
+               # TODO: Audiobook2
 
-                    # set stimulus pair
-                    IMAGE = PIL.Image.open(trialList_mst2[idx]['stimulus'])
-
-                    # record trial number and stimulus
-                    trial_num = trialList_mst2[idx]['trial_num']
-                    condition = trialList_mst2[idx]['condition']
-                    stim = os.path.basename(os.path.normpath(trialList_mst2[idx]['stimulus']))
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_mst2, idx)
-
-                    # print trial info on console
-                    if trial_num <= 9:
-                        print('trial', trial_num, ' |', condition, '|', stim[:-4])
-                    else:
-                        print('trial', trial_num, '|', condition, '|', stim[:-4])
-
-                    # display stimulus and record its onset
-                    MSTtext = visual.TextStim(win, text='Old, Similar, or New?', font=sans, name='instruction',
-                                              pos=(0, .4), height=float(.04), wrapWidth=1100, color='black')
-
-                    stimStart = MSTScreen(mainClock)
-
-                    # get subject response info
-                    trialEndTime = stimStart + 2.5
-                    subResp = MST2Response(mainClock, trialEndTime, stimStart)
-                    keyPressTime = subResp[0]
-                    SR = subResp[1]
-                    RT = subResp[2]
-
-                    # display subject response info on console
-                    if RT == 'N/A':
-                        accuracy = 0
-                        print('Subject did not respond/was too slow')
-                        print('\n')
-                    else:
-                        if SR == condition:
-                            accuracy = 1
-                            print('Subject CORRECTLY chose "' + SR + '" in ', RT, 'sec')
-                            print('\n')
-                        elif SR != condition:
-                            accuracy = 0
-                            print('Subject INCORRECTLY chose "' + SR + '" in ', RT, 'sec')
-                            print('\n')
-
-                    # log complete trial info in csv file
-                    with open(mst2_csvFile, 'a') as a_mst2:
-                        writer = csv.writer(a_mst2)
-                        writer.writerow(
-                            [fixStart, trial_num, condition, 'ON', stimStart - fixStart, '--', '--', '--', '--'])
-                        writer.writerow([stimStart, trial_num, condition, 'OFF', '--', stim, '--', '--', '--'])
-                        writer.writerow([keyPressTime, trial_num, condition, 'OFF', '--', '--', SR, accuracy, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', ''])
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
@@ -852,8 +886,6 @@ def execute():
                         ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
                          'High_end', 'Subject_Response', 'Reaction_Time'])
 
-            # run ES4 if flag is True
-            if ES4:
                 # initialize important task variables
                 shuffle(fix_dur_ES)
                 iters_ES = range(0, n_trial_ES)
@@ -939,7 +971,6 @@ def execute():
                 pass
 
             ################################### Block 8: RS #######################################################
-
             if RS:
                 # display block 8 sequence on console
                 print('\n\n\n\nBlock 8: RS')
@@ -977,7 +1008,6 @@ def execute():
                 core.wait(4)
 
             ################################### Block 8 (cont'd): ES5 #############################################
-
             # create .csv log file for experience sampling 5
             if ES5:
                 task_lab = '_es5'
@@ -996,8 +1026,6 @@ def execute():
                         ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
                          'High_end', 'Subject_Response', 'Reaction_Time'])
 
-            # run ES5 if flag is True
-            if ES5:
                 # initialize important task variables
                 shuffle(fix_dur_ES)
                 iters_ES = range(0, n_trial_ES)
@@ -1079,1755 +1107,6 @@ def execute():
             # end of English protocol I
             sys.exit()
 
-        ####################################### 2nd English protocol ##############################################
-        ###########################################################################################################
-        elif expInfo['language'] == 'English' and expInfo['protocol'] == 'II':
-            print('\n\n\n\n-------------------------------------------------------------------------')
-            print('ID:           ' + expInfo['ID'])
-            print('Session:      ' + expInfo['session'])
-            print('Language:     ' + expInfo['language'])
-            print('Protocol:     ' + expInfo['protocol'])
-            print('Block 1:      semphon 1 & experience sampling 1                     ' + expInfo['Block1'])
-            print('Block 2:      quantitative T1-mapping                               ' + expInfo['Block2'])
-            print('Block 3:      semphon 2 & experience sampling 2                     ' + expInfo['Block3'])
-            print('Block 4:      T2*-weighted imaging                                  ' + expInfo['Block4'])
-            print('Block 5:      semantic 1 & experience sampling 3                    ' + expInfo['Block5'])
-            print('Block 6:      diffusion-weighted imaging                            ' + expInfo['Block6'])
-            print('Block 7:      semantic 2 & experience sampling 4                    ' + expInfo['Block7'])
-            print('Block 8:      resting state & experience sampling 5                 ' + expInfo['Block8'])
-            print('-------------------------------------------------------------------------')
-
-            # import stimuli for each block
-            trialList_ES = data.importConditions('exp_sampling/ES_trials.csv')
-            #trialList_semphon1 = data.importConditions('semphon/list' + expInfo['list'] + '.csv')
-            #trialList_semphon2 = data.importConditions('semphon/List' + expInfo['list'] + '.csv')
-
-            # create subject-specific directory to keep logs
-            rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'
-
-            if not os.path.isdir(rootLog):
-                os.makedirs(rootLog)
-
-            # define functions for each block
-            def FixationCross(clock, fix_dur, trialNum):
-                fixation.draw()
-                win.logOnFlip(level=logging.EXP, msg='fixation cross')
-                win.flip()
-                fixation_onset = clock.getTime()
-                core.wait(fix_dur[trialNum])
-                if event.getKeys(keyList=['escape']):
-                    sys.exit()
-                event.clearEvents()
-                return fixation_onset
-
-            def spatialPrimeScreen(clock, prime_pos):
-                prime_im = visual.ImageStim(win, name='prime', image=None, pos=prime_pos)
-                prime_im.setImage(Prime)
-                prime_im.draw()
-                win.logOnFlip(level=logging.EXP, msg='spatial prime screen')
-                win.flip()
-                spatialPrimeScreen_onset = clock.getTime()
-                core.wait(4)
-                event.clearEvents()
-                return spatialPrimeScreen_onset
-
-            def spatialChoiceScreen(clock, target_pos, foil1_pos, foil2_pos):
-                tg_im = visual.ImageStim(win, name='target', image=None, pos=target_pos)
-                foil1_im = visual.ImageStim(win, name='foil1', image=None, pos=foil1_pos)
-                foil2_im = visual.ImageStim(win, name='foil2', image=None, pos=foil2_pos)
-                tg_im.setImage(Target)
-                foil1_im.setImage(Foil1)
-                foil2_im.setImage(Foil2)
-                tg_im.draw()
-                foil1_im.draw()
-                foil2_im.draw()
-                win.logOnFlip(level=logging.EXP, msg='spatial choice screen')
-                win.flip()
-                spatialChoiceScreen_onset = clock.getTime()
-                return spatialChoiceScreen_onset
-
-            def SpatialResponse(clock, trialEndTime, choiceStart):
-                flag = 0
-                keyList = []
-                keypress = []
-                while clock.getTime() < trialEndTime:
-                    keypress = event.getKeys(keyList=['2', '3', '4'])
-                    if len(keypress) == 1 and flag == 0:
-                        keyList = keypress[0]
-                        flag = 1
-                        keyStart = clock.getTime()
-                if len(keyList) == 1 and flag == 1:
-                    key_pressed = keyList[0]
-                    RT = keyStart - choiceStart
-                else:
-                    keyStart = '--'
-                    key_pressed = 'N/A'
-                    RT = 'N/A'
-                event.clearEvents()
-                return keyStart, key_pressed, RT
-
-            def SpatialInfo(RT, y_val, target_pos, foil1_pos, foil2_pos, target_name, foil1_name, foil2_name):
-                if RT == 'N/A':
-                    im_position = 'N/A'
-                    key_ID = 'N/A'
-                    subChoice = 'N/A'
-                    accuracy = 0
-                elif RT < 5.5:
-                    if key_pressed == '2':
-                        im_position = (-.5, y_val)
-                        key_ID = 'left'
-                    elif key_pressed == '3':
-                        im_position = (0, y_val)
-                        key_ID = 'center'
-                    elif key_pressed == '4':
-                        im_position = (.5, y_val)
-                        key_ID = 'right'
-                if im_position == target_pos:
-                    subChoice = target_name[:-4]
-                    accuracy = 1
-                elif im_position == foil1_pos:
-                    subChoice = foil1_name[:-4]
-                    accuracy = 0
-                elif im_position == foil2_pos:
-                    subChoice = foil2_name[:-4]
-                    accuracy = 0
-                if target_pos == (-.5, y_val) and foil1_pos == (0, y_val) and foil2_pos == (.5, y_val):
-                    left_choice = target_name[:-4]
-                    center_choice = foil1_name[:-4]
-                    right_choice = foil2_name[:-4]
-                elif target_pos == (-.5, y_val) and foil2_pos == (0, y_val) and foil1_pos == (.5, y_val):
-                    left_choice = target_name[:-4]
-                    center_choice = foil2_name[:-4]
-                    right_choice = foil1_name[:-4]
-                elif foil1_pos == (-.5, y_val) and target_pos == (0, y_val) and foil2_pos == (.5, y_val):
-                    left_choice = foil1_name[:-4]
-                    center_choice = target_name[:-4]
-                    right_choice = foil2_name[:-4]
-                elif foil1_pos == (-.5, y_val) and foil2_pos == (0, y_val) and target_pos == (.5, y_val):
-                    left_choice = foil1_name[:-4]
-                    center_choice = foil2_name[:-4]
-                    right_choice = target_name[:-4]
-                elif foil2_pos == (-.5, y_val) and target_pos == (0, y_val) and foil1_pos == (.5, y_val):
-                    left_choice = foil2_name[:-4]
-                    center_choice = target_name[:-4]
-                    right_choice = foil1_name[:-4]
-                elif foil2_pos == (-.5, y_val) and foil1_pos == (0, y_val) and target_pos == (.5, y_val):
-                    left_choice = foil2_name[:-4]
-                    center_choice = foil1_name[:-4]
-                    right_choice = target_name[:-4]
-                return key_ID, subChoice, left_choice, center_choice, right_choice, accuracy
-
-            def MindProbe(clock, idx):
-                flag = 1
-                inc = 0.1
-                pos = rating_scale.markerStart
-                keyState = key.KeyStateHandler()
-                win.winHandle.push_handlers(keyState)
-                while rating_scale.noResponse:
-                    if keyState[key._2]:
-                        pos -= inc
-                    elif keyState[key._4]:
-                        pos += inc
-                    if pos > 9.9:
-                        pos = 10
-                    elif pos < 0.1:
-                        pos = 0
-                    probe.setText(trialList_ES[idx]['question'])
-                    probe.draw()
-                    rating_scale.setMarkerPos(pos)
-                    rating_scale.draw()
-                    win.logOnFlip(level=logging.EXP, msg='experience sampling probe')
-                    win.flip()
-                    if flag == 1:
-                        probe_onset = clock.getTime()
-                        flag = 0
-                return probe_onset
-
-            def ProbePrint(trialNum, Dim, Quest, SR):
-                n_letters = len('intrusiveness')
-                n_chars = len('My thoughts were focused on an external task or activity.')
-                empty = ' '
-                SR = '{:.1f}'.format(SR)
-                if n_letters != len(Dim):
-                    Space1 = n_letters - len(Dim) - 1
-                if n_chars != len(Quest):
-                    Space2 = n_chars - len(Quest) - 1
-                if trialNum <= 9:
-                    if Dim == 'intrusiveness':
-                        print('trial', trial_num, ' |', dimension, '|', question, Space2 * empty, '|',
-                              confirmation_status, SR, '(0-10)')
-                    elif Dim == 'focus':
-                        print('trial', trial_num, ' |', dimension, Space1 * empty, '|', question, '|',
-                              confirmation_status, SR, '(0-10)')
-                    else:
-                        print('trial', trial_num, ' |', dimension, Space1 * empty, '|', question, Space2 * empty, '|',
-                              confirmation_status, SR, '(0-10)')
-                else:
-                    if Dim == 'intrusiveness':
-                        print('trial', trial_num, '|', dimension, '|', question, Space2 * empty, '|',
-                              confirmation_status, SR, '(0-10)')
-                    elif Dim == 'focus':
-                        print('trial', trial_num, '|', dimension, Space1 * empty, '|', question, '|',
-                              confirmation_status, SR, '(0-10)')
-                    else:
-                        print('trial', trial_num, '|', dimension, Space1 * empty, '|', question, Space2 * empty, '|',
-                              confirmation_status, SR, '(0-10)')
-
-            def SemanticScreen(clock, prime_pos, target_pos, foil1_pos, foil2_pos):
-                prime_im = visual.ImageStim(win, name='stimPic1', image=None, pos=prime_pos)
-                tg_im = visual.ImageStim(win, name='stimPic2', image=None, pos=target_pos)
-                foil1_im = visual.ImageStim(win, name='stimPic3', image=None, pos=foil1_pos)
-                foil2_im = visual.ImageStim(win, name='stimPic4', image=None, pos=foil2_pos)
-                prime_im.setImage(Prime)
-                tg_im.setImage(Target)
-                foil1_im.setImage(Foil1)
-                foil2_im.setImage(Foil2)
-                prime_im.draw()
-                tg_im.draw()
-                foil1_im.draw()
-                foil2_im.draw()
-                win.logOnFlip(level=logging.EXP, msg='semantic screen')
-                win.flip()
-                SemanticScreen_onset = clock.getTime()
-                return SemanticScreen_onset
-
-            def SemanticResponse(clock, trialEndTime, stimStart):
-                flag = 0
-                keyList = []
-                keypress = []
-                while clock.getTime() < trialEndTime:
-                    keypress = event.getKeys(keyList=['2', '3', '4'])
-                    if len(keypress) == 1 and flag == 0:
-                        keyList = keypress[0]
-                        flag = 1
-                        keyStart = clock.getTime()
-                if len(keyList) == 1 and flag == 1:
-                    key_pressed = keyList[0]
-                    RT = keyStart - stimStart
-                else:
-                    keyStart = '--'
-                    key_pressed = 'N/A'
-                    RT = 'N/A'
-                event.clearEvents()
-                return keyStart, key_pressed, RT
-
-            def SemanticInfo(RT, y_val, target_pos, foil1_pos, foil2_pos, target_name, foil1_name, foil2_name):
-                if RT == 'N/A':
-                    im_position = 'N/A'
-                    key_ID = 'N/A'
-                    subChoice = 'N/A'
-                    accuracy = 0
-                elif RT < 2.5:
-                    if key_pressed == '2':
-                        im_position = (-.5, y_val)
-                        key_ID = 'left'
-                    elif key_pressed == '3':
-                        im_position = (0, y_val)
-                        key_ID = 'center'
-                    elif key_pressed == '4':
-                        im_position = (.5, y_val)
-                        key_ID = 'right'
-                if im_position == target_pos:
-                    subChoice = target_name[:-4]
-                    accuracy = 1
-                elif im_position == foil1_pos:
-                    subChoice = foil1_name[:-4]
-                    accuracy = 0
-                elif im_position == foil2_pos:
-                    subChoice = foil2_name[:-4]
-                    accuracy = 0
-                if target_pos == (-.5, y_val) and foil1_pos == (0, y_val) and foil2_pos == (.5, y_val):
-                    left_choice = target_name[:-4]
-                    center_choice = foil1_name[:-4]
-                    right_choice = foil2_name[:-4]
-                elif target_pos == (-.5, y_val) and foil2_pos == (0, y_val) and foil1_pos == (.5, y_val):
-                    left_choice = target_name[:-4]
-                    center_choice = foil2_name[:-4]
-                    right_choice = foil1_name[:-4]
-                elif foil1_pos == (-.5, y_val) and target_pos == (0, y_val) and foil2_pos == (.5, y_val):
-                    left_choice = foil1_name[:-4]
-                    center_choice = target_name[:-4]
-                    right_choice = foil2_name[:-4]
-                elif foil1_pos == (-.5, y_val) and foil2_pos == (0, y_val) and target_pos == (.5, y_val):
-                    left_choice = foil1_name[:-4]
-                    center_choice = foil2_name[:-4]
-                    right_choice = target_name[:-4]
-                elif foil2_pos == (-.5, y_val) and target_pos == (0, y_val) and foil1_pos == (.5, y_val):
-                    left_choice = foil2_name[:-4]
-                    center_choice = target_name[:-4]
-                    right_choice = foil1_name[:-4]
-                elif foil2_pos == (-.5, y_val) and foil1_pos == (0, y_val) and target_pos == (.5, y_val):
-                    left_choice = foil2_name[:-4]
-                    center_choice = foil1_name[:-4]
-                    right_choice = target_name[:-4]
-                return key_ID, subChoice, left_choice, center_choice, right_choice, accuracy
-
-            # define inter-block flags
-            semphon1 = ES1 = eval(expInfo['Block1'])
-            qT1 = eval(expInfo['Block2'])
-            semphon2 = ES2 = eval(expInfo['Block3'])
-            T2star = eval(expInfo['Block4'])
-            semantic1 = ES3 = eval(expInfo['Block5'])
-            DWI = eval(expInfo['Block6'])
-            semantic2 = ES4 = eval(expInfo['Block7'])
-            RS = ES5 = eval(expInfo['Block8'])
-
-            # set up main clock & logging features
-            mainClock = core.Clock()
-            logging.setDefaultClock(mainClock)
-            logging.console.setLevel(logging.ERROR)
-
-            log_filename = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + '_' + expInfo['date']
-            logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
-
-            # display window
-            win = visual.Window(fullscr=True, color=1, units='height')
-            win.mouseVisible = False
-
-            # text and fixation features
-            sans = ['Arial', 'Gill Sans MT', 'Helvetica', 'Verdana']
-            Txt = visual.TextStim(win, name='instruction', text='default text', font=sans, pos=(0, 0),
-                                  height=float(.04), wrapWidth=1100, color='black')
-            fixation = visual.TextStim(win, name='fixation', text='+', font=sans, pos=(0, 0), height=float(.08),
-                                       color='black')
-
-            ################################### Block 1: Spatial1 #################################################
-
-            # create .csv log file for semphon2
-            if semphon2:
-                task_lab = '_spatial2'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    spa1_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    spa1_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(spa1_csvFile, 'w') as w_spa1:
-                    writer = csv.writer(w_spa1)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Prime', 'Target',
-                         'Foil_1', 'Foil_2', 'Subject_Response', 'Key_pressed', 'Accuracy', 'Reaction_Time'])
-
-                # initialize important task variables
-                shuffle(ITI_spa1)
-                shuffle(ISI_spa1)
-                iters_spa1 = range(0, n_trial_spa1)
-                spatial1_trials = list(iters_spa1)
-                x_values = [-.5, 0, .5]
-                y_val = -.25
-                spa1E_acc = []
-                spa1E_RT_hit = []
-                spa1E_RT_miss = []
-                spa1D_acc = []
-                spa1D_RT_hit = []
-                spa1D_RT_miss = []
-
-                # display spatial1 instructions
-                Txt.setText(open('spatial/text/instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 1 sequence on console
-                print('\n\n\n\nBlock 1: Spatial1')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # run spatial1 loop
-                for idx in spatial1_trials:
-
-                    # set stimuli
-                    Prime = PIL.Image.open(trialList_spa1[idx]['prime'])
-                    Target = PIL.Image.open(trialList_spa1[idx]['target'])
-                    Foil1 = PIL.Image.open(trialList_spa1[idx]['foil1'])
-                    Foil2 = PIL.Image.open(trialList_spa1[idx]['foil2'])
-
-                    # set stimuli positions
-                    shuffle(x_values)
-                    tg_x = x_values[0]
-                    foil1_x = x_values[1]
-                    foil2_x = x_values[2]
-
-                    prime_pos = (0, abs(y_val))
-                    target_pos = (tg_x, y_val)
-                    foil1_pos = (foil1_x, y_val)
-                    foil2_pos = (foil2_x, y_val)
-
-                    # record trial number, condition, prime, target, foil1, & foil2
-                    trial_num = trialList_spa1[idx]['trial_num']
-                    condition = trialList_spa1[idx]['condition']
-                    prime_name = os.path.basename(os.path.normpath(trialList_spa1[idx]['prime']))
-                    target_name = os.path.basename(os.path.normpath(trialList_spa1[idx]['target']))
-                    foil1_name = os.path.basename(os.path.normpath(trialList_spa1[idx]['foil1']))
-                    foil2_name = os.path.basename(os.path.normpath(trialList_spa1[idx]['foil2']))
-
-                    # display ITI fixation cross and record its onset
-                    ITIStart = FixationCross(mainClock, ITI_spa1, idx)
-
-                    # display prime and record onset
-                    primeStart = spatialPrimeScreen(mainClock, prime_pos)
-
-                    # display ISI fixation cross and record its onset
-                    ISIStart = FixationCross(mainClock, ISI_spa1, idx)
-
-                    # display choices and record onset
-                    choiceStart = spatialChoiceScreen(mainClock, target_pos, foil1_pos, foil2_pos)
-
-                    # print trial info on console
-                    if target_pos[0] == -.5:
-                        target = 'left'
-                    elif target_pos[0] == 0:
-                        target = 'center'
-                    elif target_pos[0] == .5:
-                        target = 'right'
-
-                    if trial_num <= 9:
-                        print('trial', trial_num, ' |', condition, '| target: ', target)
-                    else:
-                        print('trial', trial_num, '|', condition, '| target: ', target)
-
-                    # get subject response info
-                    trialEndTime = choiceStart + 5.5
-                    subResp = SpatialResponse(mainClock, trialEndTime, choiceStart)
-                    keyPressTime = subResp[0]
-                    key_pressed = subResp[1]
-                    RT = subResp[2]
-                    respInfo = SpatialInfo(RT, y_val, target_pos, foil1_pos, foil2_pos, target_name, foil1_name,
-                                           foil2_name)
-                    key_ID = respInfo[0]
-                    subChoice = respInfo[1]
-                    left_choice = respInfo[2]
-                    center_choice = respInfo[3]
-                    right_choice = respInfo[4]
-                    accuracy = respInfo[5]
-
-                    # display subject response info on console
-                    if accuracy == 1:
-                        print('Subject CORRECTLY chose "' + key_ID + '" in ', RT, 'sec')
-                        print('\n')
-                    else:
-                        if RT == 'N/A':
-                            print('Subject did not respond/was too slow')
-                            print('\n')
-                        else:
-                            print('Subject INCORRECTLY chose "' + key_ID + '" in ', RT, 'sec')
-                            print('\n')
-
-                    # append trial info to accuracy & RT lists
-                    if condition == 'E':
-                        spa1E_acc.append(accuracy)
-                        if accuracy == 1:
-                            spa1E_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                spa1E_RT_miss.append(RT)
-                    elif condition == 'D':
-                        spa1D_acc.append(accuracy)
-                        if accuracy == 1:
-                            spa1D_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                spa1D_RT_miss.append(RT)
-
-                    # log complete trial info in csv file
-                    if foil1_pos[0] == -.5:
-                        foil1 = 'left'
-                    elif foil1_pos[0] == 0:
-                        foil1 = 'center'
-                    elif foil1_pos[0] == .5:
-                        foil1 = 'right'
-
-                    if foil2_pos[0] == -.5:
-                        foil2 = 'left'
-                    elif foil2_pos[0] == 0:
-                        foil2 = 'center'
-                    elif foil2_pos[0] == .5:
-                        foil2 = 'right'
-
-                    with open(spa1_csvFile, 'a') as a_spa1:
-                        writer = csv.writer(a_spa1)
-                        writer.writerow(
-                            [ITIStart, trial_num, condition, 'ON', primeStart - ITIStart, '--', '--', '--', '--', '--',
-                             '--', '--', '--'])
-                        writer.writerow(
-                            [primeStart, trial_num, condition, 'OFF', '--', prime_name, '--', '--', '--', '--', '--',
-                             '--', '--'])
-                        writer.writerow(
-                            [ISIStart, trial_num, condition, 'ON', choiceStart - ISIStart, '--', '--', '--', '--', '--',
-                             '--', '--', '--'])
-                        writer.writerow(
-                            [choiceStart, trial_num, condition, 'OFF', '--', '--', target, foil1, foil2, '--', '--',
-                             '--', '--'])
-                        writer.writerow(
-                            [keyPressTime, trial_num, condition, 'OFF', '--', '--', '--', '--', '--', subChoice, key_ID,
-                             accuracy, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''])
-
-                # compute scores & display on console
-                spa1E_score = (sum(spa1E_acc) / len(spa1E_acc)) * 100
-                spa1D_score = (sum(spa1D_acc) / len(spa1D_acc)) * 100
-
-                if spa1E_RT_hit:
-                    mean_spa1E_RT_hit = sum(spa1E_RT_hit) / len(spa1E_RT_hit)
-                else:
-                    mean_spa1E_RT_hit = 'N/A'
-
-                if spa1D_RT_hit:
-                    mean_spa1D_RT_hit = sum(spa1D_RT_hit) / len(spa1D_RT_hit)
-                else:
-                    mean_spa1D_RT_hit = 'N/A'
-
-                if spa1E_RT_miss:
-                    mean_spa1E_RT_miss = sum(spa1E_RT_miss) / len(spa1E_RT_miss)
-                else:
-                    mean_spa1E_RT_miss = 'N/A'
-
-                if spa1D_RT_miss:
-                    mean_spa1D_RT_miss = sum(spa1D_RT_miss) / len(spa1D_RT_miss)
-                else:
-                    mean_spa1D_RT_miss = 'N/A'
-
-                print('spa1E score:          ', spa1E_score, '%')
-                print('spa1D score:          ', spa1D_score, '%')
-                print('mean spa1E RT (hit):  ', mean_spa1E_RT_hit, 'sec')
-                print('mean spa1D RT (hit):  ', mean_spa1D_RT_hit, 'sec')
-                print('mean spa1E RT (miss): ', mean_spa1E_RT_miss, 'sec')
-                print('mean spa1D RT (miss): ', mean_spa1D_RT_miss, 'sec')
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            ################################### Block 1 (cont'd): ES1 #############################################
-
-            # create .csv log file for experience sampling 1
-            if ES1:
-                task_lab = '_es1'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ES1_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    ES1_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(ES1_csvFile, 'w') as w_ES1:
-                    writer = csv.writer(w_ES1)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
-                         'High_end', 'Subject_Response', 'Reaction_Time'])
-
-            # run ES1 if flag is True
-            if ES1:
-                # initialize important task variables
-                shuffle(fix_dur_ES)
-                iters_ES = range(0, n_trial_ES)
-                ES1_trials = list(iters_ES)
-                probe = visual.TextStim(win, color='black', height=.05)
-
-                # display ES1 instructions
-                Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 1 sequence on console
-                print('\nBlock 1 (continued): ES1')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # randomize trial order
-                shuffle(trialList_ES)
-
-                # run ES1 loop
-                for idx in ES1_trials:
-
-                    # get trial-specific probe labels
-                    Lab = trialList_ES[idx]['labels']
-
-                    # define rating scale parameters
-                    rating_scale = visual.RatingScale(win, scale=None, low=0, high=10, markerStart=5, leftKeys='2',
-                                                      rightKeys='4', acceptKeys='3', labels=Lab, tickMarks=['0', '10'],
-                                                      tickHeight=1, maxTime=6, markerColor='red', textColor='black',
-                                                      textSize=.75, stretch=2.5, noMouse=True, lineColor='#3355FF',
-                                                      marker='triangle', showValue=False, precision=10,
-                                                      showAccept=False, disappear=True)
-
-                    # record trial number, question, dimension, low/high rates
-                    trial_num = idx + 1
-                    question = trialList_ES[idx]['question']
-                    dimension = trialList_ES[idx]['dimension']
-                    low_end = trialList_ES[idx]['low_end']
-                    high_end = trialList_ES[idx]['high_end']
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_ES, idx)
-
-                    # display probe
-                    Probe = MindProbe(mainClock, idx)
-
-                    # record subject response, reaction time, response time, & confirmation of response status
-                    SR = rating_scale.getRating()
-                    RT = rating_scale.getRT()
-                    respT = Probe + RT
-                    if RT <= 6:
-                        confirmation_status = 'response confirmed:'
-                    else:
-                        confirmation_status = 'response not confirmed:'
-
-                    # print trial info on console
-                    ProbePrint(trial_num, dimension, question, SR)
-
-                    # log complete trial info in csv file
-                    with open(ES1_csvFile, 'a') as a_ES1:
-                        writer = csv.writer(a_ES1)
-                        writer.writerow(
-                            [fixStart, trial_num, 'ON', Probe - fixStart, '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [Probe, trial_num, 'OFF', '--', question, dimension, low_end, high_end, '--', '--'])
-                        writer.writerow([respT, trial_num, 'OFF', '--', '--', '--', '--', '--', SR, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if qT1 == spatial2 == T2star == semantic1 == DWI == semantic2 == RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 2: qT1 ######################################################
-
-            if qT1:
-                # display block 2 sequence on console
-                print('\n\n\n\nBlock 2: qT1')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # display instructions
-                Txt.setText('Scan is in progress.\n\nPlease remain still.')
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['escape'])
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if spatial2 == T2star == semantic1 == DWI == semantic2 == RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 3: Spatial2 #################################################
-
-            # create .csv log file for spatial2
-            if spatial2:
-                task_lab = '_spatial2'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    spa2_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    spa2_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(spa2_csvFile, 'w') as w_spa2:
-                    writer = csv.writer(w_spa2)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Prime', 'Target',
-                         'Foil_1', 'Foil_2', 'Subject_Response', 'Key_pressed', 'Accuracy', 'Reaction_Time'])
-
-            # run spatial2 if flag is True
-            if spatial2:
-                # initialize important task variables
-                shuffle(ITI_spa2)
-                shuffle(ISI_spa2)
-                iters_spa2 = range(0, n_trial_spa2)
-                spatial2_trials = list(iters_spa2)
-                x_values = [-.5, 0, .5]
-                y_val = -.25
-                spa2E_acc = []
-                spa2E_RT_hit = []
-                spa2E_RT_miss = []
-                spa2D_acc = []
-                spa2D_RT_hit = []
-                spa2D_RT_miss = []
-
-                # display spatial2 instructions
-                Txt.setText(open('spatial/text/instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 3 sequence on console
-                print('\n\n\n\nBlock 3: Spatial2')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # run spatial2 loop
-                for idx in spatial2_trials:
-
-                    # set stimuli
-                    Prime = PIL.Image.open(trialList_spa2[idx]['prime'])
-                    Target = PIL.Image.open(trialList_spa2[idx]['target'])
-                    Foil1 = PIL.Image.open(trialList_spa2[idx]['foil1'])
-                    Foil2 = PIL.Image.open(trialList_spa2[idx]['foil2'])
-
-                    # set stimuli positions
-                    shuffle(x_values)
-                    tg_x = x_values[0]
-                    foil1_x = x_values[1]
-                    foil2_x = x_values[2]
-
-                    prime_pos = (0, abs(y_val))
-                    target_pos = (tg_x, y_val)
-                    foil1_pos = (foil1_x, y_val)
-                    foil2_pos = (foil2_x, y_val)
-
-                    # record trial number, condition, prime, target, foil1, & foil2
-                    trial_num = trialList_spa2[idx]['trial_num']
-                    condition = trialList_spa2[idx]['condition']
-                    prime_name = os.path.basename(os.path.normpath(trialList_spa2[idx]['prime']))
-                    target_name = os.path.basename(os.path.normpath(trialList_spa2[idx]['target']))
-                    foil1_name = os.path.basename(os.path.normpath(trialList_spa2[idx]['foil1']))
-                    foil2_name = os.path.basename(os.path.normpath(trialList_spa2[idx]['foil2']))
-
-                    # display ITI fixation cross and record its onset
-                    ITIStart = FixationCross(mainClock, ITI_spa2, idx)
-
-                    # display prime and record onset
-                    primeStart = spatialPrimeScreen(mainClock, prime_pos)
-
-                    # display ISI fixation cross and record its onset
-                    ISIStart = FixationCross(mainClock, ISI_spa2, idx)
-
-                    # display choices and record onset
-                    choiceStart = spatialChoiceScreen(mainClock, target_pos, foil1_pos, foil2_pos)
-
-                    # print trial info on console
-                    if target_pos[0] == -.5:
-                        target = 'left'
-                    elif target_pos[0] == 0:
-                        target = 'center'
-                    elif target_pos[0] == .5:
-                        target = 'right'
-
-                    if trial_num <= 9:
-                        print('trial', trial_num, ' |', condition, '| target: ', target)
-                    else:
-                        print('trial', trial_num, '|', condition, '| target: ', target)
-
-                    # get subject response info
-                    trialEndTime = choiceStart + 5.5
-                    subResp = SpatialResponse(mainClock, trialEndTime, choiceStart)
-                    keyPressTime = subResp[0]
-                    key_pressed = subResp[1]
-                    RT = subResp[2]
-                    respInfo = SpatialInfo(RT, y_val, target_pos, foil1_pos, foil2_pos, target_name, foil1_name,
-                                           foil2_name)
-                    key_ID = respInfo[0]
-                    subChoice = respInfo[1]
-                    left_choice = respInfo[2]
-                    center_choice = respInfo[3]
-                    right_choice = respInfo[4]
-                    accuracy = respInfo[5]
-
-                    # display subject response info on console
-                    if accuracy == 1:
-                        print('Subject CORRECTLY chose "' + key_ID + '" in ', RT, 'sec')
-                        print('\n')
-                    else:
-                        if RT == 'N/A':
-                            print('Subject did not respond/was too slow')
-                            print('\n')
-                        else:
-                            print('Subject INCORRECTLY chose "' + key_ID + '" in ', RT, 'sec')
-                            print('\n')
-
-                    # append trial info to accuracy & RT lists
-                    if condition == 'E':
-                        spa2E_acc.append(accuracy)
-                        if accuracy == 1:
-                            spa2E_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                spa2E_RT_miss.append(RT)
-                    elif condition == 'D':
-                        spa2D_acc.append(accuracy)
-                        if accuracy == 1:
-                            spa2D_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                spa2D_RT_miss.append(RT)
-
-                    # log complete trial info in csv file
-                    if foil1_pos[0] == -.5:
-                        foil1 = 'left'
-                    elif foil1_pos[0] == 0:
-                        foil1 = 'center'
-                    elif foil1_pos[0] == .5:
-                        foil1 = 'right'
-
-                    if foil2_pos[0] == -.5:
-                        foil2 = 'left'
-                    elif foil2_pos[0] == 0:
-                        foil2 = 'center'
-                    elif foil2_pos[0] == .5:
-                        foil2 = 'right'
-
-                    with open(spa2_csvFile, 'a') as a_spa2:
-                        writer = csv.writer(a_spa2)
-                        writer.writerow(
-                            [ITIStart, trial_num, condition, 'ON', primeStart - ITIStart, '--', '--', '--', '--', '--',
-                             '--', '--', '--'])
-                        writer.writerow(
-                            [primeStart, trial_num, condition, 'OFF', '--', prime_name, '--', '--', '--', '--', '--',
-                             '--', '--'])
-                        writer.writerow(
-                            [ISIStart, trial_num, condition, 'ON', choiceStart - ISIStart, '--', '--', '--', '--', '--',
-                             '--', '--', '--'])
-                        writer.writerow(
-                            [choiceStart, trial_num, condition, 'OFF', '--', '--', target, foil1, foil2, '--', '--',
-                             '--', '--'])
-                        writer.writerow(
-                            [keyPressTime, trial_num, condition, 'OFF', '--', '--', '--', '--', '--', subChoice, key_ID,
-                             accuracy, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''])
-
-                # compute scores & display on console
-                spa2E_score = (sum(spa2E_acc) / len(spa2E_acc)) * 100
-                spa2D_score = (sum(spa2D_acc) / len(spa2D_acc)) * 100
-
-                if spa2E_RT_hit:
-                    mean_spa2E_RT_hit = sum(spa2E_RT_hit) / len(spa2E_RT_hit)
-                else:
-                    mean_spa2E_RT_hit = 'N/A'
-
-                if spa2D_RT_hit:
-                    mean_spa2D_RT_hit = sum(spa2D_RT_hit) / len(spa2D_RT_hit)
-                else:
-                    mean_spa2D_RT_hit = 'N/A'
-
-                if spa2E_RT_miss:
-                    mean_spa2E_RT_miss = sum(spa2E_RT_miss) / len(spa2E_RT_miss)
-                else:
-                    mean_spa2E_RT_miss = 'N/A'
-
-                if spa2D_RT_miss:
-                    mean_spa2D_RT_miss = sum(spa2D_RT_miss) / len(spa2D_RT_miss)
-                else:
-                    mean_spa2D_RT_miss = 'N/A'
-
-                print('spa2E score:          ', spa2E_score, '%')
-                print('spa2D score:          ', spa2D_score, '%')
-                print('mean spa2E RT (hit):  ', mean_spa2E_RT_hit, 'sec')
-                print('mean spa2D RT (hit):  ', mean_spa2D_RT_hit, 'sec')
-                print('mean spa2E RT (miss): ', mean_spa2E_RT_miss, 'sec')
-                print('mean spa2D RT (miss): ', mean_spa2D_RT_miss, 'sec')
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            ################################### Block 3 (cont'd): ES2 #############################################
-
-            # create .csv log file for experience sampling 2
-            if ES2:
-                task_lab = '_es2'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ES2_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    ES2_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(ES2_csvFile, 'w') as w_ES2:
-                    writer = csv.writer(w_ES2)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
-                         'High_end', 'Subject_Response', 'Reaction_Time'])
-
-            # run ES2 if flag is True
-            if ES2:
-                # initialize important task variables
-                shuffle(fix_dur_ES)
-                iters_ES = range(0, n_trial_ES)
-                ES2_trials = list(iters_ES)
-                probe = visual.TextStim(win, color='black', height=.05)
-
-                # display ES2 instructions
-                Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 3 sequence on console
-                print('\nBlock 3 (continued): ES2')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # randomize trial order
-                shuffle(trialList_ES)
-
-                # run ES2 loop
-                for idx in ES2_trials:
-
-                    # get trial-specific probe labels
-                    Lab = trialList_ES[idx]['labels']
-
-                    # define rating scale parameters
-                    rating_scale = visual.RatingScale(win, scale=None, low=0, high=10, markerStart=5, leftKeys='2',
-                                                      rightKeys='4', acceptKeys='3', labels=Lab, tickMarks=['0', '10'],
-                                                      tickHeight=1, maxTime=6, markerColor='red', textColor='black',
-                                                      textSize=.75, stretch=2.5, noMouse=True, lineColor='#3355FF',
-                                                      marker='triangle', showValue=False, precision=10,
-                                                      showAccept=False, disappear=True)
-
-                    # record trial number, question, dimension, low/high rates
-                    trial_num = idx + 1
-                    question = trialList_ES[idx]['question']
-                    dimension = trialList_ES[idx]['dimension']
-                    low_end = trialList_ES[idx]['low_end']
-                    high_end = trialList_ES[idx]['high_end']
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_ES, idx)
-
-                    # display probe
-                    Probe = MindProbe(mainClock, idx)
-
-                    # record subject response, reaction time, response time, & confirmation of response status
-                    SR = rating_scale.getRating()
-                    RT = rating_scale.getRT()
-                    respT = Probe + RT
-                    if RT <= 6:
-                        confirmation_status = 'response confirmed:'
-                    else:
-                        confirmation_status = 'response not confirmed:'
-
-                    # print trial info on console
-                    ProbePrint(trial_num, dimension, question, SR)
-
-                    # log complete trial info in csv file
-                    with open(ES2_csvFile, 'a') as a_ES2:
-                        writer = csv.writer(a_ES2)
-                        writer.writerow(
-                            [fixStart, trial_num, 'ON', Probe - fixStart, '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [Probe, trial_num, 'OFF', '--', question, dimension, low_end, high_end, '--', '--'])
-                        writer.writerow([respT, trial_num, 'OFF', '--', '--', '--', '--', '--', SR, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if T2star == semantic1 == DWI == semantic2 == RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 4: T2* ######################################################
-
-            if T2star:
-                # display block 4 sequence on console
-                print('\n\n\n\nBlock 4: T2*')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # display instructions
-                Txt.setText('Scan is in progress.\n\nPlease remain still.')
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['escape'])
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if semantic1 == DWI == semantic2 == RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 5: Semantic1 ################################################
-
-            # create .csv log file for semantic1
-            if semantic1:
-                task_lab = '_semantic1'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    sem1_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    sem1_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(sem1_csvFile, 'w') as w_sem1:
-                    writer = csv.writer(w_sem1)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Prime', 'Target',
-                         'Foil_1', 'Foil_2', 'Left_choice', 'Center_choice', 'Right_choice', 'Subject_Response',
-                         'Key_pressed', 'Accuracy', 'Reaction_Time'])
-
-            # run semantic1 if flag is True
-            if semantic1:
-                # initialize important task variables
-                shuffle(fix_dur_sem1)
-                iters_sem1 = range(0, n_trial_sem1)
-                semantic1_trials = list(iters_sem1)
-                x_values = [-.5, 0, .5]
-                y_val = -.25
-                sem1E_acc = []
-                sem1E_RT_hit = []
-                sem1E_RT_miss = []
-                sem1D_acc = []
-                sem1D_RT_hit = []
-                sem1D_RT_miss = []
-
-                # display semantic1 instructions
-                Txt.setText(open('semantic/text/instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 5 sequence on console
-                print('\n\n\n\nBlock 5: Semantic1')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # run semantic1 loop
-                for idx in semantic1_trials:
-
-                    # set stimuli
-                    Prime = PIL.Image.open(trialList_sem1[idx]['prime'])
-                    Target = PIL.Image.open(trialList_sem1[idx]['target'])
-                    Foil1 = PIL.Image.open(trialList_sem1[idx]['foil1'])
-                    Foil2 = PIL.Image.open(trialList_sem1[idx]['foil2'])
-
-                    # set stimuli positions
-                    shuffle(x_values)
-                    tg_x = x_values[0]
-                    foil1_x = x_values[1]
-                    foil2_x = x_values[2]
-
-                    prime_pos = (0, abs(y_val))
-                    target_pos = (tg_x, y_val)
-                    foil1_pos = (foil1_x, y_val)
-                    foil2_pos = (foil2_x, y_val)
-
-                    # record trial number, condition, prime, target, foil1, & foil2
-                    trial_num = trialList_sem1[idx]['trial_num']
-                    condition = trialList_sem1[idx]['condition']
-                    prime_name = os.path.basename(os.path.normpath(trialList_sem1[idx]['prime']))
-                    target_name = os.path.basename(os.path.normpath(trialList_sem1[idx]['target']))
-                    foil1_name = os.path.basename(os.path.normpath(trialList_sem1[idx]['foil1']))
-                    foil2_name = os.path.basename(os.path.normpath(trialList_sem1[idx]['foil2']))
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_sem1, idx)
-
-                    # print trial info on console
-                    if trial_num <= 9:
-                        print('trial', trial_num, ' |', condition, '| prime:', prime_name[:-4], '| target: ',
-                              target_name[:-4], '| foils: ', foil1_name[:-4], ' & ', foil2_name[:-4])
-                    else:
-                        print('trial', trial_num, '|', condition, '| prime:', prime_name[:-4], '| target: ',
-                              target_name[:-4], '| foils: ', foil1_name[:-4], ' & ', foil2_name[:-4])
-
-                    # display stimuli and record onset
-                    stimStart = SemanticScreen(mainClock, prime_pos, target_pos, foil1_pos, foil2_pos)
-
-                    # get subject response info
-                    trialEndTime = stimStart + 2.5
-                    subResp = SemanticResponse(mainClock, trialEndTime, stimStart)
-                    keyPressTime = subResp[0]
-                    key_pressed = subResp[1]
-                    RT = subResp[2]
-                    respInfo = SemanticInfo(RT, y_val, target_pos, foil1_pos, foil2_pos, target_name, foil1_name,
-                                            foil2_name)
-                    key_ID = respInfo[0]
-                    subChoice = respInfo[1]
-                    left_choice = respInfo[2]
-                    center_choice = respInfo[3]
-                    right_choice = respInfo[4]
-                    accuracy = respInfo[5]
-
-                    # display subject response info on console
-                    if accuracy == 1:
-                        print('Subject CORRECTLY chose "' + subChoice + '" in ', RT, 'sec')
-                        print('\n')
-                    else:
-                        if RT == 'N/A':
-                            print('Subject did not respond/was too slow')
-                            print('\n')
-                        else:
-                            print('Subject INCORRECTLY chose "' + subChoice + '" in ', RT, 'sec')
-                            print('\n')
-
-                    # append trial info to accuracy & RT lists
-                    if condition == 'E':
-                        sem1E_acc.append(accuracy)
-                        if accuracy == 1:
-                            sem1E_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                sem1E_RT_miss.append(RT)
-                    elif condition == 'D':
-                        sem1D_acc.append(accuracy)
-                        if accuracy == 1:
-                            sem1D_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                sem1D_RT_miss.append(RT)
-
-                    # log complete trial info in csv file
-                    with open(sem1_csvFile, 'a') as a_sem1:
-                        writer = csv.writer(a_sem1)
-                        writer.writerow(
-                            [fixStart, trial_num, condition, 'ON', stimStart - fixStart, '--', '--', '--', '--', '--',
-                             '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [stimStart, trial_num, condition, 'OFF', '--', prime_name, target_name, foil1_name,
-                             foil2_name, left_choice, center_choice, right_choice, '--', '--', '--', '--'])
-                        writer.writerow(
-                            [keyPressTime, trial_num, condition, 'OFF', '--', '--', '--', '--', '--', '--', '--', '--',
-                             subChoice, key_ID, accuracy, '--'])
-                        writer.writerow(
-                            ['--', trial_num, condition, 'OFF', '--', '--', '--', '--', '--', '--', '--', '--', '--',
-                             '--', '--', RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''])
-
-                # compute scores & display on console
-                sem1E_score = (sum(sem1E_acc) / len(sem1E_acc)) * 100
-                sem1D_score = (sum(sem1D_acc) / len(sem1D_acc)) * 100
-
-                if sem1E_RT_hit:
-                    mean_sem1E_RT_hit = sum(sem1E_RT_hit) / len(sem1E_RT_hit)
-                else:
-                    mean_sem1E_RT_hit = 'N/A'
-
-                if sem1D_RT_hit:
-                    mean_sem1D_RT_hit = sum(sem1D_RT_hit) / len(sem1D_RT_hit)
-                else:
-                    mean_sem1D_RT_hit = 'N/A'
-
-                if sem1E_RT_miss:
-                    mean_sem1E_RT_miss = sum(sem1E_RT_miss) / len(sem1E_RT_miss)
-                else:
-                    mean_sem1E_RT_miss = 'N/A'
-
-                if sem1D_RT_miss:
-                    mean_sem1D_RT_miss = sum(sem1D_RT_miss) / len(sem1D_RT_miss)
-                else:
-                    mean_sem1D_RT_miss = 'N/A'
-
-                print('sem1E score:          ', sem1E_score, '%')
-                print('sem1D score:          ', sem1D_score, '%')
-                print('mean sem1E RT (hit):  ', mean_sem1E_RT_hit, 'sec')
-                print('mean sem1D RT (hit):  ', mean_sem1D_RT_hit, 'sec')
-                print('mean sem1E RT (miss): ', mean_sem1E_RT_miss, 'sec')
-                print('mean sem1D RT (miss): ', mean_sem1D_RT_miss, 'sec')
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            ################################### Block 5 (cont'd): ES3 #############################################
-
-            # create .csv log file for experience sampling 3
-            if ES3:
-                task_lab = '_es3'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ES3_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    ES3_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(ES3_csvFile, 'w') as w_ES3:
-                    writer = csv.writer(w_ES3)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
-                         'High_end', 'Subject_Response', 'Reaction_Time'])
-
-            # run ES3 if flag is True
-            if ES3:
-                # initialize important task variables
-                shuffle(fix_dur_ES)
-                iters_ES = range(0, n_trial_ES)
-                ES3_trials = list(iters_ES)
-                probe = visual.TextStim(win, color='black', height=.05)
-
-                # display ES3 instructions
-                Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 5 sequence on console
-                print('\nBlock 5 (continued): ES3')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # randomize trial order
-                shuffle(trialList_ES)
-
-                # run ES3 loop
-                for idx in ES3_trials:
-
-                    # get trial-specific probe labels
-                    Lab = trialList_ES[idx]['labels']
-
-                    # define rating scale parameters
-                    rating_scale = visual.RatingScale(win, scale=None, low=0, high=10, markerStart=5, leftKeys='2',
-                                                      rightKeys='4', acceptKeys='3', labels=Lab, tickMarks=['0', '10'],
-                                                      tickHeight=1, maxTime=6, markerColor='red', textColor='black',
-                                                      textSize=.75, stretch=2.5, noMouse=True, lineColor='#3355FF',
-                                                      marker='triangle', showValue=False, precision=10,
-                                                      showAccept=False, disappear=True)
-
-                    # record trial number, question, dimension, low/high rates
-                    trial_num = idx + 1
-                    question = trialList_ES[idx]['question']
-                    dimension = trialList_ES[idx]['dimension']
-                    low_end = trialList_ES[idx]['low_end']
-                    high_end = trialList_ES[idx]['high_end']
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_ES, idx)
-
-                    # display probe
-                    Probe = MindProbe(mainClock, idx)
-
-                    # record subject response, reaction time, response time, & confirmation of response status
-                    SR = rating_scale.getRating()
-                    RT = rating_scale.getRT()
-                    respT = Probe + RT
-                    if RT <= 6:
-                        confirmation_status = 'response confirmed:'
-                    else:
-                        confirmation_status = 'response not confirmed:'
-
-                    # print trial info on console
-                    ProbePrint(trial_num, dimension, question, SR)
-
-                    # log complete trial info in csv file
-                    with open(ES3_csvFile, 'a') as a_ES3:
-                        writer = csv.writer(a_ES3)
-                        writer.writerow(
-                            [fixStart, trial_num, 'ON', Probe - fixStart, '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [Probe, trial_num, 'OFF', '--', question, dimension, low_end, high_end, '--', '--'])
-                        writer.writerow([respT, trial_num, 'OFF', '--', '--', '--', '--', '--', SR, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if DWI == semantic2 == RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 6: DWI ######################################################
-
-            if DWI:
-                # display block 4 sequence on console
-                print('\n\n\n\nBlock 6: DWI')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # display instructions
-                Txt.setText('Scan is in progress.\n\nPlease remain still.')
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['escape'])
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if semantic2 == RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 7: Semantic2 ################################################
-
-            # create .csv log file for semantic2
-            if semantic2:
-                task_lab = '_semantic2'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    sem2_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    sem2_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(sem2_csvFile, 'w') as w_sem2:
-                    writer = csv.writer(w_sem2)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Prime', 'Target',
-                         'Foil_1', 'Foil_2', 'Left_choice', 'Center_choice', 'Right_choice', 'Subject_Response',
-                         'Key_pressed', 'Accuracy', 'Reaction_Time'])
-
-            # run semantic2 if flag is True
-            if semantic2:
-                # initialize important task variables
-                shuffle(fix_dur_sem2)
-                iters_sem2 = range(0, n_trial_sem2)
-                semantic2_trials = list(iters_sem2)
-                x_values = [-.5, 0, .5]
-                y_val = -.25
-                sem2E_acc = []
-                sem2E_RT_hit = []
-                sem2E_RT_miss = []
-                sem2D_acc = []
-                sem2D_RT_hit = []
-                sem2D_RT_miss = []
-
-                # display semantic2 instructions
-                Txt.setText(open('semantic/text/instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 7 sequence on console
-                print('\n\n\n\nBlock 7: Semantic2')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # run semantic2 loop
-                for idx in semantic2_trials:
-
-                    # set stimuli
-                    Prime = PIL.Image.open(trialList_sem2[idx]['prime'])
-                    Target = PIL.Image.open(trialList_sem2[idx]['target'])
-                    Foil1 = PIL.Image.open(trialList_sem2[idx]['foil1'])
-                    Foil2 = PIL.Image.open(trialList_sem2[idx]['foil2'])
-
-                    # set stimuli positions
-                    shuffle(x_values)
-                    tg_x = x_values[0]
-                    foil1_x = x_values[1]
-                    foil2_x = x_values[2]
-
-                    prime_pos = (0, abs(y_val))
-                    target_pos = (tg_x, y_val)
-                    foil1_pos = (foil1_x, y_val)
-                    foil2_pos = (foil2_x, y_val)
-
-                    # record trial number, condition, prime, target, foil1, & foil2
-                    trial_num = trialList_sem2[idx]['trial_num']
-                    condition = trialList_sem2[idx]['condition']
-                    prime_name = os.path.basename(os.path.normpath(trialList_sem2[idx]['prime']))
-                    target_name = os.path.basename(os.path.normpath(trialList_sem2[idx]['target']))
-                    foil1_name = os.path.basename(os.path.normpath(trialList_sem2[idx]['foil1']))
-                    foil2_name = os.path.basename(os.path.normpath(trialList_sem2[idx]['foil2']))
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_sem2, idx)
-
-                    # print trial info on console
-                    if trial_num <= 9:
-                        print('trial', trial_num, ' |', condition, '| prime:', prime_name[:-4], '| target: ',
-                              target_name[:-4], '| foils: ', foil1_name[:-4], ' & ', foil2_name[:-4])
-                    else:
-                        print('trial', trial_num, '|', condition, '| prime:', prime_name[:-4], '| target: ',
-                              target_name[:-4], '| foils: ', foil1_name[:-4], ' & ', foil2_name[:-4])
-
-                    # display stimuli and record onset
-                    stimStart = SemanticScreen(mainClock, prime_pos, target_pos, foil1_pos, foil2_pos)
-
-                    # get subject response info
-                    trialEndTime = stimStart + 2.5
-                    subResp = SemanticResponse(mainClock, trialEndTime, stimStart)
-                    keyPressTime = subResp[0]
-                    key_pressed = subResp[1]
-                    RT = subResp[2]
-                    respInfo = SemanticInfo(RT, y_val, target_pos, foil1_pos, foil2_pos, target_name, foil1_name,
-                                            foil2_name)
-                    key_ID = respInfo[0]
-                    subChoice = respInfo[1]
-                    left_choice = respInfo[2]
-                    center_choice = respInfo[3]
-                    right_choice = respInfo[4]
-                    accuracy = respInfo[5]
-
-                    # display subject response info on console
-                    if accuracy == 1:
-                        print('Subject CORRECTLY chose "' + subChoice + '" in ', RT, 'sec')
-                        print('\n')
-                    else:
-                        if RT == 'N/A':
-                            print('Subject did not respond/was too slow')
-                            print('\n')
-                        else:
-                            print('Subject INCORRECTLY chose "' + subChoice + '" in ', RT, 'sec')
-                            print('\n')
-
-                    # append trial info to accuracy & RT lists
-                    if condition == 'E':
-                        sem2E_acc.append(accuracy)
-                        if accuracy == 1:
-                            sem2E_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                sem2E_RT_miss.append(RT)
-                    elif condition == 'D':
-                        sem2D_acc.append(accuracy)
-                        if accuracy == 1:
-                            sem2D_RT_hit.append(RT)
-                        elif accuracy == 0:
-                            if RT != 'N/A':
-                                sem2D_RT_miss.append(RT)
-
-                    # log complete trial info in csv file
-                    with open(sem2_csvFile, 'a') as a_sem2:
-                        writer = csv.writer(a_sem2)
-                        writer.writerow(
-                            [fixStart, trial_num, condition, 'ON', stimStart - fixStart, '--', '--', '--', '--', '--',
-                             '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [stimStart, trial_num, condition, 'OFF', '--', prime_name, target_name, foil1_name,
-                             foil2_name, left_choice, center_choice, right_choice, '--', '--', '--', '--'])
-                        writer.writerow(
-                            [keyPressTime, trial_num, condition, 'OFF', '--', '--', '--', '--', '--', '--', '--', '--',
-                             subChoice, key_ID, accuracy, '--'])
-                        writer.writerow(
-                            ['--', trial_num, condition, 'OFF', '--', '--', '--', '--', '--', '--', '--', '--', '--',
-                             '--', '--', RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''])
-
-                # compute scores & display on console
-                sem2E_score = (sum(sem2E_acc) / len(sem2E_acc)) * 100
-                sem2D_score = (sum(sem2D_acc) / len(sem2D_acc)) * 100
-
-                if sem2E_RT_hit:
-                    mean_sem2E_RT_hit = sum(sem2E_RT_hit) / len(sem2E_RT_hit)
-                else:
-                    mean_sem2E_RT_hit = 'N/A'
-
-                if sem2D_RT_hit:
-                    mean_sem2D_RT_hit = sum(sem2D_RT_hit) / len(sem2D_RT_hit)
-                else:
-                    mean_sem2D_RT_hit = 'N/A'
-
-                if sem2E_RT_miss:
-                    mean_sem2E_RT_miss = sum(sem2E_RT_miss) / len(sem2E_RT_miss)
-                else:
-                    mean_sem2E_RT_miss = 'N/A'
-
-                if sem2D_RT_miss:
-                    mean_sem2D_RT_miss = sum(sem2D_RT_miss) / len(sem2D_RT_miss)
-                else:
-                    mean_sem2D_RT_miss = 'N/A'
-
-                print('sem2E score:          ', sem2E_score, '%')
-                print('sem2D score:          ', sem2D_score, '%')
-                print('mean sem2E RT (hit):  ', mean_sem2E_RT_hit, 'sec')
-                print('mean sem2D RT (hit):  ', mean_sem2D_RT_hit, 'sec')
-                print('mean sem2E RT (miss): ', mean_sem2E_RT_miss, 'sec')
-                print('mean sem2D RT (miss): ', mean_sem2D_RT_miss, 'sec')
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            ################################### Block 7 (cont'd): ES4 #############################################
-
-            # create .csv log file for experience sampling 4
-            if ES4:
-                task_lab = '_es4'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ES4_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    ES4_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(ES4_csvFile, 'w') as w_ES4:
-                    writer = csv.writer(w_ES4)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
-                         'High_end', 'Subject_Response', 'Reaction_Time'])
-
-            # run ES4 if flag is True
-            if ES4:
-                # initialize important task variables
-                shuffle(fix_dur_ES)
-                iters_ES = range(0, n_trial_ES)
-                ES4_trials = list(iters_ES)
-                probe = visual.TextStim(win, color='black', height=.05)
-
-                # display ES4 instructions
-                Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 7 sequence on console
-                print('\nBlock 7 (continued): ES4')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # randomize trial order
-                shuffle(trialList_ES)
-
-                # run ES4 loop
-                for idx in ES4_trials:
-
-                    # get trial-specific probe labels
-                    Lab = trialList_ES[idx]['labels']
-
-                    # define rating scale parameters
-                    rating_scale = visual.RatingScale(win, scale=None, low=0, high=10, markerStart=5, leftKeys='2',
-                                                      rightKeys='4', acceptKeys='3', labels=Lab, tickMarks=['0', '10'],
-                                                      tickHeight=1, maxTime=6, markerColor='red', textColor='black',
-                                                      textSize=.75, stretch=2.5, noMouse=True, lineColor='#3355FF',
-                                                      marker='triangle', showValue=False, precision=10,
-                                                      showAccept=False, disappear=True)
-
-                    # record trial number, question, dimension, low/high rates
-                    trial_num = idx + 1
-                    question = trialList_ES[idx]['question']
-                    dimension = trialList_ES[idx]['dimension']
-                    low_end = trialList_ES[idx]['low_end']
-                    high_end = trialList_ES[idx]['high_end']
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_ES, idx)
-
-                    # display probe
-                    Probe = MindProbe(mainClock, idx)
-
-                    # record subject response, reaction time, response time, & confirmation of response status
-                    SR = rating_scale.getRating()
-                    RT = rating_scale.getRT()
-                    respT = Probe + RT
-                    if RT <= 6:
-                        confirmation_status = 'response confirmed:'
-                    else:
-                        confirmation_status = 'response not confirmed:'
-
-                    # print trial info on console
-                    ProbePrint(trial_num, dimension, question, SR)
-
-                    # log complete trial info in csv file
-                    with open(ES4_csvFile, 'a') as a_ES4:
-                        writer = csv.writer(a_ES4)
-                        writer.writerow(
-                            [fixStart, trial_num, 'ON', Probe - fixStart, '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [Probe, trial_num, 'OFF', '--', question, dimension, low_end, high_end, '--', '--'])
-                        writer.writerow([respT, trial_num, 'OFF', '--', '--', '--', '--', '--', SR, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if RS == False:
-                sys.exit()
-            else:
-                pass
-
-            ################################### Block 8: RS #######################################################
-
-            if RS:
-                # display block 8 sequence on console
-                print('\n\n\n\nBlock 8: RS')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # display RS instructions
-                Txt.setText(open('RS/text/RS_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display RS fixation cross
-                RS_FixCross = visual.TextStim(win, name='RS fixation cross', text='+', font=sans, pos=(0, 0),
-                                              height=float(.16), color='gray')
-                RS_FixCross.draw()
-                win.flip()
-
-                # get onset time of gray fixation cross
-                fixOn = mainClock.getTime()
-
-                # display fixation for six minutes
-                RS_scanDur = 360
-                fixDur = fixOn + RS_scanDur
-                core.wait(fixDur)
-                # event.waitKeys(keyList=['escape'])
-
-                # display end of task screen
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            ################################### Block 8 (cont'd): ES5 #############################################
-
-            # create .csv log file for experience sampling 5
-            if ES5:
-                task_lab = '_es5'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ES5_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
-                else:
-                    ES5_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.csv'
-                with open(ES5_csvFile, 'w') as w_ES5:
-                    writer = csv.writer(w_ES5)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question', 'Dimension', 'Low_end',
-                         'High_end', 'Subject_Response', 'Reaction_Time'])
-
-            # run ES5 if flag is True
-            if ES5:
-                # initialize important task variables
-                shuffle(fix_dur_ES)
-                iters_ES = range(0, n_trial_ES)
-                ES5_trials = list(iters_ES)
-                probe = visual.TextStim(win, color='black', height=.05)
-
-                # display ES5 instructions
-                Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                # launch scan
-                Trigger(mainClock)
-
-                # display block 8 sequence on console
-                print('\nBlock 8 (continued): ES5')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
-
-                # randomize trial order
-                shuffle(trialList_ES)
-
-                # run ES5 loop
-                for idx in ES5_trials:
-
-                    # get trial-specific probe labels
-                    Lab = trialList_ES[idx]['labels']
-
-                    # define rating scale parameters
-                    rating_scale = visual.RatingScale(win, scale=None, low=0, high=10, markerStart=5, leftKeys='2',
-                                                      rightKeys='4', acceptKeys='3', labels=Lab, tickMarks=['0', '10'],
-                                                      tickHeight=1, maxTime=6, markerColor='red', textColor='black',
-                                                      textSize=.75, stretch=2.5, noMouse=True, lineColor='#3355FF',
-                                                      marker='triangle', showValue=False, precision=10,
-                                                      showAccept=False, disappear=True)
-
-                    # record trial number, question, dimension, low/high rates
-                    trial_num = idx + 1
-                    question = trialList_ES[idx]['question']
-                    dimension = trialList_ES[idx]['dimension']
-                    low_end = trialList_ES[idx]['low_end']
-                    high_end = trialList_ES[idx]['high_end']
-
-                    # display fixation cross and record its onset
-                    fixStart = FixationCross(mainClock, fix_dur_ES, idx)
-
-                    # display probe
-                    Probe = MindProbe(mainClock, idx)
-
-                    # record subject response, reaction time, response time, & confirmation of response status
-                    SR = rating_scale.getRating()
-                    RT = rating_scale.getRT()
-                    respT = Probe + RT
-                    if RT <= 6:
-                        confirmation_status = 'response confirmed:'
-                    else:
-                        confirmation_status = 'response not confirmed:'
-
-                    # print trial info on console
-                    ProbePrint(trial_num, dimension, question, SR)
-
-                    # log complete trial info in csv file
-                    with open(ES5_csvFile, 'a') as a_ES5:
-                        writer = csv.writer(a_ES5)
-                        writer.writerow(
-                            [fixStart, trial_num, 'ON', Probe - fixStart, '--', '--', '--', '--', '--', '--'])
-                        writer.writerow(
-                            [Probe, trial_num, 'OFF', '--', question, dimension, low_end, high_end, '--', '--'])
-                        writer.writerow([respT, trial_num, 'OFF', '--', '--', '--', '--', '--', SR, RT])
-                        writer.writerow(['', '', '', '', '', '', '', '', '', ''])
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
-
-            # end of English protocol IV
-            sys.exit()
-
 
 if __name__ == '__main__':
     execute()
-
-############### FIN ###############
