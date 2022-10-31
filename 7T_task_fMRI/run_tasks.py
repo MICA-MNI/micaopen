@@ -86,6 +86,8 @@ class GUI(App):
         # define & add 'initialize' button & callback
         buttID = 'I  N  I  T  I  A  L  I  Z  E'
         bgCol = buttColor
+        # initialize protocol_day as 0
+        self.protocol_day = 0
         self.initialize = Button(text=buttID, font_size=fontSize, bold=True, color='yellow',
                                  background_color=bgCol, background_normal='', size_hint=(1, .25))
         self.initialize.bind(on_release=self.Initialize)
@@ -218,7 +220,7 @@ class GUI(App):
         
         pop = GridLayout(padding=15)
         pop.cols = 2
-        
+
         switches = []
         switch_lab = ['Spatial1 & ES1', 'qT1', 'Spatial2 & ES2', 'T2*', 'Semantic1 & ES3', 'DWI',
 	                  'Semantic2 & ES4', 'RS & ES5']
@@ -290,6 +292,46 @@ class GUI(App):
         mainPop.add_widget(mainPop.start)
         
         newWin = Popup(title='English: protocol III', content=mainPop, size_hint=(.82, .8))
+        newWin.open()
+
+    def popup4(self):
+        # popup for english, protocol4
+        mainPop = GridLayout(spacing=2.5, padding=50)
+        mainPop.cols = 1
+
+        pop = GridLayout(padding=15)
+        pop.cols = 2
+
+        switches = []
+        switch_lab = ['semphon1 & ES1', 'qT1', 'semphon2 & ES2', 'T2*', '?? & ES3', 'DWI', '?? & ES4',
+                      'RS & ES5']
+
+        addFile = open('tmp.txt', 'a')
+        for s in range(len(switch_lab)):
+            pop.add_widget(Label(text=switch_lab[s]))
+            switches.append(Switch(active=True))
+            addFile.write('\nBlock' + str(s + 1) + ': True')
+            pop.add_widget(switches[s])
+        addFile.close()
+
+        switches[0].bind(active=self.switchBlock1)
+        switches[1].bind(active=self.switchBlock2)
+        switches[2].bind(active=self.switchBlock3)
+        switches[3].bind(active=self.switchBlock4)
+        switches[4].bind(active=self.switchBlock5)
+        switches[5].bind(active=self.switchBlock6)
+        switches[6].bind(active=self.switchBlock7)
+        switches[7].bind(active=self.switchBlock8)
+
+        bgCol = (37 / 255, 121 / 255, 203 / 255, 1)
+        mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow', background_color=bgCol,
+                               background_normal='', size_hint=(.1, .15))
+        mainPop.start.bind(on_release=self.start_tasks)
+        # mainPop.start.bind(on_release=self.close_pop)
+        mainPop.add_widget(pop)
+        mainPop.add_widget(mainPop.start)
+
+        newWin = Popup(title='English: protocol IV', content=mainPop, size_hint=(.82, .8))
         newWin.open()
 
     def switchBlock1(self, instance, value):
@@ -372,6 +414,7 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: English' + '\nprotocol: I')
                 outFile.close()
+                self.protocol_day = 1
                 self.popup1()
             elif self.inner.ENG.state=='down' and self.inner.PII.state=='down':
                 if os.path.isfile(outTmp):
@@ -381,6 +424,7 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: English' + '\nprotocol: II')
                 outFile.close()
+                self.protocol_day = 2
                 self.popup2()
             elif self.inner.ENG.state=='down' and self.inner.PIII.state=='down':
                 if os.path.isfile(outTmp):
@@ -390,6 +434,7 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: English' + '\nprotocol: III')
                 outFile.close()
+                self.protocol_day = 3
                 self.popup3()
             elif self.inner.ENG.state=='down' and self.inner.PIV.state=='down':
                 if os.path.isfile(outTmp):
@@ -399,7 +444,8 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: English' + '\nprotocol: IV')
                 outFile.close()
-                #self.popup4()
+                self.protocol_day = 4
+                self.popup4()
             elif self.inner.FR.state=='down' and self.inner.PI.state=='down':
                 if os.path.isfile(outTmp):
                     os.remove(outTmp)
@@ -421,7 +467,10 @@ class GUI(App):
 
     # execute tasks
     def start_tasks(self, buttPress):
-        subprocess.run(['python3.8', currentDir + '/' + 'tasks.py'])
+        if self.protocol_day == 4:
+            subprocess.run(['python3.8', currentDir + '/' + 'tasks_protocol4_E.py'])
+        else:
+            subprocess.run(['python3.8', currentDir + '/' + 'tasks.py'])
     
     # execute resting state
     def start_resting_state(self, buttPress):
