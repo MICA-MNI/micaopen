@@ -55,9 +55,7 @@ def execute():
 
             # import stimuli for each block
             trialList_ES = data.importConditions('exp_sampling/ES_trials.csv')
-            words_Ho = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Homophones')
-            words_Sy = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Synonyms')
-            words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
+
 
             n_trial_ES = len(trialList_ES)
             fix_increment_ES = 1 / (n_trial_ES - 1)
@@ -69,6 +67,203 @@ def execute():
 
             if not os.path.isdir(rootLog):
                 os.makedirs(rootLog)
+
+            # semphon settings
+            words_Ho = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Homophones')
+            words_Sy = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Synonyms')
+            words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
+
+            # latin square to determine order of conditions
+            # rows: diffent big_block, column: different sub_block (i.e. condition)
+            conditions_both = np.array([['A1', 'B1', 'C1', 'D'],
+                                        ['C1', 'A1', 'B1', 'D'],
+                                        ['B1', 'C1', 'A1', 'D'],
+                                        ['B2', 'C2', 'A2', 'D'],
+                                        ['A2', 'B2', 'C2', 'D'],
+                                        ['C2', 'A2', 'B2', 'D']])
+
+            # how many trials within one condition
+            n_trials = 10
+            # time for instruction for condition on screen
+            t_instruction = 3
+            # time for fixation cross
+            t_fixation = 0.5
+            # time words shown
+            t_words = 0.5
+            # time for pause between trials (clear screen), awaiting response
+            t_blank = 2
+            # extra gap time
+            t_gap = 0.15
+            # time for one trial
+            t_trial = t_fixation + t_words + t_blank
+            # time for resting block
+            t_rest_block = n_trials * t_trial
+            # 'yes' key
+            key_code_L = '2'
+            # 'no' key
+            key_code_R = '4'
+
+            def mergelists(wordlist):
+                draw = int(n_trials/2)
+                y = wordlist[['Y_1', 'Y_2']].rename(columns={"Y_1": "first", "Y_2": "second"}).dropna()
+                y['is_correct'] = 1
+                n = wordlist[['N_1', 'N_2']].rename(columns={"N_1": "first", "N_2": "second"}).dropna()
+                n['is_correct'] = 0
+                yn = pd.concat([y,n]).dropna()
+                inds = np.arange(0, len(y))
+                shuffle(inds)
+                list1 = pd.concat([y.loc[inds[0:draw]], n.loc[inds[0:draw]]]).sample(frac=1)
+                list2 = pd.concat([y.loc[inds[draw:draw*2]], n.loc[inds[draw:draw*2]]]).sample(frac=1)
+                list3 = pd.concat([y.loc[inds[draw*2:draw*3]], n.loc[inds[draw*2:draw*3]]]).sample(frac=1)
+                list4 = pd.concat([y.loc[inds[draw*3:draw*4]], n.loc[inds[draw*3:draw*4]]]).sample(frac=1)
+                list5 = pd.concat([y.loc[inds[draw*4:draw*5]], n.loc[inds[draw*4:draw*5]]]).sample(frac=1)
+                list6 = pd.concat([y.loc[inds[draw*5:draw*6]], n.loc[inds[draw*5:draw*6]]]).sample(frac=1)
+                return [list1, list2, list3, list4, list5, list6]
+
+            word_lists_Ho = mergelists(words_Ho)
+            word_lists_Sy = mergelists(words_Sy)
+            word_lists_Vi = mergelists(words_Vi)
+
+            def semphon_task(repeat):
+                if repeat == 'first_repeat':
+                    conditions = conditions_both[0:3,:]
+                elif repeat == 'second_repeat':
+                    conditions = conditions_both[3::,:]
+
+                # how many big blocks, i.e. repeats of all conditions
+                n_big_blocks = conditions.shape[0]
+                # how many sub blocks, i.e. conditions including rest
+                n_sub_blocks = conditions.shape[1]
+
+                # start clock counting from experiment start
+                time_start_exp = clock.getTime()
+
+                # master trial count
+                trial_number_tot = 0
+                # loop over big blocks (repeat all conditions with different order)
+                for i_big_block in range(0, n_big_blocks):
+                    # loop over sub_blocks (will go through all conditions including rest)
+                    for i_sub_block in range(0, n_sub_blocks):
+                        # -------------------------- start condition block --------------------
+                        time_start_block = clock.getTime()
+                        condition = conditions[i_big_block, i_sub_block]
+
+                        # select context: first 4 sub_blocks select column 0, then column 1
+                        # note that it loops from 0 to 9
+                        if 'A' in condition:
+                            word_lists = word_lists_Ho
+                            condition_instruction = "Do the words sound the same?"
+                        elif 'B' in condition:
+                            word_lists = word_lists_Sy
+                            condition_instruction = "Do the words have the same meaning?"
+                        elif 'C' in condition:
+                            word_lists = word_lists_Vi
+                            condition_instruction = "Are the two letter strings the same?"
+                        elif condition == 'D':
+                            condition_instruction = "Rest"
+
+                        if repeat == 'first_repeat' and i_big_block == 0:
+                            words = word_lists[0]
+                        elif repeat == 'first_repeat' and i_big_block == 1:
+                            words = word_lists[1]
+                        elif repeat == 'first_repeat' and i_big_block == 2:
+                            words = word_lists[2]
+                        elif repeat == 'second_repeat' and i_big_block == 0:
+                            words = word_lists[3]
+                        elif repeat == 'second_repeat' and i_big_block == 1:
+                            words = word_lists[4]
+                        elif repeat == 'second_repeat' and i_big_block == 2:
+                            words = word_lists[5]
+
+                        # display condition_instruction
+                        condition_text = visual.TextStim(win, text=condition_instruction, font=sans, pos=(0, 0),
+                                                         height=float(.08), color='black')
+
+                        condition_text.draw()
+                        win.update()
+                        time_elapsed = 0
+
+                        # wait until t_instruction has passed
+                        while time_elapsed < (t_instruction):
+                            time_elapsed = clock.getTime() - time_start_block
+
+                        # loop over trials
+                        if condition != 'D':
+                            for i_trial in range(0, n_trials):
+                                time_start_trial = clock.getTime()
+                                trial_number_tot = trial_number_tot + 1
+                                word1 = words.iloc[i_trial]['first']
+                                word2 = words.iloc[i_trial]['second']
+                                expected_answer = words.iloc[i_trial]['is_correct']
+
+                                word1_text = visual.TextStim(win, text=word1, font=sans, pos=(0, float(.1)),
+                                                             height=float(.08), color='black')
+
+                                word2_text = visual.TextStim(win, text=word2, font=sans, pos=(0, -float(.1)),
+                                                             height=float(.08), color='black')
+
+                                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
+
+                                # show fixation cross
+                                onsettime = clock.getTime() - time_start_exp
+                                fixation.draw()
+                                win.update()
+                                core.wait(t_fixation)
+
+                                # show words
+                                word1_text.draw()
+                                word2_text.draw()
+                                fixation.draw()
+                                win.update()
+                                core.wait(t_words)
+                                # show blank screen
+                                win.update()
+
+                                t_start_RT = clock.getTime()
+                                given_answer = np.nan
+                                key_list = []
+                                RT = np.nan
+                                awaiting_response = 1
+                                time_elapsed = 0
+                                # clear events key press buffer so that any key can be captured
+                                event.clearEvents()
+
+                                while time_elapsed < (t_blank - t_gap):
+                                    # Capture for first response only
+                                    if awaiting_response:
+                                        keys_list = event.getKeys()
+                                        if any(key_code_L in key for key in keys_list):
+                                            given_answer = int(1)
+                                            awaiting_response = 0
+                                            RT = clock.getTime() - t_start_RT
+                                        elif any(key_code_R in key for key in keys_list):
+                                            given_answer = int(0)
+                                            awaiting_response = 0
+                                            RT = clock.getTime() - t_start_RT
+                                        # check if escape key has been pressed during the fixation period
+                                        elif any("escape" in key for key in keys_list):
+                                            sp1_towrite.close()
+                                            sys.exit()
+                                        else:
+                                            given_answer = np.nan
+                                            RT = np.nan
+
+                                    time_elapsed = clock.getTime() - t_start_RT
+
+                                writer.writerow([onsettime, t_trial, trial_number_tot, condition[0], RT, word1, word2,
+                                                 expected_answer, given_answer])
+                                core.wait(t_trial - (clock.getTime() - time_start_trial))
+
+                        # rest-block
+                        else:
+                            onsettime = clock.getTime() - time_start_exp
+                            fixation.draw()
+                            win.update()
+                            core.wait(t_rest_block)
+                            # show blank screen
+                            win.update()
+                            writer.writerow([onsettime, t_rest_block, '-', condition[0], '-', '-', '-', '-', '-'])
+
 
             # define functions for each block
             def FixationCross(clock, fix_dur, trialNum):
@@ -154,7 +349,7 @@ def execute():
             logging.console.setLevel(logging.ERROR)
 
             log_filename = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + '_' + expInfo['date']
-            logFile = logging.LogFile(log_filename + '.csv', level=logging.EXP)
+            logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
 
             # display window
             win = visual.Window(fullscr=True, color=1, units='height')
@@ -180,8 +375,8 @@ def execute():
                 else:
                     sp1_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
                         'session'] + task_lab + '_run-01.tsv'
-                sp1_enc = open(sp1_tsvFile, 'a')
-                writer = csv.writer(sp1_enc, delimiter='\t', lineterminator='\n')
+                sp1_towrite = open(sp1_tsvFile, 'a')
+                writer = csv.writer(sp1_towrite, delimiter='\t', lineterminator='\n')
                 writer.writerow(
                     ['Onset', 'Trial_Duration', 'Trial_Number', 'Condition', 'RT', 'Stimulus_1', 'Stimulus_2', 'Expected_answer', 'Given_answer'])
 
@@ -198,214 +393,9 @@ def execute():
                 print('\n\n\n\nBlock 1: Semphon')
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
+                semphon_task('first_repeat')
 
                 ##--- Nicole section start ---###
-
-                # latin square to determine order of conditions
-                # rows: diffent big_block, column: different sub_block (i.e. condition)
-                conditions = np.array([['A', 'B', 'C', 'D'],
-                                       ['C', 'A', 'B', 'D'],
-                                       ['B', 'C', 'A', 'D'],
-                                       ['A', 'B', 'C', 'D']])
-
-                # how many big blocks, i.e. repeats of all conditions
-                n_big_blocks = conditions.shape[0]
-                # how many sub blocks, i.e. conditions including rest
-                n_sub_blocks = conditions.shape[1]
-                # how many trials whithin one condition
-                n_trials = 10
-
-                # time for instruction for condition on screen
-                t_instruction = 3
-                # time for fixation cross
-                t_fixation = 0.5
-                # time words shown
-                t_words = 0.5
-                # time for pause between trials (clear screen), awaiting response
-                t_blank = 2
-                # extra gap time
-                t_gap = 0.15
-                # time for one trial
-                t_trial = t_fixation + t_words + t_blank
-
-                # time for resting block
-                t_rest_block = n_trials * t_trial
-
-                # percentage of correct trials
-                p_correct = 0.5
-                n_correct = int(np.floor(n_trials * p_correct))
-                rand_correct = np.zeros(n_trials)
-                rand_correct[0:n_correct] = 1
-
-                # yes key
-                key_code_L = '2'
-                # no key
-                key_code_R = '4'
-
-                # randomization of trial list
-                whole_list = np.arange(1, 25)
-                shuffle(whole_list)
-                A_list = whole_list[0: n_trials]
-                B_list = whole_list[n_trials: n_trials * 2]
-
-                # start clock counting from experiment start
-                time_start_exp = clock.getTime()
-
-                # master trial count
-                trial_number_tot = 0
-                # loop over big blocks (repeat all conditions with different order)
-                for i_big_block in range(0, n_big_blocks):
-
-                    # loop over sub_blocks (will go through all conditions including rest)
-                    for i_sub_block in range(0, n_sub_blocks):
-
-                        # -------------------------- start condition block --------------------
-                        condition = conditions[i_big_block, i_sub_block]
-
-                        # get time of condition block and write to log file
-                        time_start_block = clock.getTime()
-
-                        # select context: first 4 sub_blocks select column 0, then column 1
-                        # note that it loops from 0 to 9
-                        if condition == 'A':
-                            words = words_Ho
-                            condition_instruction = "Do the words sound the same?"
-                        elif condition == 'B':
-                            words = words_Sy
-                            condition_instruction = "Do the words have the same meaning?"
-                        elif condition == 'C':
-                            words = words_Vi
-                            condition_instruction = "Are the two letter strings the same?"
-                        elif condition == 'D':
-                            condition_instruction = "Rest"
-
-                        # randomization of correct and incorrect
-                        # rand_correct = np.random.permutation(np.repeat(np.array([1, 0]), round(n_trials / 2.)))
-                        shuffle(rand_correct)
-
-                        # initialize counter for trials
-                        count_trial = 1
-
-                        # display condition_instruction
-                        condition_text = visual.TextStim(win, text=condition_instruction, font=sans, pos=(0, 0), height=float(.08),
-                                       color='black')
-
-                        condition_text.draw()
-                        win.update()
-                        time_elapsed = 0
-
-                        # wait until t_instruction has passed
-                        while time_elapsed < (t_instruction):
-                            time_elapsed = clock.getTime() - time_start_block
-
-                        # loop over trials
-                        if condition != 'D':
-                            for i_trial in range(0, n_trials):
-                                trial_number_tot = trial_number_tot + 1
-
-                                # get time for start of trial
-                                time_start_trial = clock.getTime()
-
-                                if i_big_block == 0:
-                                    ind_trial = A_list[i_trial]
-                                elif i_big_block == 1:
-                                    ind_trial = A_list[i_trial] + 25
-                                elif i_big_block == 2:
-                                    ind_trial = B_list[i_trial]
-                                elif i_big_block == 3:
-                                    ind_trial = B_list[i_trial] + 25
-
-                                is_correct = rand_correct[i_trial]
-
-                                if is_correct:
-                                    word1 = words.Y_1[ind_trial - 1]
-                                    word2 = words.Y_2[ind_trial - 1]
-                                elif is_correct == 0:
-                                    word1 = words.N_1[ind_trial - 1]
-                                    word2 = words.N_2[ind_trial - 1]
-
-                                word1_text = visual.TextStim(win, text=word1, font=sans, pos=(0, float(.1)), height=float(.08),
-                                       color='black')
-
-                                word2_text = visual.TextStim(win, text=word2, font=sans, pos=(0, -float(.1)), height=float(.08),
-                                       color='black')
-
-                                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
-
-                                # show fixation cross
-                                onsettime = clock.getTime() - time_start_exp
-                                fixation.draw()
-                                win.update()
-                                core.wait(t_fixation)
-
-                                # show words
-                                word1_text.draw()
-                                word2_text.draw()
-                                fixation.draw()
-                                win.update()
-                                core.wait(t_words)
-                                # show blank screen
-                                win.update()
-                                given_answer = np.nan
-                                key_list = []
-                                RT = np.nan
-                                awaiting_response = 1
-                                time_elapsed = 0
-                                t_start_RT = clock.getTime()
-
-                                # clear events key press buffer so that any key can be captured
-                                event.clearEvents()
-
-                                while time_elapsed < (t_blank - t_gap):
-                                    # Capture for first response only
-                                    if awaiting_response:
-                                        keys_list = event.getKeys()
-                                        if any(key_code_L in key for key in keys_list):
-                                            given_answer = int(1)
-                                            awaiting_response = 0
-                                            RT = clock.getTime() - t_start_RT
-                                        elif any(key_code_R in key for key in keys_list):
-                                            given_answer = int(0)
-                                            awaiting_response = 0
-                                            RT = clock.getTime() - t_start_RT
-                                        # check if escape key has been pressed during the fixation period
-                                        elif any("escape" in key for key in keys_list):
-                                            # Esc has been pressed
-                                            time_stop = clock.getTime()
-                                            # write down note in logfile
-                                            #writer.writerow(
-                                            #    ["", round((time_stop - time_start_exp), 2), "stopped by escape key"])
-                                            # close experiment
-                                            #logfile.close()
-                                            #win.close()
-                                            #core.quit()
-                                            sys.exit()
-                                        else:
-                                            given_answer = np.nan
-                                            RT = np.nan
-
-                                    time_elapsed = clock.getTime() - t_start_RT
-
-                                writer.writerow(
-                                    [onsettime, t_trial, trial_number_tot, condition, RT, word1,
-                                     word2, int(is_correct), given_answer])
-                        # rest-block
-                        else:
-                            onsettime = clock.getTime() - time_start_exp
-                            fixation.draw()
-                            win.update()
-                            core.wait(t_rest_block)
-                            # show blank screen
-                            win.update()
-                            writer.writerow(
-                                [onsettime, t_rest_block, '-', condition, '-', '-', '-', '-', '-'])
-
-
-
-                ##--- Nicole section stop ---###
-
-                # log complete trial info in csv file
-                # TODO log
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
@@ -545,19 +535,17 @@ def execute():
                     prevRuns.sort()
                     numRun = len(prevRuns)
                     newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ret_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
+                    sp1_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
                 else:
-                    ret_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
+                    sp1_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
                         'session'] + task_lab + '_run-01.tsv'
-                with open(ret_csvFile, 'w') as w_ret:
-                    writer = csv.writer(w_ret)
-                    writer.writerow(
-                        ['Time', 'Trial_Number', 'Condition', 'Fixation', 'Fixation_Duration', 'Prime', 'Target',
-                         'Foil_1', 'Foil_2', 'Left_choice', 'Center_choice', 'Right_choice', 'Subject_Response',
-                         'Key_pressed', 'Accuracy', 'Reaction_Time'])
+                sp1_towrite = open(sp1_tsvFile, 'a')
+                writer = csv.writer(sp1_towrite, delimiter='\t', lineterminator='\n')
+                writer.writerow(
+                    ['Onset', 'Trial_Duration', 'Trial_Number', 'Condition', 'RT', 'Stimulus_1', 'Stimulus_2',
+                     'Expected_answer', 'Given_answer'])
 
-
-                # display retrieval instructions
+                # display encoding instructions
                 Txt.setText(open('semphon/text/task_instructions.txt', 'r').read())
                 Txt.draw()
                 win.flip()
@@ -566,12 +554,11 @@ def execute():
                 # launch scan
                 Trigger(mainClock)
 
-                # display block 3 sequence on console
-                print('\n\n\n\nBlock 3: Semphon')
+                # display block 1 sequence on console
+                print('\n\n\n\nBlock 3: Semphon2')
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
-
-                # TODO semphon2
+                semphon_task('second_repeat')
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
