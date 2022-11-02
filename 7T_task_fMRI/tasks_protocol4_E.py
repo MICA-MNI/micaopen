@@ -55,8 +55,6 @@ def execute():
 
             # import stimuli for each block
             trialList_ES = data.importConditions('exp_sampling/ES_trials.csv')
-
-
             n_trial_ES = len(trialList_ES)
             fix_increment_ES = 1 / (n_trial_ES - 1)
             range_trial_ES = range(0, n_trial_ES)
@@ -72,6 +70,7 @@ def execute():
             words_Ho = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Homophones')
             words_Sy = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Synonyms')
             words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
+
 
             # latin square to determine order of conditions
             # rows: diffent big_block, column: different sub_block (i.e. condition)
@@ -105,20 +104,22 @@ def execute():
 
             def mergelists(wordlist):
                 draw = int(n_trials/2)
-                y = wordlist[['Y_1', 'Y_2']].rename(columns={"Y_1": "first", "Y_2": "second"}).dropna()
-                y['is_correct'] = 1
-                n = wordlist[['N_1', 'N_2']].rename(columns={"N_1": "first", "N_2": "second"}).dropna()
-                n['is_correct'] = 0
-                yn = pd.concat([y,n]).dropna()
-                inds = np.arange(0, len(y))
-                shuffle(inds)
-                list1 = pd.concat([y.loc[inds[0:draw]], n.loc[inds[0:draw]]]).sample(frac=1)
-                list2 = pd.concat([y.loc[inds[draw:draw*2]], n.loc[inds[draw:draw*2]]]).sample(frac=1)
-                list3 = pd.concat([y.loc[inds[draw*2:draw*3]], n.loc[inds[draw*2:draw*3]]]).sample(frac=1)
-                list4 = pd.concat([y.loc[inds[draw*3:draw*4]], n.loc[inds[draw*3:draw*4]]]).sample(frac=1)
-                list5 = pd.concat([y.loc[inds[draw*4:draw*5]], n.loc[inds[draw*4:draw*5]]]).sample(frac=1)
-                list6 = pd.concat([y.loc[inds[draw*5:draw*6]], n.loc[inds[draw*5:draw*6]]]).sample(frac=1)
-                return [list1, list2, list3, list4, list5, list6]
+                words_first = wordlist.iloc[0:25]
+                words_second = wordlist.iloc[25:50]
+                lists = []
+                for wordlist_half in words_first, words_second:
+                    y = wordlist_half[['Y_1', 'Y_2']].rename(columns={"Y_1": "first", "Y_2": "second"}).dropna().reset_index(drop=True)
+                    y['is_correct'] = 1
+                    n = wordlist_half[['N_1', 'N_2']].rename(columns={"N_1": "first", "N_2": "second"}).dropna().reset_index(drop=True)
+                    n['is_correct'] = 0
+                    inds = np.arange(0, len(y))
+                    shuffle(inds)
+                    lists.append(pd.concat([y.loc[inds[0:draw]], n.loc[inds[0:draw]]]).sample(frac=1))
+                    lists.append(pd.concat([y.loc[inds[draw:draw*2]], n.loc[inds[draw:draw*2]]]).sample(frac=1))
+                    lists.append(pd.concat([y.loc[inds[draw*2:draw*3]], n.loc[inds[draw*2:draw*3]]]).sample(frac=1))
+                # the lists 1-3 sample from the first 25 words and are used in the first repeat
+                # lists 4-6 sample from the next 25 words, which are matched. These are used in the second repeat
+                return lists
 
             word_lists_Ho = mergelists(words_Ho)
             word_lists_Sy = mergelists(words_Sy)
@@ -152,13 +153,13 @@ def execute():
                         # note that it loops from 0 to 9
                         if 'A' in condition:
                             word_lists = word_lists_Ho
-                            condition_instruction = "Do the words sound the same?"
+                            condition_instruction = "Do the words SOUND the same?"
                         elif 'B' in condition:
                             word_lists = word_lists_Sy
-                            condition_instruction = "Do the words have the same meaning?"
+                            condition_instruction = "Do the words MEAN the same?"
                         elif 'C' in condition:
                             word_lists = word_lists_Vi
-                            condition_instruction = "Are the two letter strings the same?"
+                            condition_instruction = "Do the words LOOK the same?"
                         elif condition == 'D':
                             condition_instruction = "Rest"
 
@@ -352,7 +353,8 @@ def execute():
             logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
 
             # display window
-            win = visual.Window(fullscr=True, color=1, units='height')
+            #win = visual.Window(fullscr=True, color=1, units='height')
+            win = visual.Window(fullscr=False, color=1, units='height')
             win.mouseVisible = False
 
             # text and fixation features
