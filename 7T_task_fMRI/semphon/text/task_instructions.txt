@@ -1,1 +1,9 @@
-todo instruction. press 2 or 3 or 4.
+In this task, you will be asked to make a decision about two words presented together.
+
+We will ask you either if the two words MEAN the same, SOUND the same or LOOK the same.
+
+You will have to make the decision as quickly as you can after the two words are shown.
+To choose 'Yes': press '2'.
+To choose 'No': press '4'.
+
+Press any button to continue...
