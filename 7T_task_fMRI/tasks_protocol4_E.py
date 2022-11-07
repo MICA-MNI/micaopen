@@ -43,22 +43,30 @@ def execute():
             print('Session:      ' + expInfo['session'])
             print('Language:     ' + expInfo['language'])
             print('Protocol:     ' + expInfo['protocol'])
-            print('Block 1:      semphon1 & experience sampling 1                      ' + expInfo['Block1'])
+            print('Block 1:      semphon 1 & experience sampling 1                      ' + expInfo['Block1'])
             print('Block 2:      quantitative T1-mapping                               ' + expInfo['Block2'])
-            print('Block 3:      semphon2 & experience sampling 2                      ' + expInfo['Block3'])
+            print('Block 3:      semphon 2 & experience sampling 2                      ' + expInfo['Block3'])
             print('Block 4:      T2*-weighted imaging                                  ' + expInfo['Block4'])
-            print('Block 5:      audiobook1 & experience sampling 3    ' + expInfo['Block5'])
+            print('Block 5:      audiobook 1 & experience sampling 3    ' + expInfo['Block5'])
             print('Block 6:      diffusion-weighted imaging                            ' + expInfo['Block6'])
-            print('Block 7:      audiobook2 & experience sampling 4    ' + expInfo['Block7'])
+            print('Block 7:      audiobook 2 & experience sampling 4    ' + expInfo['Block7'])
             print('Block 8:      resting state & experience sampling 5                 ' + expInfo['Block8'])
             print('-------------------------------------------------------------------------')
 
             # import stimuli for each block
+            # experience sampling
             trialList_ES = data.importConditions('exp_sampling/ES_trials.csv')
-            n_trial_ES = len(trialList_ES)
-            fix_increment_ES = 1 / (n_trial_ES - 1)
-            range_trial_ES = range(0, n_trial_ES)
-            fix_dur_ES = [2 + (x * fix_increment_ES) for x in range_trial_ES]
+
+            # semphon task
+            words_Ho = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Homophones')
+            words_Sy = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Synonyms')
+            words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
+
+            # audiobook filepath
+            ab1_fpath = 'audiobook/stimuli_DownTheRabbitHoleFinal_mono_exp120_NR16_pad.wav'
+            ab1_sound_data, ab1_fs = sf.read(ab1_fpath, dtype='float32')
+            ab2_fpath = 'audiobook/stimuli_task-lppEN_section-1.wav'
+            ab2_sound_data, ab2_fs = sf.read(ab2_fpath, dtype='float32')
 
             # create subject-specific directory to keep logs
             rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'
@@ -66,14 +74,16 @@ def execute():
             if not os.path.isdir(rootLog):
                 os.makedirs(rootLog)
 
+            # ES settings
+            n_trial_ES = len(trialList_ES)
+            fix_increment_ES = 1 / (n_trial_ES - 1)
+            range_trial_ES = range(0, n_trial_ES)
+            fix_dur_ES = [2 + (x * fix_increment_ES) for x in range_trial_ES]
+
             # semphon settings
-            words_Ho = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Homophones')
-            words_Sy = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Synonyms')
-            words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
 
-
-            # latin square to determine order of conditions
-            # rows: diffent big_block, column: different sub_block (i.e. condition)
+            # First 6-min scan: A1, B1, C1
+            # Second 6-min scan: A2, B2, C2
             conditions_both = np.array([['A1', 'B1', 'C1', 'D'],
                                         ['C1', 'A1', 'B1', 'D'],
                                         ['B1', 'C1', 'A1', 'D'],
@@ -264,7 +274,6 @@ def execute():
                             # show blank screen
                             win.update()
                             writer.writerow([onsettime, t_rest_block, '-', condition[0], '-', '-', '-', '-', '-'])
-
 
             # define functions for each block
             def FixationCross(clock, fix_dur, trialNum):
@@ -692,18 +701,63 @@ def execute():
                 pass
 
             ################################### Block 5: AB1 #####################################################
-
-            # create .csv log file for AB1
             if AB1:
                 task_lab = '_ab1'
+                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
+                if prevRuns:
+                    prevRuns.sort()
+                    numRun = len(prevRuns)
+                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
+                    ab1_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
+                else:
+                    ab1_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
+                        'session'] + task_lab + '_run-01.tsv'
+                ab1_towrite = open(ab1_tsvFile, 'a')
+                writer = csv.writer(ab1_towrite, delimiter='\t', lineterminator='\n')
+                writer.writerow(['Onset', 'Trial_Duration', 'Trial_Number', 'Condition'])
 
+                # display audiobook instructions
+                Txt.setText(open('audiobook/audiobook_instructions.txt', 'r').read())
+                Txt.draw()
+                win.flip()
+                event.waitKeys(keyList=['2', '3', '4'])
 
-                # display block 5 sequence on console
-                print('\n\n\n\nBlock 5: AB1')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
+                t_exclude = 17
+                t_play = 360
+                # add 5 seconds to playback time so that sd.stop will not fail.
+                data_cropped = ab1_sound_data[t_exclude * ab1_fs:(t_exclude + t_play + 5) * ab1_fs]
 
-                #TODO: Audiobook 1
+                # launch scan
+                Trigger(mainClock)
+
+                # show fixation cross
+                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
+                fixation.draw()
+                win.update()
+
+                # play sound until escape
+                sd.play(data_cropped, ab1_fs)
+                is_running = 1
+                time_start = clock.getTime()
+                while ((clock.getTime() - time_start) < t_play) and is_running:
+                    core.wait(5)
+                    keys_list = event.getKeys()
+                    if any("escape" in key for key in keys_list):
+                        print('escaped')
+                        duration_played = clock.getTime() - time_start
+                        writer.writerow([0, duration_played, 1, 'A'])
+                        ab1_towrite.close()
+                        is_running = 0
+                        sd.stop()
+                        win.update()
+
+                # regular finish if still running after 6 min
+                if is_running:
+                    sd.stop()
+                    writer.writerow([0, t_play, 1, 'A'])
+                    ab1_towrite.close()
+                    print('audio finished regularly')
+                    win.update()
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
@@ -837,17 +891,62 @@ def execute():
 
             ################################### Block 7: AB2 #####################################################
             if AB2:
+                task_lab = '_ab2'
+                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
+                if prevRuns:
+                    prevRuns.sort()
+                    numRun = len(prevRuns)
+                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
+                    ab2_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
+                else:
+                    ab2_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
+                        'session'] + task_lab + '_run-01.tsv'
+                ab2_towrite = open(ab2_tsvFile, 'a')
+                writer = csv.writer(ab2_towrite, delimiter='\t', lineterminator='\n')
+                writer.writerow(['Onset', 'Trial_Duration', 'Trial_Number', 'Condition'])
+
+                # display audiobook instructions
+                Txt.setText(open('audiobook/audiobook_instructions.txt', 'r').read())
+                Txt.draw()
+                win.flip()
+                event.waitKeys(keyList=['2', '3', '4'])
+
+                t_exclude = 0
+                t_play = 360
+                # add 5 seconds to playback time so that sd.stop will not fail.
+                data_cropped = ab2_sound_data[t_exclude * ab2_fs:(t_exclude + t_play + 5) * ab2_fs]
 
                 # launch scan
                 Trigger(mainClock)
 
-                # display block 7 sequence on console
-                print('\n\n\n\nBlock 7: MST2')
-                print(str(datetime.datetime.now()))
-                print('---------------------------')
+                # show fixation cross
+                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
+                fixation.draw()
+                win.update()
 
-               # TODO: Audiobook2
+                # play sound until escape
+                sd.play(data_cropped, ab2_fs)
+                is_running = 1
+                time_start = clock.getTime()
+                while ((clock.getTime() - time_start) < t_play) and is_running:
+                    core.wait(5)
+                    keys_list = event.getKeys()
+                    if any("escape" in key for key in keys_list):
+                        print('escaped')
+                        duration_played = clock.getTime() - time_start
+                        writer.writerow([0, duration_played, 1, 'A'])
+                        ab2_towrite.close()
+                        is_running = 0
+                        sd.stop()
+                        win.update()
 
+                # regular finish if still running after 6 min
+                if is_running:
+                    sd.stop()
+                    writer.writerow([0, t_play, 1, 'A'])
+                    ab2_towrite.close()
+                    print('audio finished regularly')
+                    win.update()
 
                 # display inter-block instruction buffer
                 Txt.setText('End of task :)\n\nGet ready for the next sequence!')
