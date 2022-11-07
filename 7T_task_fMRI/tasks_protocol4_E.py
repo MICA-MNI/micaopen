@@ -64,9 +64,7 @@ def execute():
 
             # audiobook filepath
             ab1_fpath = 'audiobook/stimuli_DownTheRabbitHoleFinal_mono_exp120_NR16_pad.wav'
-            ab1_sound_data, ab1_fs = sf.read(ab1_fpath, dtype='float32')
             ab2_fpath = 'audiobook/stimuli_task-lppEN_section-1.wav'
-            ab2_sound_data, ab2_fs = sf.read(ab2_fpath, dtype='float32')
 
             # create subject-specific directory to keep logs
             rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'
@@ -261,7 +259,7 @@ def execute():
 
                                     time_elapsed = clock.getTime() - t_start_RT
 
-                                writer.writerow([onsettime, t_trial, trial_number_tot, condition[0], RT, word1, word2,
+                                writer.writerow([np.round(onsettime, 3), t_trial, trial_number_tot, condition[0], RT, word1, word2,
                                                  expected_answer, given_answer])
                                 core.wait(t_trial - (clock.getTime() - time_start_trial))
 
@@ -273,7 +271,77 @@ def execute():
                             core.wait(t_rest_block)
                             # show blank screen
                             win.update()
-                            writer.writerow([onsettime, t_rest_block, '-', condition[0], '-', '-', '-', '-', '-'])
+                            writer.writerow([np.round(onsettime, 3), t_rest_block, '-', condition[0], '-', '-', '-', '-', '-'])
+
+
+            def audiobook_task(ab, ab_fpath, t_exclude):
+                task_lab = f'_{ab}'
+                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
+                if prevRuns:
+                    prevRuns.sort()
+                    numRun = len(prevRuns)
+                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
+                    ab_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
+                else:
+                    ab_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
+                        'session'] + task_lab + '_run-01.tsv'
+                ab_towrite = open(ab_tsvFile, 'a')
+                writer = csv.writer(ab_towrite, delimiter='\t', lineterminator='\n')
+                writer.writerow(['Onset', 'Trial_Duration', 'Trial_Number', 'Condition'])
+
+                # load data
+                ab_sound_data, ab_fs = sf.read(ab_fpath, dtype='float32')
+
+                # display audiobook instructions
+                Txt.setText(open('audiobook/audiobook_instructions.txt', 'r').read())
+                Txt.draw()
+                win.flip()
+                event.waitKeys(keyList=['2', '3', '4'])
+
+                t_play = 360
+                # add 5 seconds to playback time so that sd.stop will not fail.
+                data_cropped = ab_sound_data[t_exclude * ab_fs:(t_exclude + t_play + 5) * ab_fs]
+
+                # launch scan
+                Trigger(mainClock)
+
+                # show fixation cross
+                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
+                fixation.draw()
+                win.update()
+
+                # play sound until escape
+                sd.play(data_cropped, ab_fs)
+                is_running = 1
+                time_start = clock.getTime()
+                event.clearEvents()
+                while ((clock.getTime() - time_start) < t_play) and is_running:
+                    core.wait(5)
+                    keys_list = event.getKeys()
+                    if any("escape" in key for key in keys_list):
+                        print('escaped')
+                        duration_played = clock.getTime() - time_start
+                        writer.writerow([0, np.round(duration_played, 3), 1, 'A'])
+                        ab_towrite.close()
+                        is_running = 0
+                        sd.stop()
+                        win.update()
+                        event.clearEvents()
+                        sys.exit()
+
+                # regular finish if still running after 6 min
+                if is_running:
+                    sd.stop()
+                    writer.writerow([0, t_play, 1, 'A'])
+                    ab_towrite.close()
+                    print('audio finished regularly')
+                    win.update()
+
+                # display inter-block instruction buffer
+                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
+                Txt.draw()
+                win.flip()
+                core.wait(4)
 
             # define functions for each block
             def FixationCross(clock, fix_dur, trialNum):
@@ -702,68 +770,7 @@ def execute():
 
             ################################### Block 5: AB1 #####################################################
             if AB1:
-                task_lab = '_ab1'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ab1_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
-                else:
-                    ab1_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.tsv'
-                ab1_towrite = open(ab1_tsvFile, 'a')
-                writer = csv.writer(ab1_towrite, delimiter='\t', lineterminator='\n')
-                writer.writerow(['Onset', 'Trial_Duration', 'Trial_Number', 'Condition'])
-
-                # display audiobook instructions
-                Txt.setText(open('audiobook/audiobook_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                t_exclude = 17
-                t_play = 360
-                # add 5 seconds to playback time so that sd.stop will not fail.
-                data_cropped = ab1_sound_data[t_exclude * ab1_fs:(t_exclude + t_play + 5) * ab1_fs]
-
-                # launch scan
-                Trigger(mainClock)
-
-                # show fixation cross
-                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
-                fixation.draw()
-                win.update()
-
-                # play sound until escape
-                sd.play(data_cropped, ab1_fs)
-                is_running = 1
-                time_start = clock.getTime()
-                while ((clock.getTime() - time_start) < t_play) and is_running:
-                    core.wait(5)
-                    keys_list = event.getKeys()
-                    if any("escape" in key for key in keys_list):
-                        print('escaped')
-                        duration_played = clock.getTime() - time_start
-                        writer.writerow([0, duration_played, 1, 'A'])
-                        ab1_towrite.close()
-                        is_running = 0
-                        sd.stop()
-                        win.update()
-
-                # regular finish if still running after 6 min
-                if is_running:
-                    sd.stop()
-                    writer.writerow([0, t_play, 1, 'A'])
-                    ab1_towrite.close()
-                    print('audio finished regularly')
-                    win.update()
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
+                audiobook_task('ab1', ab1_fpath, 17)
 
             ################################### Block 5 (cont'd): ES3 #############################################
             # create .csv log file for experience sampling 3
@@ -891,68 +898,7 @@ def execute():
 
             ################################### Block 7: AB2 #####################################################
             if AB2:
-                task_lab = '_ab2'
-                prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
-                if prevRuns:
-                    prevRuns.sort()
-                    numRun = len(prevRuns)
-                    newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
-                    ab2_tsvFile = prevRuns[numRun - 1][:-6] + newRun + '.tsv'
-                else:
-                    ab2_tsvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo[
-                        'session'] + task_lab + '_run-01.tsv'
-                ab2_towrite = open(ab2_tsvFile, 'a')
-                writer = csv.writer(ab2_towrite, delimiter='\t', lineterminator='\n')
-                writer.writerow(['Onset', 'Trial_Duration', 'Trial_Number', 'Condition'])
-
-                # display audiobook instructions
-                Txt.setText(open('audiobook/audiobook_instructions.txt', 'r').read())
-                Txt.draw()
-                win.flip()
-                event.waitKeys(keyList=['2', '3', '4'])
-
-                t_exclude = 0
-                t_play = 360
-                # add 5 seconds to playback time so that sd.stop will not fail.
-                data_cropped = ab2_sound_data[t_exclude * ab2_fs:(t_exclude + t_play + 5) * ab2_fs]
-
-                # launch scan
-                Trigger(mainClock)
-
-                # show fixation cross
-                fixation = visual.TextStim(win=win, text="+", height=float(.08), color='black')
-                fixation.draw()
-                win.update()
-
-                # play sound until escape
-                sd.play(data_cropped, ab2_fs)
-                is_running = 1
-                time_start = clock.getTime()
-                while ((clock.getTime() - time_start) < t_play) and is_running:
-                    core.wait(5)
-                    keys_list = event.getKeys()
-                    if any("escape" in key for key in keys_list):
-                        print('escaped')
-                        duration_played = clock.getTime() - time_start
-                        writer.writerow([0, duration_played, 1, 'A'])
-                        ab2_towrite.close()
-                        is_running = 0
-                        sd.stop()
-                        win.update()
-
-                # regular finish if still running after 6 min
-                if is_running:
-                    sd.stop()
-                    writer.writerow([0, t_play, 1, 'A'])
-                    ab2_towrite.close()
-                    print('audio finished regularly')
-                    win.update()
-
-                # display inter-block instruction buffer
-                Txt.setText('End of task :)\n\nGet ready for the next sequence!')
-                Txt.draw()
-                win.flip()
-                core.wait(4)
+                audiobook_task('ab2', ab2_fpath, 0)
 
             ################################### Block 7 (cont'd): ES4 #############################################
 
