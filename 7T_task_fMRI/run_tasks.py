@@ -454,7 +454,8 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: French' + '\nprotocol: I')
                 outFile.close()
-                #self.popup6()
+                self.protocol_day = 1
+                #self.popup5()
             elif self.inner.FR.state=='down' and self.inner.PII.state=='down':
                 if os.path.isfile(outTmp):
                     os.remove(outTmp)
@@ -463,7 +464,19 @@ class GUI(App):
                               '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
                               '\nlanguage: French' + '\nprotocol: II')
                 outFile.close()
-                #self.popup7()
+                self.protocol_day = 2
+                #self.popup6()
+            elif self.inner.FR.state=='down' and self.inner.PIV.state=='down':
+                if os.path.isfile(outTmp):
+                    os.remove(outTmp)
+                outFile = open('tmp.txt', 'w')
+                outFile.write('ID:       ' + self.inner.sub.text +
+                              '\nsession:  ' + f'{int(self.inner.scan_sess.text):02}' +
+                              '\nlanguage: French' + '\nprotocol: IV')
+                outFile.close()
+                self.protocol_day = 4
+                print('French Day 4 not implemented!')
+                #self.popup8()
 
     # execute tasks
     def start_tasks(self, buttPress):
