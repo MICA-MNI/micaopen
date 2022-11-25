@@ -8,6 +8,18 @@ currentDir = os.getcwd()
 clipDir_6min = currentDir + '/videos/6min_clips/'
 clipDir_3min = currentDir + '/videos/3min_clips/'
 
+
+# determine path for VLC binary
+path = os.path.normpath(currentDir)
+path = path.split(os.sep)
+
+if path[2] == 'neichert':
+    VLCBIN = '/Applications/VLC.app/Contents/MacOS/VLC'
+else:
+    print('vlcbin not defined')
+    sys.exit()
+
+
 # run paradigm
 def execute():
     
@@ -166,7 +178,8 @@ def execute():
         logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
 
         # display window & get size properties
-        win = visual.Window(fullscr=True, color=1, units='height')
+        #win = visual.Window(fullscr=True, color=1, units='height')
+        win = visual.Window(fullscr=False, color=1, units='height')
         win.mouseVisible = False
         win_width = win.size[0]
         win_height = win.size[1]
@@ -195,7 +208,8 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_6min + 'action_sniper_6min.mp4'
-            video = set_clip(win, clip, win_width)
+            t_clip = 6*60
+            #video = set_clip(win, clip, win_width)
             
             # launch scan
             Trigger(mainClock)
@@ -206,12 +220,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 1 (cont'd): ES1 ############################################
             
@@ -327,7 +339,8 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_6min + 'control_seedlings_6min.mp4'
-            video = set_clip(win, clip, win_width)
+            #video = set_clip(win, clip, win_width)
+            t_clip = 6*60
             
             # launch scan
             Trigger(mainClock)
@@ -338,12 +351,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
         
         ######################################## Block 2 (cont'd): ES2 ############################################
             
@@ -459,7 +470,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'action_bathroom.mp4'
-            video = set_clip(win, clip, win_width)
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             
             # launch scan
             Trigger(mainClock)
@@ -470,12 +483,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 3 (cont'd): ES3 ############################################
         
@@ -591,7 +602,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'action_caddy.mp4'
-            video = set_clip(win, clip, win_width)
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             
             # launch scan
             Trigger(mainClock)
@@ -602,12 +615,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 4 (cont'd): ES4 ############################################
 
@@ -723,8 +734,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_harsh.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -734,12 +746,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 5 (cont'd): ES5 ############################################
 
@@ -854,8 +864,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_pines.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -865,12 +876,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 6 (cont'd): ES6 ############################################
 
@@ -985,8 +994,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_spring.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -996,12 +1006,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 7 (cont'd): ES7 ############################################
         
@@ -1116,8 +1124,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'suspense_kirsten_gets_hit.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -1125,14 +1134,11 @@ def execute():
             print('\nBlock 8: suspense kirsten (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
-            # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 8 (cont'd): ES8 ############################################
         
