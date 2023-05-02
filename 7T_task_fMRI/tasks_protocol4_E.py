@@ -8,6 +8,7 @@ debugMode = True
 
 # run paradigm
 def execute():
+    # test
     # get GUI-generated info from tmp.txt file
     with open('tmp.txt') as f:
         inFile = f.readlines()
