@@ -264,7 +264,7 @@ class GUI(App):
         switches = []
         switch_lab = ['Action Sniper & ES1', 'Control Seedlings & ES2', 'Action Bathroom & ES3',
                       'Action Caddy & ES4', 'Control Harsh & ES5', 'Control Pines & ES6', 'Control Sping & ES7',
-                      'Suspense Kirsten & ES8']
+                      'Suspense Kirsten & ES8', 'RS & ES9']
         
         addFile = open('tmp.txt', 'a')
         for s in range(len(switch_lab)):
@@ -282,6 +282,7 @@ class GUI(App):
         switches[5].bind(active=self.switchBlock6)
         switches[6].bind(active=self.switchBlock7)
         switches[7].bind(active=self.switchBlock8)
+        switches[8].bind(active=self.switchBlock9)
         
         bgCol = (37/255, 121/255, 203/255, 1)
         mainPop.start = Button(text='S T A R T', font_size=18, bold=True, color='yellow',
@@ -396,6 +397,14 @@ class GUI(App):
                 print(line.rstrip().replace('Block8: True', 'Block8: False'))
             else:
                 print(line.rstrip().replace('Block8: False', 'Block8: True'))
+        fileinput.close()
+    
+    def switchBlock9(self, instance, value):
+        for line in fileinput.input('tmp.txt', inplace=True):
+            if not value:
+                print(line.rstrip().replace('Block9: True', 'Block9: False'))
+            else:
+                print(line.rstrip().replace('Block9: False', 'Block9: True'))
         fileinput.close()
 
     # 'Initialize' callback function
