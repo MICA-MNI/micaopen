@@ -5,8 +5,29 @@ os.system('clear')
 
 # define video directories
 currentDir = os.getcwd()
-clipDir_6min = currentDir + '/videos/6min_clips/'
-clipDir_3min = currentDir + '/videos/3min_clips/'
+
+# determine path for VLC binary and videos
+path = os.path.normpath(currentDir)
+path = path.split(os.sep)
+
+if path[2] == 'neichert':
+    clipDir_6min = currentDir + '/videos/6min_clips/'
+    clipDir_3min = currentDir + '/videos/3min_clips/'
+    VLCBIN = '/Applications/VLC.app/Contents/MacOS/VLC'
+elif path[2] == 'percy':
+    clipDir_6min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/6min_clips/'
+    clipDir_3min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/3min_clips/'
+    VLCBIN = '/usr/bin/vlc'
+elif path[2] == 'mica3':
+    clipDir_6min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/6min_clips/'
+    clipDir_3min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/3min_clips/'
+    VLCBIN = '/usr/bin/vlc'
+else:
+    clipDir_6min = currentDir + '/videos/6min_clips/'
+    clipDir_3min = currentDir + '/videos/3min_clips/'
+    print('vlcbin not defined')
+    sys.exit()
+
 
 # run paradigm
 def execute():
@@ -29,12 +50,13 @@ def execute():
                'Block5': inFile[8][8:-1],
                'Block6': inFile[9][8:-1],
                'Block7': inFile[10][8:-1],
-               'Block8': inFile[11][8:]}
+               'Block8': inFile[11][8:-1],
+               'Block9': inFile[12][8:]}
     
     # throw error if no sequence selected
     if  'False' in expInfo['Block1'] and 'False' in expInfo['Block2'] and 'False' in expInfo['Block3'] and \
         'False' in expInfo['Block4'] and 'False' in expInfo['Block5'] and 'False' in expInfo['Block6'] and \
-        'False' in expInfo['Block7'] and 'False' in expInfo['Block8']:
+        'False' in expInfo['Block7'] and 'False' in expInfo['Block8'] and 'False' in expInfo['Block9']:
         print('You must select at least one sequence to run')
 
     else:
@@ -72,6 +94,7 @@ def execute():
             print('Block 6:      control pines (3min) & experience sampling 6          ' + expInfo['Block6'])
             print('Block 7:      control spring (3min) & experience sampling 7         ' + expInfo['Block7'])
             print('Block 8:      suspense kirsten (3min) & experience sampling 8       ' + expInfo['Block8'])
+            print('Block 9:      resting state & experience sampling 9                 ' + expInfo['Block9'])
             print('-------------------------------------------------------------------------')
         
         # import experience sampling probes
@@ -167,6 +190,7 @@ def execute():
 
         # display window & get size properties
         win = visual.Window(fullscr=True, color=1, units='height')
+        #win = visual.Window(fullscr=False, color=1, units='height')
         win.mouseVisible = False
         win_width = win.size[0]
         win_height = win.size[1]
@@ -187,6 +211,7 @@ def execute():
         control_pines = ES6 = eval(expInfo['Block6'])
         control_spring = ES7 = eval(expInfo['Block7'])
         suspense_kirsten = ES8 = eval(expInfo['Block8'])
+        RS = ES9 = eval(expInfo['Block9'])
         
         ######################################## Block 1: Action Sniper (6min) ####################################
         
@@ -195,7 +220,8 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_6min + 'action_sniper_6min.mp4'
-            video = set_clip(win, clip, win_width)
+            t_clip = 6*60
+            #video = set_clip(win, clip, win_width)
             
             # launch scan
             Trigger(mainClock)
@@ -206,12 +232,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 1 (cont'd): ES1 ############################################
             
@@ -315,7 +339,7 @@ def execute():
             
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
         if  control_seedlings == ES2 == action_bathroom == ES3 == action_caddy == ES4 == control_harsh == ES5 == \
-            control_pines == ES6 == control_spring == ES7 == suspense_kirsten == ES8 == False:
+            control_pines == ES6 == control_spring == ES7 == suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -327,7 +351,8 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_6min + 'control_seedlings_6min.mp4'
-            video = set_clip(win, clip, win_width)
+            #video = set_clip(win, clip, win_width)
+            t_clip = 6*60
             
             # launch scan
             Trigger(mainClock)
@@ -338,12 +363,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
         
         ######################################## Block 2 (cont'd): ES2 ############################################
             
@@ -447,7 +470,7 @@ def execute():
 
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
         if  action_bathroom == ES3 == action_caddy == ES4 == control_harsh == ES5 == control_pines == ES6 == \
-            control_spring == ES7 == suspense_kirsten == ES8 == False:
+            control_spring == ES7 == suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -459,7 +482,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'action_bathroom.mp4'
-            video = set_clip(win, clip, win_width)
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             
             # launch scan
             Trigger(mainClock)
@@ -470,12 +495,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 3 (cont'd): ES3 ############################################
         
@@ -579,7 +602,7 @@ def execute():
 
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
         if  action_caddy == ES4 == control_harsh == ES5 == control_pines == ES6 == control_spring == ES7 == \
-            suspense_kirsten == ES8 == False:
+            suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -591,7 +614,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'action_caddy.mp4'
-            video = set_clip(win, clip, win_width)
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             
             # launch scan
             Trigger(mainClock)
@@ -602,12 +627,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 4 (cont'd): ES4 ############################################
 
@@ -711,7 +734,7 @@ def execute():
 
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
         if  control_harsh == ES5 == control_pines == ES6 == control_spring == ES7 == suspense_kirsten == \
-            ES8 == False:
+            ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -723,8 +746,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_harsh.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -734,12 +758,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 5 (cont'd): ES5 ############################################
 
@@ -842,7 +864,7 @@ def execute():
             core.wait(4)
 
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-        if  control_pines == ES6 == control_spring == ES7 == suspense_kirsten == ES8 == False:
+        if  control_pines == ES6 == control_spring == ES7 == suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -854,8 +876,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_pines.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -865,12 +888,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 6 (cont'd): ES6 ############################################
 
@@ -973,7 +994,7 @@ def execute():
             core.wait(4)
 
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-        if  control_spring == ES7 == suspense_kirsten == ES8 == False:
+        if  control_spring == ES7 == suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -985,8 +1006,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_spring.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -996,12 +1018,10 @@ def execute():
             print('---------------------------')
             
             # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 7 (cont'd): ES7 ############################################
         
@@ -1104,7 +1124,7 @@ def execute():
             core.wait(4)
 
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-        if  suspense_kirsten == ES8 == False:
+        if  suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
@@ -1116,8 +1136,9 @@ def execute():
             
             # set video clip & fit size to window
             clip = clipDir_3min + 'suspense_kirsten_gets_hit.mp4'
-            video = set_clip(win, clip, win_width)
-            
+            #video = set_clip(win, clip, win_width)
+            t_clip = 3*60
+
             # launch scan
             Trigger(mainClock)
             
@@ -1125,14 +1146,11 @@ def execute():
             print('\nBlock 8: suspense kirsten (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
-            # play video clip
-            while video.status != -1:
-                video.draw()
-                win.flip()
-                if event.getKeys(keyList=['escape']):
-                    video.status = -1
-                    sys.exit()
+
+            win.flip()
+            proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
+            time.sleep(t_clip)
+            proc.terminate()
 
         ######################################## Block 8 (cont'd): ES8 ############################################
         
@@ -1234,6 +1252,151 @@ def execute():
             win.flip()
             core.wait(4)
         
+        # go back to GUI if final sequence has not been selected, otherwise proceed to final sequence
+        if RS == False:
+            sys.exit()
+        else:
+            pass
+
+        ################################### Block 9: RS #######################################################
+
+        # create .csv log file for experience sampling 9
+        if RS:
+            # display block 9 sequence on console
+            print('\n\n\n\nBlock 9: RS')
+            print(str(datetime.datetime.now()))
+            print('---------------------------')
+
+            # display RS instructions
+            Txt.setText(open('RS/text/RS_instructions.txt', 'r').read())
+            Txt.draw()
+            win.flip()
+            event.waitKeys(keyList=['2', '3', '4'])
+
+            # launch scan
+            Trigger(mainClock)
+
+            # display RS fixation cross
+            RS_FixCross = visual.TextStim(win, name='RS fixation cross', text='+', font=sans, pos=(0, 0),
+                                          height=float(.16), color='gray')
+            RS_FixCross.draw()
+            win.flip()
+
+            # get onset time of gray fixation cross
+            fixOn = mainClock.getTime()
+
+            # display fixation for six minutes
+            RS_scanDur = 360
+            fixDur = fixOn + RS_scanDur
+            core.wait(fixDur)
+            # event.waitKeys(keyList=['escape'])
+
+            # display end of task screen
+            Txt.setText('End of task :)\n\nGet ready for the next sequence!')
+            Txt.draw()
+            win.flip()
+            core.wait(4)
+
+        ################################### Block 9 (cont'd): ES9 #############################################
+
+        # create .csv log file for experience sampling 9
+        if ES9:
+            task_lab = '_es9'
+            prevRuns = glob.glob(rootLog + '/*' + task_lab + '*')
+            if prevRuns:
+                prevRuns.sort()
+                numRun = len(prevRuns)
+                newRun = str('{:02d}'.format(int(prevRuns[numRun - 1][-6:-4]) + 1))
+                ES9_csvFile = prevRuns[numRun - 1][:-6] + newRun + '.csv'
+            else:
+                ES9_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
+                              '_run-01.csv'
+            with open(ES9_csvFile, 'w') as w_ES9:
+                writer = csv.writer(w_ES9)
+                writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
+                                 'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
+
+        # run ES9 if flag is True
+        if ES9:
+            # initialize important task variables
+            shuffle(fix_dur_ES)
+            iters_ES = range(0, n_trial_ES)
+            ES9_trials = list(iters_ES)
+            probe = visual.TextStim(win, color='black', height=.05)
+
+            # display ES9 instructions
+            Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
+            Txt.draw()
+            win.flip()
+            event.waitKeys(keyList=['2', '3', '4'])
+
+            # launch scan
+            Trigger(mainClock)
+
+            # display block 9 sequence on console
+            print('\nBlock 9 (continued): ES9')
+            print(str(datetime.datetime.now()))
+            print('---------------------------')
+
+            # randomize trial order
+            shuffle(trialList_ES)
+
+            # run ES9 loop
+            for idx in ES9_trials:
+
+                # get trial-specific probe labels
+                Lab = trialList_ES[idx]['labels']
+
+                # define rating scale parameters
+                rating_scale = visual.RatingScale(win, scale=None, low=0, high=10, markerStart=5, leftKeys='2',
+                                                  rightKeys='4', acceptKeys='3', labels=Lab,
+                                                  tickMarks=['0', '10'], tickHeight=1, maxTime=6,
+                                                  markerColor='red', textColor='black', textSize=.75,
+                                                  stretch=2.5, noMouse=True, lineColor='#3355FF',
+                                                  marker='triangle', showValue=False, precision=10,
+                                                  showAccept=False, disappear=True)
+
+                # record trial number, question, dimension, low/high rates
+                trial_num = idx + 1
+                question = trialList_ES[idx]['question']
+                dimension = trialList_ES[idx]['dimension']
+                low_end = trialList_ES[idx]['low_end']
+                high_end = trialList_ES[idx]['high_end']
+
+                # display fixation cross and record its onset
+                fixStart = FixationCross(mainClock, fix_dur_ES, idx)
+
+                # display probe
+                Probe = MindProbe(mainClock, idx)
+
+                # record subject response, reaction time, response time, & confirmation of response status
+                SR = rating_scale.getRating()
+                RT = rating_scale.getRT()
+                respT = Probe + RT
+                if RT <= 6:
+                    confirmation_status = 'response confirmed:'
+                else:
+                    confirmation_status = 'response not confirmed:'
+
+                # print trial info on console
+                ProbePrint(trial_num, dimension, question, SR)
+
+                # log complete trial info in csv file
+                with open(ES9_csvFile, 'a') as a_ES9:
+                    writer = csv.writer(a_ES9)
+                    writer.writerow([fixStart, trial_num, 'ON', Probe - fixStart, '--', '--', '--', '--', '--',
+                                     '--'])
+                    writer.writerow([Probe, trial_num, 'OFF', '--', question, dimension, low_end, high_end,
+                                     '--', '--'])
+                    writer.writerow([respT, trial_num, 'OFF', '--', '--', '--', '--', '--', SR, RT])
+                    writer.writerow(['', '', '', '', '', '', '', '', '', ''])
+
+            # display inter-block instruction buffer
+            Txt.setText('End of protocol.')
+            Txt.draw()
+            win.flip()
+            core.wait(4)
+
         # end of English protocol III
         sys.exit()
 
