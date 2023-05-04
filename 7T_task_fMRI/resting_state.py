@@ -3,6 +3,8 @@ from rs_dependencies import *
 
 os.system('clear')
 
+fullscreen = False
+
 # define video directories
 currentDir = os.getcwd()
 
@@ -189,8 +191,7 @@ def execute():
         logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
 
         # display window & get size properties
-        win = visual.Window(fullscr=True, color=1, units='height')
-        #win = visual.Window(fullscr=False, color=1, units='height')
+        win = visual.Window(fullscr=fullscreen, color=1, units='height')
         win.mouseVisible = False
         win_width = win.size[0]
         win_height = win.size[1]
