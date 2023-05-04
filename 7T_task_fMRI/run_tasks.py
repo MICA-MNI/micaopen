@@ -304,8 +304,7 @@ class GUI(App):
         pop.cols = 2
 
         switches = []
-        switch_lab = ['semphon 1 & ES1', 'qT1', 'semphon 2 & ES2', 'T2*', 'audiobook 1 & ES3', 'DWI', 'audiobook 2 & ES4',
-                      'RS & ES5']
+        switch_lab = ['semphon 1 & ES1', 'qT1', 'semphon 2 & ES2', 'T2*', 'audiobook 1 & ES3', 'MT', 'audiobook 2 & ES4', 'RS & ES5' ]
 
         addFile = open('tmp.txt', 'a')
         for s in range(len(switch_lab)):
