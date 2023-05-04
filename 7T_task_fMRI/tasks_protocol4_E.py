@@ -3,7 +3,7 @@ from task_dependencies import *
 
 warnings.filterwarnings(action='ignore')
 
-debugMode = True
+fullscreen = False
 
 
 # run paradigm
@@ -50,7 +50,7 @@ def execute():
             print('Block 3:      semphon 2 & experience sampling 2                      ' + expInfo['Block3'])
             print('Block 4:      T2*-weighted imaging                                  ' + expInfo['Block4'])
             print('Block 5:      audiobook 1 & experience sampling 3    ' + expInfo['Block5'])
-            print('Block 6:      diffusion-weighted imaging                            ' + expInfo['Block6'])
+            print('Block 6:      MT scan                                ' + expInfo['Block6'])
             print('Block 7:      audiobook 2 & experience sampling 4    ' + expInfo['Block7'])
             print('Block 8:      resting state & experience sampling 5                 ' + expInfo['Block8'])
             print('-------------------------------------------------------------------------')
@@ -432,10 +432,7 @@ def execute():
             logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
 
             # display window
-            if debugMode:
-                win = visual.Window(fullscr=False, color=1, units='height')
-            else:
-                win = visual.Window(fullscr=True, color=1, units='height')
+            win = visual.Window(fullscr=fullscreen, color=1, units='height')
             win.mouseVisible = False
 
             # text and fixation features
