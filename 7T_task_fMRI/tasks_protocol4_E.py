@@ -5,6 +5,9 @@ warnings.filterwarnings(action='ignore')
 
 fullscreen = False
 
+currentDir = os.getcwd()
+path = os.path.normpath(currentDir)
+path = path.split(os.sep)
 if path[2] == 'neichert':
     audiobookdir = currentDir + '/audiobook'
 elif path[2] == 'percy':
@@ -76,7 +79,7 @@ def execute():
 
             # audiobook filepath
             ab1_fpath = f'{audiobookdir}/stimuli_DownTheRabbitHoleFinal_mono_exp120_NR16_pad.wav'
-            ab2_fpath = f'{audiobookdir}'/stimuli_task-lppEN_section-1.wav'
+            ab2_fpath = f'{audiobookdir}/stimuli_task-lppEN_section-1.wav'
 
             # create subject-specific directory to keep logs
             rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'
@@ -429,7 +432,7 @@ def execute():
             semphon2 = ES2 = eval(expInfo['Block3'])
             T2star = eval(expInfo['Block4'])
             AB1 = ES3 = eval(expInfo['Block5'])
-            DWI = eval(expInfo['Block6'])
+            MT = eval(expInfo['Block6'])
             AB2 = ES4 = eval(expInfo['Block7'])
             RS = ES5 = eval(expInfo['Block8'])
 
@@ -591,7 +594,7 @@ def execute():
                 core.wait(4)
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if qT1 == semphon2 == T2star == AB1 == DWI == AB2 == RS == False:
+            if qT1 == semphon2 == T2star == AB1 == MT == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
@@ -610,7 +613,7 @@ def execute():
                 event.waitKeys(keyList=['escape'])
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if semphon2 == T2star == AB1 == DWI == AB2 == RS == False:
+            if semphon2 == T2star == AB1 == MT == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
@@ -754,7 +757,7 @@ def execute():
                 core.wait(4)
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if T2star == AB1 == DWI == AB2 == RS == False:
+            if T2star == AB1 == MT == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
@@ -774,7 +777,7 @@ def execute():
                 event.waitKeys(keyList=['escape'])
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if AB1 == DWI == AB2 == RS == False:
+            if AB1 == MT == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
@@ -883,15 +886,15 @@ def execute():
                 core.wait(4)
 
             # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
-            if DWI == AB2 == RS == False:
+            if MT == AB2 == RS == False:
                 sys.exit()
             else:
                 pass
 
-            ################################### Block 6: DWI ######################################################
-            if DWI:
+            ################################### Block 6: MT ######################################################
+            if MT:
                 # display block 4 sequence on console
-                print('\n\n\n\nBlock 6: DWI')
+                print('\n\n\n\nBlock 6: MT')
                 print(str(datetime.datetime.now()))
                 print('---------------------------')
 
