@@ -5,6 +5,16 @@ warnings.filterwarnings(action='ignore')
 
 debugMode = True
 
+if path[2] == 'neichert':
+    audiobookdir = currentDir + '/audiobook'
+elif path[2] == 'percy':
+    audiobookdir = '/data/mica3/7T_task_fMRI/audiobooks'
+    VLCBIN = '/usr/bin/vlc'
+elif path[2] == 'mica3':
+    audiobookdir = '/data/mica3/7T_task_fMRI/audiobooks'
+else:
+    audiobookdir = currentDir + '/audiobook'
+
 
 # run paradigm
 def execute():
@@ -65,8 +75,8 @@ def execute():
             words_Vi = pd.read_excel('semphon/stimuli/stimuli.xlsx', 'Visually')
 
             # audiobook filepath
-            ab1_fpath = 'audiobook/stimuli_DownTheRabbitHoleFinal_mono_exp120_NR16_pad.wav'
-            ab2_fpath = 'audiobook/stimuli_task-lppEN_section-1.wav'
+            ab1_fpath = f'{audiobookdir}/stimuli_DownTheRabbitHoleFinal_mono_exp120_NR16_pad.wav'
+            ab2_fpath = f'{audiobookdir}'/stimuli_task-lppEN_section-1.wav'
 
             # create subject-specific directory to keep logs
             rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'

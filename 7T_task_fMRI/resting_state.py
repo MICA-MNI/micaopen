@@ -15,12 +15,12 @@ if path[2] == 'neichert':
     clipDir_3min = currentDir + '/videos/3min_clips/'
     VLCBIN = '/Applications/VLC.app/Contents/MacOS/VLC'
 elif path[2] == 'percy':
-    clipDir_6min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/6min_clips/'
-    clipDir_3min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/3min_clips/'
+    clipDir_6min = '/data/mica3/7T_task_fMRI/videos/6min_clips/'
+    clipDir_3min = '/data/mica3/7T_task_fMRI/videos/3min_clips/'
     VLCBIN = '/usr/bin/vlc'
 elif path[2] == 'mica3':
-    clipDir_6min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/6min_clips/'
-    clipDir_3min = '/data/mica3/7T_task_fMRI/7T_task_fMRI/videos/3min_clips/'
+    clipDir_6min = '/data/mica3/7T_task_fMRI/videos/6min_clips/'
+    clipDir_3min = '/data/mica3/7T_task_fMRI/videos/3min_clips/'
     VLCBIN = '/usr/bin/vlc'
 else:
     clipDir_6min = currentDir + '/videos/6min_clips/'
@@ -31,11 +31,11 @@ else:
 
 # run paradigm
 def execute():
-    
+
     # get GUI-generated info from tmp.txt file
     with open('tmp.txt') as f:
         inFile = f.readlines()
-    
+
     # general info
     expInfo = {'ID': inFile[0][10:-1],
                'session': inFile[1][10:-1],
@@ -52,7 +52,7 @@ def execute():
                'Block7': inFile[10][8:-1],
                'Block8': inFile[11][8:-1],
                'Block9': inFile[12][8:]}
-    
+
     # throw error if no sequence selected
     if  'False' in expInfo['Block1'] and 'False' in expInfo['Block2'] and 'False' in expInfo['Block3'] and \
         'False' in expInfo['Block4'] and 'False' in expInfo['Block5'] and 'False' in expInfo['Block6'] and \
@@ -64,10 +64,10 @@ def execute():
         def Trigger(clock):
             Txt.setText('waiting for scanner...')
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['5'])
             clock.reset()
-        
+
         # define video settings function
         def set_clip(win, clip, win_width):
             video = visual.MovieStim3(win, filename=clip)
@@ -83,7 +83,7 @@ def execute():
         if expInfo['language'] == 'English' and expInfo['protocol'] == 'III':
             print('\n\n\n\n-------------------------------------------------------------------------')
             print('ID:           ' + expInfo['ID'])
-            print('Session:      ' + expInfo['session']) 
+            print('Session:      ' + expInfo['session'])
             print('Language:     ' + expInfo['language'])
             print('Protocol:     ' + expInfo['protocol'])
             print('Block 1:      action sniper (6min) & experience sampling 1          ' + expInfo['Block1'])
@@ -96,22 +96,22 @@ def execute():
             print('Block 8:      suspense kirsten (3min) & experience sampling 8       ' + expInfo['Block8'])
             print('Block 9:      resting state & experience sampling 9                 ' + expInfo['Block9'])
             print('-------------------------------------------------------------------------')
-        
+
         # import experience sampling probes
         trialList_ES = data.importConditions('exp_sampling/ES_trials.csv')
-        
+
         # create list of variable fixation cross durations for ES blocks
         n_trial_ES = len(trialList_ES)
         fix_increment_ES = 1 / (n_trial_ES - 1)
         range_trial_ES = range(0, n_trial_ES)
         fix_dur_ES = [2 + (x * fix_increment_ES) for x in range_trial_ES]
-        
+
         # create subject-specific directory to keep logs
         rootLog = 'logs/sub-' + expInfo['ID'] + '/ses-' + expInfo['session'] + '/beh'
-        
+
         if not os.path.isdir(rootLog):
                 os.makedirs(rootLog)
-        
+
         # define functions for ES
         def FixationCross(clock, fix_dur, trialNum):
             fixation.draw()
@@ -123,7 +123,7 @@ def execute():
                 sys.exit()
             event.clearEvents()
             return fixation_onset
-        
+
         def MindProbe(clock, idx):
             flag = 1
             inc = 0.1
@@ -149,7 +149,7 @@ def execute():
                     probe_onset = clock.getTime()
                     flag = 0
             return probe_onset
-        
+
         def ProbePrint(trialNum, Dim, Quest, SR):
             n_letters = len('intrusiveness')
             n_chars = len('My thoughts were focused on an external task or activity.')
@@ -166,9 +166,9 @@ def execute():
                 elif Dim == 'focus':
                     print('trial', trial_num, ' |', dimension, Space1*empty,'|', question, '|',
                   confirmation_status, SR, '(0-10)')
-                else:    
+                else:
                     print('trial', trial_num, ' |', dimension, Space1*empty, '|', question, Space2*empty, '|',
-                  confirmation_status, SR, '(0-10)')                                
+                  confirmation_status, SR, '(0-10)')
             else:
                 if Dim == 'intrusiveness':
                     print('trial', trial_num, '|', dimension, '|', question, Space2*empty, '|',
@@ -179,12 +179,12 @@ def execute():
                 else:
                     print('trial', trial_num, '|', dimension, Space1*empty, '|', question, Space2*empty, '|',
                   confirmation_status, SR, '(0-10)')
-        
+
         # set up main clock & logging features
         mainClock = core.Clock()
         logging.setDefaultClock(mainClock)
         logging.console.setLevel(logging.ERROR)
-            
+
         log_filename = rootLog + '/sub-' +  expInfo['ID'] + '_ses-' + expInfo['session'] + '_' + expInfo['date']
         logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
 
@@ -194,14 +194,14 @@ def execute():
         win.mouseVisible = False
         win_width = win.size[0]
         win_height = win.size[1]
-        
+
         # text and fixation features
         sans = ['Arial', 'Gill Sans MT', 'Helvetica', 'Verdana']
         Txt = visual.TextStim(win, name='instruction', text='default text', font=sans, pos=(0, 0),
                               height=float(.04), wrapWidth=1100, color='black')
         fixation = visual.TextStim(win, name='fixation', text='+', font=sans, pos=(0, 0), height=float(.08),
                                    color='black')
-        
+
         # define inter-block flags
         action_sniper = ES1 = eval(expInfo['Block1'])
         control_seedlings = ES2 = eval(expInfo['Block2'])
@@ -212,25 +212,25 @@ def execute():
         control_spring = ES7 = eval(expInfo['Block7'])
         suspense_kirsten = ES8 = eval(expInfo['Block8'])
         RS = ES9 = eval(expInfo['Block9'])
-        
+
         ######################################## Block 1: Action Sniper (6min) ####################################
-        
+
         # run action_sniper if flag is True
         if action_sniper:
-            
+
             # set video clip & fit size to window
             clip = clipDir_6min + 'action_sniper_6min.mp4'
             t_clip = 6*60
             #video = set_clip(win, clip, win_width)
-            
+
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 1 sequence on console
             print('\nBlock 1: action sniper (6min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
@@ -238,7 +238,7 @@ def execute():
             proc.terminate()
 
         ######################################## Block 1 (cont'd): ES1 ############################################
-            
+
         # create .csv log file for experience sampling 1
         if ES1:
             task_lab = '_es1'
@@ -250,12 +250,12 @@ def execute():
                 ES1_csvFile = prevRuns[numRun-1][:-6] + newRun + '.csv'
             else:
                 ES1_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
-                              '_run-01.csv'          
+                              '_run-01.csv'
             with open(ES1_csvFile, 'w') as w_ES1:
                 writer = csv.writer(w_ES1)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES1 if flag is True
         if ES1:
             # initialize important task variables
@@ -267,7 +267,7 @@ def execute():
             # display ES1 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -295,7 +295,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -305,7 +305,7 @@ def execute():
 
                 # display fixation cross and record its onset
                 fixStart = FixationCross(mainClock, fix_dur_ES, idx)
-                
+
                 # display probe
                 Probe = MindProbe(mainClock, idx)
 
@@ -336,40 +336,40 @@ def execute():
             Txt.draw()
             win.flip()
             core.wait(4)
-            
+
         # go back to GUI if no other sequence has been selected, otherwise proceed to next sequence
         if  control_seedlings == ES2 == action_bathroom == ES3 == action_caddy == ES4 == control_harsh == ES5 == \
             control_pines == ES6 == control_spring == ES7 == suspense_kirsten == ES8 == RS == False:
             sys.exit()
         else:
             pass
-        
+
         ######################################## Block 2: Control Seedlings (6min) ################################
-        
+
         # run control_seedlings if flag is True
         if control_seedlings:
-            
+
             # set video clip & fit size to window
             clip = clipDir_6min + 'control_seedlings_6min.mp4'
             #video = set_clip(win, clip, win_width)
             t_clip = 6*60
-            
+
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 2 sequence on console
             print('\nBlock 2: control seedlings (6min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
             time.sleep(t_clip)
             proc.terminate()
-        
+
         ######################################## Block 2 (cont'd): ES2 ############################################
-            
+
         # create .csv log file for experience sampling 2
         if ES2:
             task_lab = '_es2'
@@ -386,7 +386,7 @@ def execute():
                 writer = csv.writer(w_ES2)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES2 if flag is True
         if ES2:
             # initialize important task variables
@@ -398,7 +398,7 @@ def execute():
             # display ES2 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -476,24 +476,24 @@ def execute():
             pass
 
         ######################################## Block 3: Action Bathroom (3min) ##################################
-        
+
         # run action_bathroom if flag is True
         if action_bathroom:
-            
+
             # set video clip & fit size to window
             clip = clipDir_3min + 'action_bathroom.mp4'
             #video = set_clip(win, clip, win_width)
             t_clip = 3*60
 
-            
+
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 3 sequence on console
             print('\nBlock 3: action bathroom (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
@@ -501,7 +501,7 @@ def execute():
             proc.terminate()
 
         ######################################## Block 3 (cont'd): ES3 ############################################
-        
+
         # create .csv log file for experience sampling 3
         if ES3:
             task_lab = '_es3'
@@ -513,12 +513,12 @@ def execute():
                 ES3_csvFile = prevRuns[numRun-1][:-6] + newRun + '.csv'
             else:
                 ES3_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
-                              '_run-01.csv'            
+                              '_run-01.csv'
             with open(ES3_csvFile, 'w') as w_ES3:
                 writer = csv.writer(w_ES3)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES3 if flag is True
         if ES3:
             # initialize important task variables
@@ -530,7 +530,7 @@ def execute():
             # display ES3 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -558,7 +558,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -608,24 +608,24 @@ def execute():
             pass
 
         ######################################## Block 4: Action Caddy (3min) #####################################
-        
+
         # run action_caddy if flag is True
         if action_caddy:
-            
+
             # set video clip & fit size to window
             clip = clipDir_3min + 'action_caddy.mp4'
             #video = set_clip(win, clip, win_width)
             t_clip = 3*60
 
-            
+
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 4 sequence on console
             print('\nBlock 4: action caddy (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
@@ -650,7 +650,7 @@ def execute():
                 writer = csv.writer(w_ES4)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES4 if flag is True
         if ES4:
             # initialize important task variables
@@ -662,7 +662,7 @@ def execute():
             # display ES4 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -690,7 +690,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -740,10 +740,10 @@ def execute():
             pass
 
         ######################################## Block 5: Control Harsh (3min) ####################################
-        
+
         # run control_harsh if flag is True
         if control_harsh:
-            
+
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_harsh.mp4'
             #video = set_clip(win, clip, win_width)
@@ -751,12 +751,12 @@ def execute():
 
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 5 sequence on console
             print('\nBlock 5: control harsh (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
@@ -776,12 +776,12 @@ def execute():
                 ES5_csvFile = prevRuns[numRun-1][:-6] + newRun + '.csv'
             else:
                 ES5_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
-                              '_run-01.csv'            
+                              '_run-01.csv'
             with open(ES5_csvFile, 'w') as w_ES5:
                 writer = csv.writer(w_ES5)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES5 if flag is True
         if ES5:
             # initialize important task variables
@@ -793,7 +793,7 @@ def execute():
             # display ES5 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -821,7 +821,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -870,10 +870,10 @@ def execute():
             pass
 
         ######################################## Block 6: Control Pines (3min) ####################################
-        
+
         # run control_pines if flag is True
         if control_pines:
-            
+
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_pines.mp4'
             #video = set_clip(win, clip, win_width)
@@ -881,12 +881,12 @@ def execute():
 
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 6 sequence on console
             print('\nBlock 6: control pines (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
@@ -906,12 +906,12 @@ def execute():
                 ES6_csvFile = prevRuns[numRun-1][:-6] + newRun + '.csv'
             else:
                 ES6_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
-                              '_run-01.csv'            
+                              '_run-01.csv'
             with open(ES6_csvFile, 'w') as w_ES6:
                 writer = csv.writer(w_ES6)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES6 if flag is True
         if ES6:
             # initialize important task variables
@@ -923,7 +923,7 @@ def execute():
             # display ES6 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -951,7 +951,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -1000,10 +1000,10 @@ def execute():
             pass
 
         ######################################## Block 7: Control Spring (3min) ###################################
-        
+
         # run control_spring if flag is True
         if control_spring:
-            
+
             # set video clip & fit size to window
             clip = clipDir_3min + 'control_spring.mp4'
             #video = set_clip(win, clip, win_width)
@@ -1011,12 +1011,12 @@ def execute():
 
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 7 sequence on console
             print('\nBlock 7: control spring (3min)')
             print(str(datetime.datetime.now()))
             print('---------------------------')
-            
+
             # play video clip
             win.flip()
             proc = subprocess.Popen([f'{VLCBIN} {clip}'], shell=True)
@@ -1024,7 +1024,7 @@ def execute():
             proc.terminate()
 
         ######################################## Block 7 (cont'd): ES7 ############################################
-        
+
         # create .csv log file for experience sampling 7
         if ES7:
             task_lab = '_es7'
@@ -1036,12 +1036,12 @@ def execute():
                 ES7_csvFile = prevRuns[numRun-1][:-6] + newRun + '.csv'
             else:
                 ES7_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
-                              '_run-01.csv'            
+                              '_run-01.csv'
             with open(ES7_csvFile, 'w') as w_ES7:
                 writer = csv.writer(w_ES7)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES7 if flag is True
         if ES7:
             # initialize important task variables
@@ -1053,7 +1053,7 @@ def execute():
             # display ES7 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -1081,7 +1081,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -1130,10 +1130,10 @@ def execute():
             pass
 
         ######################################## Block 8: Suspense Kirsten (3min) #################################
-        
+
         # run control_spring if flag is True
         if suspense_kirsten:
-            
+
             # set video clip & fit size to window
             clip = clipDir_3min + 'suspense_kirsten_gets_hit.mp4'
             #video = set_clip(win, clip, win_width)
@@ -1141,7 +1141,7 @@ def execute():
 
             # launch scan
             Trigger(mainClock)
-            
+
             # display block 8 sequence on console
             print('\nBlock 8: suspense kirsten (3min)')
             print(str(datetime.datetime.now()))
@@ -1153,7 +1153,7 @@ def execute():
             proc.terminate()
 
         ######################################## Block 8 (cont'd): ES8 ############################################
-        
+
         # create .csv log file for experience sampling 8
         if ES8:
             task_lab = '_es8'
@@ -1165,12 +1165,12 @@ def execute():
                 ES8_csvFile = prevRuns[numRun-1][:-6] + newRun + '.csv'
             else:
                 ES8_csvFile = rootLog + '/sub-' + expInfo['ID'] + '_ses-' + expInfo['session'] + task_lab + \
-                              '_run-01.csv'            
+                              '_run-01.csv'
             with open(ES8_csvFile, 'w') as w_ES8:
                 writer = csv.writer(w_ES8)
                 writer.writerow(['Time', 'Trial_Number', 'Fixation', 'Fixation_Duration', 'Question',
                                  'Dimension', 'Low_end', 'High_end', 'Subject_Response', 'Reaction_Time'])
-        
+
         # run ES8 if flag is True
         if ES8:
             # initialize important task variables
@@ -1182,7 +1182,7 @@ def execute():
             # display ES8 instructions
             Txt.setText(open('exp_sampling/text/ES_instructions.txt', 'r').read())
             Txt.draw()
-            win.flip()    
+            win.flip()
             event.waitKeys(keyList=['2','3','4'])
 
             # launch scan
@@ -1210,7 +1210,7 @@ def execute():
                                                   stretch=2.5, noMouse=True, lineColor='#3355FF',
                                                   marker='triangle', showValue=False, precision=10,
                                                   showAccept=False, disappear=True)
-                
+
                 # record trial number, question, dimension, low/high rates
                 trial_num = idx + 1
                 question = trialList_ES[idx]['question']
@@ -1251,7 +1251,7 @@ def execute():
             Txt.draw()
             win.flip()
             core.wait(4)
-        
+
         # go back to GUI if final sequence has not been selected, otherwise proceed to final sequence
         if RS == False:
             sys.exit()
