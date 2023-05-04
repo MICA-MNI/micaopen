@@ -3,6 +3,7 @@ from task_dependencies import *
 
 warnings.filterwarnings(action='ignore')
 
+fullscreen=False
 # run paradigm
 def execute():
     
@@ -355,7 +356,7 @@ def execute():
             logFile = logging.LogFile(log_filename + '.log', level=logging.EXP)
     
             # display window
-            win = visual.Window(fullscr=True, color=1, units='height')
+            win = visual.Window(fullscr=fullscreen, color=1, units='height')
             win.mouseVisible = False
             
             # text and fixation features
