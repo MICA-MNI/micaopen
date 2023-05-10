@@ -3,7 +3,7 @@ from task_dependencies import *
 
 warnings.filterwarnings(action='ignore')
 
-fullscreen=False
+fullscreen = True
 # run paradigm
 def execute():
     

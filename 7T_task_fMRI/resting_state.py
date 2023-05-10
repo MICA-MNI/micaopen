@@ -3,7 +3,7 @@ from rs_dependencies import *
 
 os.system('clear')
 
-fullscreen = False
+fullscreen = True
 
 # define video directories
 currentDir = os.getcwd()
