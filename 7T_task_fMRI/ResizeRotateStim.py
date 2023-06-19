@@ -6,9 +6,15 @@ from PIL import Image
 from psychopy import data
 
 # import stimuli
+<<<<<<< HEAD
 root_dir = "/Users/shahin/Desktop/7T_task_fMRI/spatial/"
 src_dir = root_dir + "tmp/"
 img_dir = root_dir + "tmp_rescaled/"
+=======
+root_dir = "/Users/shahin/Desktop/"
+src_dir = root_dir + "ListA_2/"
+img_dir = root_dir + "ListA_2/"
+>>>>>>> 7ae0d61751806133976585704cf4466e92885f5b
 
 # create list of rotation angles (ie, [-45, -15] U [15, 45])
 ang1 = range(15, 46)

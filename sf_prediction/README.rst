@@ -13,8 +13,8 @@ This repo contains code for our work on the prediction of brain function from th
 
 Manuscript
 ~~~~~~~~~~
-Benkarim O, Paquola C, Park B, Royer J, Rodríguez-Cruces R, Vos de Wael R, Misic B, Piella G, Bernhardt B. (2021) *A Riemannian approach to predicting brain function from the structural
-connectome*. Under review
+Benkarim O, Paquola C, Park B, Royer J, Rodríguez-Cruces R, Vos de Wael R, Misic B, Piella G, Bernhardt B. (2022) *A Riemannian approach to predicting brain function from the structural
+connectome*. NeuroImage 257, 119299. https://doi.org/10.1016/j.neuroimage.2022.119299.
 
 
 Code
@@ -35,7 +35,7 @@ Dependencies
 * `pandas <https://nipy.org/nibabel/index.html>`_
 * `scikit-learn <https://scikit-learn.org/stable/>`_
 * `brainspace <https://brainspace.readthedocs.io/en/latest/index.html>`_
-* `pymanopt <https://www.pymanopt.org/>`_
+* `pymanopt=0.2.5 <https://www.pymanopt.org/>`_
 
 
 The code was tested in Python 3.7-3.9.
