@@ -78,13 +78,13 @@ def execute():
                 # note that it loops from 0 to 9
                 if 'A' in condition:
                     words = word_lists_Ho
-                    condition_instruction = "Do the words SOUND the same?"
+                    condition_instruction = "Do the words SOUND the same?\n\n(press 2 for YES, 4 for NO)"
                 elif 'B' in condition:
                     words = word_lists_Sy
-                    condition_instruction = "Do the words MEAN the same?"
+                    condition_instruction = "Do the words MEAN the same?\n\n(press 2 for YES, 4 for NO)"
                 elif 'C' in condition:
                     words = word_lists_Vi
-                    condition_instruction = "Do the words LOOK the same?"
+                    condition_instruction = "Do the words LOOK the same?\n\n(press 2 for YES, 4 for NO)"
                 elif condition == 'D':
                     condition_instruction = "Rest"
 
