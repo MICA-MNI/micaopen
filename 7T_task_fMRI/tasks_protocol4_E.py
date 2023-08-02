@@ -276,6 +276,10 @@ def execute():
 
                                 writer.writerow([np.round(onsettime, 3), t_trial, trial_number_tot, condition[0], RT, word1, word2,
                                                  expected_answer, given_answer])
+                                if expected_answer == given_answer:
+                                    print(f'correct')
+                                else:
+                                    print('incorrect or missing response')
                                 core.wait(t_trial - (clock.getTime() - time_start_trial))
 
                         # rest-block
