@@ -21,32 +21,38 @@ elif path[2] == 'mica3':
 else:
     audiobookdir = currentDir + '/audiobook'
 
-# assuming session for semphon is always 04
-ses = '04'
 
-# subjects to analyse (indicate which run to use for the two task blocks):
-# normally: ['01', '01']
+# condition names:
+conditions = {'A': 'phonological',
+              'B': 'semantic',
+              'C': 'visual',
+              'D': 'Rest'}
 
-subs_run_dict = {'PNC013': ['01', '01']}
+colors = {'phonological': "#F28E2B", 'semantic': "#4E79A7", 'visual': "#79706E"}
+
+# subjects to analyse
+# indicate which sssion and runs to use for the two task blocks):
+# normally: ('04',['01', '01'])
+subs_run_dict = {'PNC013': ('04', ['01', '01'])}
 
 log_all = pd.DataFrame()
-for (sub, runs_list) in subs_run_dict.items():
+for (sub, (ses, runs_list)) in subs_run_dict.items():
     for rep, run in enumerate(runs_list):
         # load logfile
         log_fpath = f'{rootLog}/sub-{sub}_ses-{ses}/beh/sub-{sub}_ses-{ses}_sp{rep+1}_run-{run}.tsv'
-
         if os.path.exists(log_fpath):
-
-            log = pd.read_table(log_fpath, sep='\t')
-            # add column for correct answer
+            log = pd.read_table(log_fpath, sep='\t', dtype={'RT': np.float64}, na_values=['-', 'nan'])
+            # minor procssing
+            log['Condition'] = log['Condition'].replace(conditions)
+            log = log[log['Condition']!='Rest']
             log['is_correct'] = log['Given_answer'] == log['Expected_answer']
             log['sub'] = sub
             log['run'] = run
-            log_all = log_all.append(log)
+            log_all = pd.concat([log_all, log], ignore_index=True)
         else:
             print(f'{log_fpath} not found. Skip.')
-
-# summary statistics per condition
+### Summary statistics
+# per condition
 RT = log_all.groupby('Condition')['RT'].mean().reset_index()
 p_correct = log_all.groupby( 'Condition')['is_correct'].value_counts(normalize=True)\
     .unstack(fill_value=0).stack() \
@@ -55,7 +61,7 @@ p_correct = log_all.groupby( 'Condition')['is_correct'].value_counts(normalize=T
 summary_per_condition = RT.merge(p_correct)
 print(summary_per_condition)
 
-# summary statistics per subject
+# per subject
 RT = log_all.groupby('sub')['RT'].mean().reset_index()
 p_correct = log_all.groupby('sub')['is_correct'].value_counts(normalize=True)\
     .unstack(fill_value=0).stack() \
@@ -65,12 +71,10 @@ p_correct = log_all.groupby('sub')['is_correct'].value_counts(normalize=True)\
 summary_per_subject = RT.merge(p_correct)
 print(summary_per_subject)
 
-# plot
+### Plotting
 fig, axes = plt.subplots(1, 2)
-
 # plot RT
-sns.barplot(data=log_all, x='Condition', y='RT', ax=axes[0])
-
+sns.barplot(data=log_all, x='Condition', y='RT', ax=axes[0], palette=colors)
 # plot percentage correct
 log_all.groupby('Condition')['is_correct'].value_counts(normalize=True)\
     .unstack(fill_value=0).stack() \
@@ -78,5 +82,4 @@ log_all.groupby('Condition')['is_correct'].value_counts(normalize=True)\
     .rename(columns={0: 'p_correct'})\
     .pipe((sns.barplot, "data"), ax=axes[1], x='Condition', y='p_correct')
 axes[1].set_ylim(0, 1)
-
-plt.plot()
+plt.show()
