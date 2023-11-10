@@ -71,15 +71,20 @@ p_correct = log_all.groupby('sub')['is_correct'].value_counts(normalize=True)\
 summary_per_subject = RT.merge(p_correct)
 print(summary_per_subject)
 
+<<<<<<< HEAD
 ### Plotting
-fig, axes = plt.subplots(1, 2)
 # plot RT
+
+fig, axes = plt.subplots(1, 2)
 sns.barplot(data=log_all, x='Condition', y='RT', ax=axes[0], palette=colors)
+axes[0].set_title('Reaction time (ms)')
+
 # plot percentage correct
 log_all.groupby('Condition')['is_correct'].value_counts(normalize=True)\
     .unstack(fill_value=0).stack() \
     .reset_index().query('is_correct==True').drop(['is_correct'], axis=1)\
     .rename(columns={0: 'p_correct'})\
-    .pipe((sns.barplot, "data"), ax=axes[1], x='Condition', y='p_correct')
+    .pipe((sns.barplot, "data"), ax=axes[1], x='Condition', y='p_correct', palette=colors)
 axes[1].set_ylim(0, 1)
+axes[1].set_title('% correct responses')
 plt.show()
