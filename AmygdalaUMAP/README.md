@@ -1,6 +1,6 @@
-# Amygdala Microstructure Analysis Workflow
+# FROM HISTOLOGY TO MACROSCALE FUNCTION IN THE HUMAN AMYGDALA 
 
-This workflow processes histological and MRI data to map variations in the regional microstructure of the amygdala. The following steps outline the entire process.
+The following data demonstrates the workflow processes for analysis of the human amygdala. From histology and MRI microstructure to functional networks. The following steps outline the entire process.
 
 ## Prerequisites
 
