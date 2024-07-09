@@ -5,7 +5,7 @@ This workflow processes histological and MRI data to map variations in the regio
 ## Prerequisites
 
 - BigBrain volume and subcortical segmentations (Xiao 2019)
-- Required software: Geany, MATLAB, Python, pyRadiomics, UMAP, etc.
+- Required software: Python
 
 # Amygdala Volume Analysis Pipeline
 
