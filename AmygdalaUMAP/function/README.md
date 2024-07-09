@@ -24,17 +24,19 @@ Extract the timeseries of each voxel in the amygdala mask in functional space.
 ### 6. Spike Regression
 Clean off spikes from data using Python.
 
-- Script: rsfmri_spike_regression.ipynb
+**Script:** `rsfmri_spike_regression.ipynb`
+
 
 ### 7. Extract Top and Bottom 25% of U1 and U2 Values
 Extract top 25% and bottom 25% of U1 and U2 values in the timeseries. Show functional networks of both amygdala regions and whole amygdala. Run the t-tests and get p-values for the connections from amygdala to the whole hemisphere.
 
-- Script: rsfmri_cortical_corr.ipynb
+**Script:** `rsfmri_cortical_corr.ipynb`
+
 
 ### 8. Translate Functional Correlations
 Translate the functional correlations with cortex into the 7 Yeo functional networks and plot differences.
 
-- Script: rsfmri_cortical_corr_yeo7.ipynb
+**Script:** `rsfmri_cortical_corr_yeo7.ipynb`
 
 ### 9. Meta-Analysis on Subjects
 Run meta-analysis on subjects and plot table and spider graph of top correlated words.
