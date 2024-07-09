@@ -1,4 +1,4 @@
-# Amygdala Microstructure Analysis Workflow
+# Histological analysis workflow
 
 This workflow processes histological and MRI data to map variations in the regional microstructure of the amygdala. The following steps outline the entire process.
 
