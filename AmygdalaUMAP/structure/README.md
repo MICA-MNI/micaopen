@@ -20,12 +20,6 @@ Get transformation matrix from nativepro T1 space to qT1map and bring amygdala s
 - **3. Clean Resampled Mask Borders**
 Clean resampled mask borders while overlayed on amygdala volume.
 
-- **Input:** 
-  - Amygdala Mask
-  - Amygdala T1 volume
-- **Output:** 
-  - Amygdala Mask
-
 **Tool:** `ITKSNAP`
 
 - **4. Binarize Mask**
