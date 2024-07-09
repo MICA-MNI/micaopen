@@ -22,8 +22,6 @@ Crop amygdala volumes from BIGBRAIN on each side of the brain, then resample mas
 - **2. Binarize Mask**
 Binarize the amygdala mask.
 
-**Script:** `binarize_mask.m`
-
 ### 3. Extract Radiomic Features
 Extract features of the amygdala at all moments and kernel sizes.
 
