@@ -1,45 +1,37 @@
 # Histological analysis workflow
 
-This workflow processes histological and MRI data to map variations in the regional microstructure of the amygdala. The following steps outline the entire process.
+This workflow decribes processing steps necessary to map variations in the regional cytoarchitecture of the amygdala.
 
 ## Prerequisites
 
-- BigBrain volume and subcortical segmentations (Xiao et al. 2019)
-- Julich probability maps (Amunts et al. 2020)
-- Required software: Python
-
-# Amygdala Volume Analysis Pipeline
-
-This repository contains scripts and instructions for processing and analyzing amygdala volumes from BIGBRAIN data.
+- BigBrain volume (100 micron; Amunts et al., 2013) and subcortical segmentations (Xiao et al. 2019)
+- Juelich probability maps (Amunts et al. 2020)
+- Required software: Python 
 
 ## Steps
 
-### Isolate and prep Amygdala volume from BIGBRAIN
+### Isolate and pre-process volumetric amygdala data from BigBrain
 
-- **1. Crop Amygdala Volumes**
-Crop amygdala volumes from BIGBRAIN on each side of the brain, then resample mask to fit with cropped volumes
+1. **Crop amygdala volumes**: Crop amygdala region from full BigBrain volume, independently for each hemisphere;
+2. **Resampling**: Resample mask to resolution of cropped volumes;
+3. **Binarize mask**: Binarize the amygdala mask.
 
-- **2. Binarize Mask**
-Binarize the amygdala mask.
+### Generate radiomics features
 
-### 3. Extract Radiomic Features
-Extract features of the amygdala at all moments and kernel sizes.
+4. **Feature extraction**: Radiomics features of the amygdala can be generated for all moments and kernel sizes.
 
 - **Input:** 
-  - Amygdala Mask
-  - BIGBRAIN volume
+  - Amygdala mask
+  - BigBrain volume
 - **Output:** 
-  - 20 different features
-
+  - Feature bank (n=20, 4 moments x 5 kernel sizes)
+ 
 **Script:** `3.test_radiomics.ipynb`
 
-### Align and process feature maps
+### Clean radiomics features for post-processing
 
-- **4. Resample Radiomic Outputs**
-Resample all pyradiomics outputs to have the same dimensions as origianl BIGBRAIN volume
-
-### 5. Create Feature Bank Matrix
-Put all the features into a pandas dataframe of all the moments (feature bank).
+5. **Clean radiomic feature outputs**: After generating features with pyradiomics, some feature outputs may have different sizes relative to the orginal input volume (due to padding). All volumes should be cropped to a consistent size.
+6. **Create feature bank matrix**: Put all features into a PANDAS dataframe of all the moments (feature bank).
 
 - **Input:** 
   - Feature volumes
@@ -48,65 +40,60 @@ Put all the features into a pandas dataframe of all the moments (feature bank).
 
 **Script:** `5.crop_featurebank.ipynb`
 
-### Retrieve and process Juelich probability maps of amygdala
+### Retrieve and process Juelich probability maps of the amygdala
 
-- **6. Generate Julich Probability Maps**
-Get the Julich probability map as a target for UMAP projections
+Note: probalbity maps are openly available on the ebrains repository: https://www.ebrains.eu/ 
 
-- **7. Register Julich Probability Maps**
-Register probabilistic maps to correct space.
+7. **Registration**: Register probability maps to BigBrain histological space.
+8. **Thresholding**: Apply thresholding (retain only top 5% of values) to the Juelich probability maps.
 
-- **8. Julich Threshold Probabilistic Maps**
-Apply thresholding to the Juelich probability maps.
-
-### 9. Generate UMAP Projections
-Generate UMAP projections
+### Generate UMAP Projections
 
 - **Input:** 
   - Amygdala mask
-  - BIGBRAIN volume
+  - Amygdala BigBrain volume
   - Feature bank
 - **Output:** 
-  - UMAP embeddings
-  - Juelich Probability maps
+  - UMAP embeddings of feature bank
+  - Juelich probability maps
   
 **Script:** `9.Umap_.ipynb`
 
-### 10. Validate UMAP Projections
-Validate UMAP projections with thresholded Julich probability maps and plot UMAP with the 3 amygdala subregions.
+### Validate UMAP Projections
+
+Statify UMAP projections with thresholded Juelich probability maps.
 
 - **Input:** 
   - Amygdala mask
   - UMAP embeddings
-  - Juelich Probability maps
+  - Juelich probability maps
 
 **Script:** `10.UMAP_heatmap.ipynb`
 
-### 11. UMAP Color Spectrum
+### Compute UMAP color spectrum
+
 Apply color spectrum map over all the data points in UMAP projection.
 
 - **Input:** 
-  - Amygdala Mask
+  - Amygdala mask
   - UMAP embeddings
 - **Output:** 
-  - UMAP colour spectrum embeddings
+  - UMAP color spectrum embeddings
 
 **Script:** `11.Umap_2Dclrbar.ipynb`
 
-### 12. Variogram Matching Test
-Do variogram matching test to account for spatial autocorrelation.
+### Variogram matching test
+
+Apply variogram matching test to account for spatial autocorrelation in correlating U1 and U2 with all three coordinate axes.
 
 - **Input:** 
   - Amygdala Mask
   - UMAP embeddings
 - **Output:** 
-  - UMAP colour spectrum embeddings
+  - Histogram and p-values of variogram null model
 
 **Script:** `12.Variograms.ipynb`
 
-### 13. Register BigBrain to MNI152 Space
-Bring BIGBRAIN to MNI152 space for translation to structural MRI
+### Register BigBrain to MNI152 Space
 
-### In Vivo Structure Analysis
-Continue with in vivo structure analysis found in the structure folder
-
+Bring BigBrain histological data to MNI152 space for translation to structural MRI. For this purpose, we apply existing transforms generated by Xiao et al., 2019 and aggregated in BigBrainWarp (Paquola et al., 2021)
