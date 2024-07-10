@@ -47,7 +47,7 @@ Note: probalbity maps are openly available on the ebrains repository: https://ww
 7. **Registration**: Register probability maps to BigBrain histological space.
 8. **Thresholding**: Apply thresholding (retain only top 5% of values) to the Juelich probability maps.
 
-### Generate UMAP Projections
+### Generate UMAP projections
 
 - **Input:** 
   - Amygdala mask
