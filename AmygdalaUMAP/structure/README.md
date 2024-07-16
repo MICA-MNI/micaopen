@@ -1,6 +1,11 @@
 # Structural MRI Analysis Pipeline
 
-This directory contains scripts and instructions for processing and analyzing amygdala volumes from T1 nativepro maps.
+This directory contains scripts and instructions for processing and analyzing amygdala volumes from T1 nativepro maps and translating methods developed in histology.
+
+## Prerequisites
+
+- T1 nativepro maps of 10 different healthy subjects from the MICA-PNC dataset (Cabalo et al. 2024), and preprocessed through Micapipe (Cruces et al. 2022)
+- Required software: Python v3.7, ITK-snap v3.8
 
 ## Steps
 
