@@ -1,6 +1,12 @@
 # Functional Analysis Workflow
 
-This repository contains scripts and instructions for bringing 7T amygdala masks from qT1 space to functional space and performing multiple functional analyses.
+This repository contains scripts and instructions for registering 7T amygdala masks defined in qT1 space to functional space and performing multiple functional analyses.
+
+## Prerequisites
+
+- Amygdala masks defined in qT1 space
+- Yeo functional network parcellations (Yeo et al. 2011)
+- Required software: Python v3.7
 
 ## Steps
 
