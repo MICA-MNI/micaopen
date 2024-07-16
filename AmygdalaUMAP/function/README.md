@@ -11,14 +11,14 @@ This repository contains scripts and instructions for registering 7T amygdala ma
 ## Steps
 
 ### Register amygdala masks to functional space and extract timeseries
-1. **Generate mean fMRI Volume**: Generate mean fMRI volume as NIfTI.
+**1. Generate mean fMRI Volume**: Generate mean fMRI volume as NIfTI.
 
-2. **Register the amygdala masks and U1 map to functional space**: Register the amygdala masks generated in qT1 space to functional space
+**2. Register the amygdala masks and U1 map to functional space**: Register the amygdala masks generated in qT1 space to functional space
 
-3. **Extract timeseries**: Extract the timeseries of each voxel in the newly registered amygdala mask in functional space.
+**3. Extract timeseries**: Extract the timeseries of each voxel in the newly registered amygdala mask in functional space.
 
-### 4. Spike regression
-Preprocess timeseries by cleaning off irregularities (spikes) from timeseries data
+### Spike regression
+**4. Preprocess timeseries by cleaning off irregularities (spikes) from timeseries data**
 
 - **Input:** 
   - Isolated amygdala timeseries
@@ -27,8 +27,8 @@ Preprocess timeseries by cleaning off irregularities (spikes) from timeseries da
   
 **Script:** `4.rsfmri_spike_regression.ipynb`
 
-### 5. Extract top and bottom 25% of U1 and U2 values
-Extract top 25% and bottom 25% of U1 and U2 values in the timeseries. Show functional networks of both amygdala regions and whole amygdala. Run the t-tests and get p-values for the correlations between the amygdala and the whole cortex.
+### Extract top and bottom 25% of U1 and U2 values
+**5. Extract top 25% and bottom 25% of U1 and U2 values in the timeseries:** Show functional networks of both amygdala regions and whole amygdala. Run the t-tests and get p-values for the correlations between the amygdala and the whole cortex.
 
 - **Input:** 
   - Amygdala timeseries
@@ -38,8 +38,8 @@ Extract top 25% and bottom 25% of U1 and U2 values in the timeseries. Show funct
   
 **Script:** `5.rsfmri_cortical_corr.ipynb`
 
-### 6. Translate functional correlations
-Translate the functional correlations with cortex into the 7 Yeo functional networks and plot differences.
+### Translate functional correlations
+**6. Translate the functional correlations:** Once cortical correlations are generated, average all values within each of the 7 Yeo functional networks and plot the differences between networks.
 
 - **Input:** 
   - Amygdala timeseries
@@ -49,8 +49,8 @@ Translate the functional correlations with cortex into the 7 Yeo functional netw
   
 **Script:** `6.rsfmri_cortical_corr_yeo7.ipynb`
 
-### 7. Meta-analysis on subjects
-Run meta-analysis on whole amygdala and U1 defined regions of all subjects and plot table and spider graph of the top terms correlated to their coactivation maps.
+### Meta-analysis on subjects
+**7. Run meta-analysis on all the computed cortical correlation maps:** Meta-analysis is run on cortical correlations maps of the whole amygdala, the two U1 defined regions and the difference of high and low U1 value regions. Plot a table and spider graph of the top terms correlated to their coactivation maps.
 
 - **Input:** 
   - Amygdala timeseries
