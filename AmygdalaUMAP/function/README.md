@@ -1,6 +1,6 @@
 # Functional Analysis Workflow
 
-This repository contains scripts and instructions for registering 7T amygdala masks defined in qT1 space to functional space and performing multiple functional analyses.
+This repository contains scripts and instructions for registering 7T amygdala masks defined in native space quantitative T1 to functional space and performing multiple functional analyses.
 
 ## Prerequisites
 
