@@ -6,7 +6,7 @@ This workflow decribes processing steps necessary to map variations in the regio
 
 - BigBrain volume (100 micron; Amunts et al., 2013) and subcortical segmentations (Xiao et al. 2019)
 - Juelich probability maps (Amunts et al. 2020)
-- Required software: Python 
+- Required software: Python v3.7, ITK-snap v3.8
 
 ## Steps
 
@@ -42,7 +42,7 @@ This workflow decribes processing steps necessary to map variations in the regio
 
 ### Retrieve and process Juelich probability maps of the amygdala
 
-Note: probalbity maps are openly available on the ebrains repository: https://www.ebrains.eu/ 
+Note: probability maps are openly available on the ebrains repository: https://www.ebrains.eu/ 
 
 7. **Registration**: Register probability maps to BigBrain histological space.
 8. **Thresholding**: Apply thresholding (retain only top 5% of values) to the Juelich probability maps.
