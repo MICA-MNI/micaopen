@@ -34,7 +34,7 @@ This repository contains scripts and instructions for registering 7T amygdala ma
   - Amygdala timeseries
   - Cortical template (fs-LR)
 - **Output:** 
-  - Functional correlation matrices (python plot)
+  - Functional cortical correlation matrices (python plot)
   
 **Script:** `5.rsfmri_cortical_corr.ipynb`
 
@@ -50,11 +50,11 @@ This repository contains scripts and instructions for registering 7T amygdala ma
 **Script:** `6.rsfmri_cortical_corr_yeo7.ipynb`
 
 ### Meta-analysis on subjects
-**7. Run meta-analysis on all the computed cortical correlation maps:** Meta-analysis is run on cortical correlations maps of the whole amygdala, the two U1 defined regions and the difference of high and low U1 value regions. Plot a table and spider graph of the top terms correlated to their coactivation maps.
+**7. Run meta-analysis on all the computed cortical correlation maps:** Meta-analysis is run on cortical correlations maps derived from the whole amygdala, the two U1 defined regions and the difference of high and low U1 value regions. Plot a table and spider graph of the top terms correlated to their coactivation maps.
 
 - **Input:** 
   - Amygdala timeseries
-  - Functional correlation matrices
+  - Functional cortical correlation matrices
 - **Output:** 
   - List of terms from meta analysis (.csv)
   
