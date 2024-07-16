@@ -17,11 +17,11 @@ Use volbrain.com (Manjon et al. 2016) to get segmentations of amygdala on T1 nat
 - **Output:** 
   - Amygdala Mask
 
-### register and process amygdala mask
+### Register and process amygdala mask
 
 - **2. Register Amygdala Segmentation to qT1 Space**
 Get transformation matrix from nativepro T1 space to qT1map and bring amygdala segmentation into qT1 space.
-Note: transformation matrix can be generated using normalization tools such as ANTS (Avants et al. 2014).
+Note: transformation matrix can be generated using normalization tools such as ANTs (Avants et al. 2014).
 
 - **3. Clean Resampled Mask Borders**
 Clean and manually correct the resampled mask borders while overlayed on amygdala volume using ITK-Snap (Yushkevich et al. 2016)
@@ -46,7 +46,7 @@ Extract features of the amygdala at all moments and kernel sizes.
 **Script:** `6.test_radiomics.ipynb`
 
 ### 7. Resample Radiomic Outputs
-Resample all pyradiomics outputs to have the same dimensions as input. PyRadiomics output always varies from its input, so much re align output volumes to their input volume.
+Resample all pyradiomics outputs to have the same dimensions as input. The dimensions of the PyRadiomics outputs always  get modified from its input, so we must realign the output volumes to their input volume.
 
 ### 8. Create Feature Bank File
 Make a feature bank dataframe from all the features for each subject as a feature bank (.csv)
@@ -60,24 +60,24 @@ Make a feature bank dataframe from all the features for each subject as a featur
 **Script:** `8.crop_featurebank.ipynb`
 
 ### 9. Generate UMAP Projections
-With the feature bank, get UMAP projection and save all embeddings as .csv files
+With the feature bank, get UMAP projections and save all embeddings as .csv files
 
 - **Input:** 
   - Feature bank
 - **Output:** 
-  - UMAP embeddings of feature bank
+  - UMAP embeddings of feature bank (2 components)
 
 **Script:** `9.Umap_.ipynb`
 
-### Map embeddings to amygdala and align U1 and U2 maps of all subjects
+### Map embeddings to amygdala and align the two UMAP component (U1 and U2) maps of all subjects
 - **10. Map U1 and U2 Values**
-Relate U1 and U2 values back to coordinate points to make maps for U1 and U2 in amygdala space.
+Relate U1 and U2 values back to coordinate points to make maps for U1 and U2 in the amygdala T1 nativepro space.
 
 - **11. Register U1 and U2 Maps to MNI152 Space**
-Register all the U1 and U2 maps of all 10 subjects into MNI152 space.
+Register all the U1 and U2 maps of all 10 subjects into MNI152 space using tranformation matrices generated from ANTs  (Avants et al. 2014).
 
 - **12. Correlate Aligned Maps**
-Calculate the correlations of all the aligned maps in MNI152 space with their coordinates (including BIGBRAIN). And creat a correlation table
+Calculate the correlations of all the aligned maps in MNI152 space with their coordinates (including BIGBRAIN). Then create a correlation table with the correlations values of the Inferior-Superior, Medial-Lateral and Anteriror-Posterior to the U1 and U2 UMAP components.
 
 ### 13. Generate correlation spider plots
 Show correlations with the axes of BIGBRAIN and all the subjects as radar plots.
@@ -90,7 +90,13 @@ Show correlations with the axes of BIGBRAIN and all the subjects as radar plots.
 **Script:** `13.radarplots.ipynb`
 
 ### 15. Variogram Matching Test
-Conduct variogram matching test on all subject correlations of U1 and U2 to coordinate axes.
+Apply variogram matching test to account for spatial autocorrelation in correlating U1 and U2 with all three coordinate axes on all 10 subjects.
+
+- **Input:** 
+  - Amygdala Mask
+  - UMAP embeddings
+- **Output:** 
+  - Histogram and p-values of variogram null model
 
 **Script:** `14.variograms-mni152.ipynb`
 
