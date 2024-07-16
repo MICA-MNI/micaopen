@@ -1,66 +1,54 @@
-# Structural MRI Analysis Pipeline
+# Structural MRI analysis pipeline
 
-This directory contains scripts and instructions for processing and analyzing amygdala volumes from T1 nativepro maps and translating methods developed in histology.
+This directory contains scripts and instructions for processing and analyzing amygdala volumes from native space quantiative T1 (qT1) images and translating methods developed in histology.
 
 ## Prerequisites
 
-- T1 nativepro maps of 10 different healthy subjects from the MICA-PNC dataset (Cabalo et al. 2024), and preprocessed through Micapipe (Cruces et al. 2022)
+- qT1 scans of 10 healthy subjects from the MICA-PNI dataset (Cabalo et al. 2024). Transform files from each participant's native space to MNI space can be generated using micapipe (Rodriguez-Cruces, Royer, et al. 2022)
 - Required software: Python v3.7, ITK-snap v3.8
 
 ## Steps
 
-### 1. Segment Amygdala from T1 Nativepro Maps
-Use volbrain.com (Manjon et al. 2016) to get segmentations of amygdala on T1 nativepro maps.
+### Segment amygdala from quantitative T1 scans
+
+1. **Automated segmentation fo the amygdala:** Amygdala masks were generated using [VolBrain](https://volbrain.net/) (Manjón and Coupé, 2016).
 
 - **Input:** 
-  - Brain T1 nativepro volume
+  - Quantitative T1 map or T1-weighted image in the same space as qT1 image
 - **Output:** 
-  - Amygdala Mask
+  - Subcortical segmentation
 
-### Register and process amygdala mask
+Once the subcortical segmentation is generated, only the label for the amaygdala was retained and the resulting mask was binarized. If necessary, borders of the amygdala mask can be manually quality controlled using software such as ITK-Snap (Yushkevich et al. 2016) 
 
-- **2. Register Amygdala Segmentation to qT1 Space**
-Get transformation matrix from nativepro T1 space to qT1map and bring amygdala segmentation into qT1 space.
-Note: transformation matrix can be generated using normalization tools such as ANTs (Avants et al. 2014).
+2. **Crop Amygdala Volumes**: Whole-brain volumes (structural image and amygdala mask) were cropped to only retain the amygdala subregion for computational efficiency in further analyses. 
 
-- **3. Clean Resampled Mask Borders**
-Clean and manually correct the resampled mask borders while overlayed on amygdala volume using ITK-Snap (Yushkevich et al. 2016)
+### Generate radiomics features
 
-**Tool:** `ITKSNAP v3.8`
-
-- **4. Binarize Mask**
-Binarize the mask and create separate masks files, separating the left and right amygdala.
-
-- **5. Crop Amygdala Volumes**
-Crop the rest of the brain volume and crop masks to make them aligned to amygdala volumes.
-
-### 6. Extract Radiomic Features
-Extract features of the amygdala at all moments and kernel sizes.
+3. **Feature extraction:** Radiomics features of the amygdala can be generated for all moments and kernel sizes.
 
 - **Input:** 
-  - Amygdala T1 volume
   - Amygdala mask
+  - Cropped amygdala volume (from qT1 scan)
 - **Output:** 
-  - Feature bank (n=20, 4 moments x 5 kernel sizes) for each of the 10 subjects
+  - Feature bank (n=20, 4 moments x 5 kernel sizes, for each participant)
 
 **Script:** `6.test_radiomics.ipynb`
 
-### 7. Resample Radiomic Outputs
-Resample all pyradiomics outputs to have the same dimensions as input. The dimensions of the PyRadiomics outputs always  get modified from its input, so we must realign the output volumes to their input volume.
+### Clean radiomics features for post-processing
 
-### 8. Create Feature Bank File
-Make a feature bank dataframe from all the features for each subject as a feature bank (.csv)
+4. **Clean radiomic feature outputs:** After generating features with pyradiomics, some feature outputs may have different sizes relative to the orginal input volume (due to padding). All volumes should be cropped to a consistent size.
+5. **Create feature bank matrix:** Put all features into a PANDAS dataframe of all the moments (feature bank).
 
-- **Input:**
-  - Feature maps
-  - Amygdala mask
+- **Input:** 
+  - Feature volumes
 - **Output:** 
-  - Feature bank (.csv) for each of the 10 subjects
+  - .csv file of feature bank, for each participant
 
 **Script:** `8.crop_featurebank.ipynb`
 
-### 9. Generate UMAP Projections
-With the feature bank, get UMAP projections and save all embeddings as .csv files
+### Generate UMAP projections
+
+6. **Generate individualed UMAP space:** With the feature bank, we cna then generate UMAP projections from each participants' feature bank data and save all embeddings as .csv files
 
 - **Input:** 
   - Feature bank
@@ -69,18 +57,11 @@ With the feature bank, get UMAP projections and save all embeddings as .csv file
 
 **Script:** `9.Umap_.ipynb`
 
-### Map embeddings to amygdala and align the two UMAP component (U1 and U2) maps of all subjects
-- **10. Map U1 and U2 Values**
-Relate U1 and U2 values back to coordinate points to make maps for U1 and U2 in the amygdala T1 nativepro space.
+### UMAP projection volumetric conversion and alignment
 
-- **11. Register U1 and U2 Maps to MNI152 Space**
-Register all the U1 and U2 maps of all 10 subjects into MNI152 space using tranformation matrices generated from ANTs  (Avants et al. 2014).
-
-- **12. Correlate Aligned Maps**
-Calculate the correlations of all the aligned maps in MNI152 space with their coordinates (including BIGBRAIN). Then create a correlation table with the correlations values of the Inferior-Superior, Medial-Lateral and Anteriror-Posterior to the U1 and U2 UMAP components.
-
-### 13. Generate correlation spider plots
-Show correlations with the axes of BIGBRAIN and all the subjects as radar plots.
+7. **Reshape U1 and U2 vectors to volume space:** Each UMAP component is independently reshaped to a volumetric representation aligned to each participant's native qT1 space. 
+8. **Register U1 and U2 Maps to MNI152 Space:** We leverage existing transforms generated by micapipe to register U1 and U2 volumetric maps to MNI152 space. 
+9. **Correlate aligned maps with anatomical coordinates:** Subject-specific as well as BigBrain UMAP components are spatially correlated to anatomical coordinate spaces (x,y, and z coordinates) and visualized using radar plots. 
 
 - **Input:** 
   - Correlation table
@@ -89,7 +70,7 @@ Show correlations with the axes of BIGBRAIN and all the subjects as radar plots.
 
 **Script:** `13.radarplots.ipynb`
 
-### 15. Variogram Matching Test
+### Variogram matching test
 Apply variogram matching test to account for spatial autocorrelation in correlating U1 and U2 with all three coordinate axes on all 10 subjects.
 
 - **Input:** 
@@ -99,7 +80,3 @@ Apply variogram matching test to account for spatial autocorrelation in correlat
   - Histogram and p-values of variogram null model
 
 **Script:** `14.variograms-mni152.ipynb`
-
-### Functional Analysis
-Continue with functional analysis found in the function folder
-
