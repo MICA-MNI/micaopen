@@ -22,4 +22,4 @@ We also leverage several open software packages notably:
 
 ## Reference
 
-Our paper will be available shortly on bioRxiv! 
+The preprint describing this study is now available on bioRxiv: https://www.biorxiv.org/content/10.1101/2024.07.09.602743v1 
