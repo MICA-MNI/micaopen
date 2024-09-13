@@ -1,6 +1,6 @@
-function global_heterogeneity = build_gh(MPCG,SCG,FCG,num_GS,num_parcel,mask,parcellation)
+function [gradient_profile,inter_dissimilarity] = build_gh(MPCG,SCG,FCG,num_GS,num_parcel,mask,parcellation)
 % output:
-% global_heterogeneity: a P by 1 vector. P is number of parcels in atlas.
+% inter_dissimilarity: a P by 1 vector. P is number of parcels in atlas.
 %
 % input:
 % MPCG: microstructural gradients
@@ -21,7 +21,7 @@ FCGS    = FCGS/max(max(abs(FCGS)));
 gs_all	= [MPCGS,SCGS,FCGS];
 
 % gradient profiles construction
-gradient_profile    = zeros(num_parcel,size(gs_all,2));
+% gradient_profile    = zeros(num_parcel,size(gs_all,2));
 gs_all_midw         = zeros(size(mask,1),num_GS*3);
 gs_all_midw(mask,:) = gs_all; %_zscore
 for ii = 1:num_parcel
@@ -31,4 +31,4 @@ end
 % compute cosine distance
 d           = pdist(gradient_profile,'cosine');
 z           = squareform(d);
-global_heterogeneity   = mean(z,1)';
+inter_dissimilarity   = mean(z,1)';
