@@ -1,9 +1,13 @@
 Surface files and label files:
 fsLR_5k_YWNE.mat: surface files and mask file of fs-LR_5k surface, which is used for the generation of multimodal connectomes and gradients.
 label_JUB.mat: label file of the Julich-Brain atlas on fs-LR_5k surface. There are 228 parcels in this atlas.
-fsLR-32k.L.inflated.surf.gii and fsLR-32k.R.inflated.surf.gii: surface files of fsLR-32k
+fsLR-32k.L.inflated.surf.gii: surface files of fsLR-32k, left hemisphere.
+fsLR-32k.R.inflated.surf.gii: surface files of fsLR-32k, right hemisphere.
 mesulam_fsLR_5k.mat: label file of 4 Mesulam networks on fs-LR_5k surface.
 mesulam_fsLR_32k.mat: label file of 4 Mesulam networks on fs-LR_32k surface.
+fsLR_5k-regular.L.sphere.surf.gii: sphere file of fs-LR_5k surface, left hemisphere.
+fsLR_5k-regular.R.sphere.surf.gii: sphere file of fs-LR_5k surface, right hemisphere.
+
 
 Data used in the main analysis:
 Multimodal gradients:
