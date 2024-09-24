@@ -2,6 +2,8 @@
 % test environment: MATLAB R2021a
 % Brainspace toolbox v0.1.10 is needed
 % spm12 toolbox is needed
+% Statistics and Machine Learning Toolbox need to be installed
+% Bioinformatics Toolbox need to be installed
 % Link for downloading plotSurfaceROIBoundary: https://github.com/StuartJO/plotSurfaceROIBoundary
 clear;clc;
 
