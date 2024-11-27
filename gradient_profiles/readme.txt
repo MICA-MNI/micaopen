@@ -7,5 +7,5 @@ As well as Github: https://github.com/MICA-MNI/micapipe
 
 For multimodal gradients estimate, please see BrainSpace toolbox documentation:https://brainspace.readthedocs.io/en/latest/
 As well as Github: https://github.com/MICA-MNI/BrainSpace
-
+A demo code for showing how to generate vertex-wise MPC, SC, and FC gradients used in the main analysis is provided in demo_build_gradients.
 
