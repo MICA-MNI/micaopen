@@ -22,4 +22,5 @@ We also leverage several open software packages notably:
 
 ## Reference
 
-The preprint describing this study is now available on bioRxiv: https://www.biorxiv.org/content/10.1101/2024.07.09.602743v1 
+The preprint describing this study is now published in [eLife](https://elifesciences.org/reviewed-preprints/101950)!
+
