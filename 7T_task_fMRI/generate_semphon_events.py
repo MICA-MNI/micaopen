@@ -7,6 +7,8 @@ if path[2] == 'neichert':
     outdir = '/Users/neichert/Library/CloudStorage/OneDrive-Nexus365/Fellowship/MTL'
 elif path[2] == 'mica3':
     outdir = '/data/mica1/03_projects/neichert/7T'
+elif path[2] == 'mica1':
+    outdir = '/data/mica1/03_projects/neichert/7T'
 else:
     outdir = os.getcwd()
 
@@ -36,7 +38,7 @@ for i_run, blocks in enumerate([blocks_semphon1, blocks_semphon2]):
         elif 'D' in block:
             condition = "rest"
         onset = onset + 3
-        events_df = events_df.append({'onset': onset, 'duration': duration, 'condition': condition}, ignore_index=True)
+        events_df.loc[len(events_df)] = [onset, duration, condition]
 
         onset = onset + duration
     events_df = events_df.reset_index(drop=True)
